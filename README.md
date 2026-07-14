@@ -70,12 +70,12 @@ you use the workflow — a brand-new checkout only has `product.md`,
    ```
 4. **Implement the feature.** Build it against the approved spec:
    ```
-   /implement-feature _specs/features/<feature-slug>/spec.md
+   /implement-feature <feature-slug>
    ```
 5. **Specify and implement changes** to existing behaviour the same way:
    ```
    /create-change-spec [requested update]
-   /implement-change _specs/changes/CHG-<n>-<slug>.md
+   /implement-change CHG-<n>-<slug>.md
    ```
 6. **Deploy:**
    ```
