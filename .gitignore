@@ -1,0 +1,17 @@
+node_modules/
+dist/
+.DS_Store
+*.local
+.env
+
+# Editor
+.vscode/*
+!.vscode/extensions.json
+
+# Test artifacts
+coverage/
+playwright-report/
+test-results/
+
+# TypeScript build cache
+*.tsbuildinfo
