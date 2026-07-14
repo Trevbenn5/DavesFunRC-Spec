@@ -106,3 +106,7 @@ Commit any new or updated files with a message like:
 ```
 Add feature specification for <feature_title>
 ```
+
+## Delete the feature branch
+
+Once the feature is complete and merged, delete the feature branch to keep the repository clean.

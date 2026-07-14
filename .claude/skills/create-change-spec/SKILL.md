@@ -25,14 +25,16 @@ Do not implement the change.
 
 Before writing the change specification:
 
-1. Read `CLAUDE.md`.
-2. Read `_specs/architecture.md`.
-3. Read `_specs/design-system.md`.
-4. Read `_specs/feature-index.md`.
-5. Inspect the current implementation.
-6. Identify the feature, shared component or architectural area affected.
-7. Read the relevant existing feature specification.
-8. Search existing change specifications for overlap.
+1. Commit any uncommitted changes.
+2. All changes are made on the `main` branch, so ensure you are on the `main` branch.
+3. Read `CLAUDE.md`.
+4. Read `_specs/architecture.md`.
+5. Read `_specs/design-system.md`.
+6. Read `_specs/feature-index.md`.
+7. Inspect the current implementation.
+8. Identify the feature, shared component or architectural area affected.
+9. Read the relevant existing feature specification.
+10. Search existing change specifications for overlap.
 
 ## Classify the change
 
