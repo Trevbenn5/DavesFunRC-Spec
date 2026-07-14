@@ -18,7 +18,7 @@ concurrency:
 
 jobs:
   build:
-    if: github.repository != 'pcalverley/spec-driven-development'
+    if: github.repository != 'pcalverley/spec-driven-website'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -53,7 +53,7 @@ jobs:
 
   deploy:
     if: >
-      github.repository != 'pcalverley/spec-driven-development' &&
+      github.repository != 'pcalverley/spec-driven-website' &&
       github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
     needs: build
     runs-on: ubuntu-latest
