@@ -42,7 +42,7 @@ If uncertain, ask the user before continuing.
 
 ## Change rules
 
-**Any change to existing functionality (Category='Change') MUST to go through the `create-change-spec` Skill first.  Do not implement any code changes until requested to do so by the user**
+**Any change to existing functionality (Category='Change') MUST to go through the `create-change-spec` Skill first, with no exceptions — including changes that will end up as a lightweight change note.  Do not implement any code changes until requested to do so by the user**
 
 For each new feature to be created:
 
@@ -58,6 +58,12 @@ For each new feature to be created:
 - Run the relevant tests, linting and type checking after implementation.
 
 ## Change specification thresholds
+
+This section decides how detailed the change specification document must
+be. It does not decide whether `create-change-spec` runs — that Skill is
+required for every Category='Change' request, with no exceptions, per
+Change rules above. "Lightweight" describes a shorter output document,
+not a shortcut around the process.
 
 A full change specification is required when a request:
 
