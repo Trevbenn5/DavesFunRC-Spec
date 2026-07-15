@@ -1,7 +1,7 @@
 ---
 name: implement-feature
 description: Implement one approved feature specification incrementally within
-  the existing website without recreating the scaffold. Use if work type Category="Feature".
+  the existing website without recreating the scaffold.  Use if work type Category="Feature".
 argument-hint: "[path to feature specification]"
 disable-model-invocation: true
 ---
@@ -100,17 +100,10 @@ Do not mark the feature complete when acceptance criteria remain unmet.
 
 **Do not procede to commit if there is broken code.**
 
-## Commit to the feature branch
+## Commit and close out the branch
 
 Commit any new or updated files with a message like:
-```
 Add feature specification for <feature_title>
-```
 
-## merge the feature branch to the main branch
-
-Once the feature is complete and all tests pass, merge the feature branch to the main branch.
-
-## Delete the feature branch
-
-Once the feature is complete and merged, delete the feature branch to keep the repository clean.
+Then follow the Branch lifecycle ownership rule in `CLAUDE.md`: merge the
+feature branch into `main`, then delete it.

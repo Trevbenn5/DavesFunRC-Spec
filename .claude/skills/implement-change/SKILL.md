@@ -1,6 +1,6 @@
 ---
 name: implement-change
-description: Implement one approved change specification against the existing site while preserving the scaffold and unrelated behaviour. Use if work type Category="Change".
+description: Implement one approved change specification against the existing site while preserving the scaffold and unrelated behaviour.  Use if work type Category="Change".
 argument-hint: "[path to change specification]"
 disable-model-invocation: true
 ------------------------------
@@ -86,17 +86,11 @@ After successful implementation:
 5. Set the change status to `Implemented`.
 6. Update `_specs/change-index.md`.
 
-The completed feature specification must remain the authoritative statement
-of current behaviour.
+The completed feature specification must remain the authoritative statement of current behaviour.
 
-## Commit the changed files
+## Commit and close out the branch
 
-Once the change is complete and all tests pass, commit the changed files to the relevant branch (change or main) with a commit message that includes the change specification path.
+Commit the changed files to the relevant branch (change or `main`) with a
+commit message that includes the change specification path.
 
-## For change branches, merge the change branch to the main branch
-
-Once the change is complete and all tests pass, merge the change branch to the main branch.
-
-## Delete the change branch (if applicable)
-
-Once the change is complete and merged, delete the change branch to keep the repository clean.
+If the change was made on a change branch, follow the Branch lifecycle ownership rule in `CLAUDE.md`: merge the branch into `main`, then delete it.
