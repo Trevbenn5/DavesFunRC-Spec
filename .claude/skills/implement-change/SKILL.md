@@ -91,7 +91,7 @@ of current behaviour.
 
 ## Commit the changed files
 
-Once the feature is complete and all tests pass, commit the changed files to the relevant branch (change or main) with a commit message that includes the change specification path.
+Once the change is complete and all tests pass, commit the changed files to the relevant branch (change or main) with a commit message that includes the change specification path.
 
 ## For change branches, merge the change branch to the main branch
 
