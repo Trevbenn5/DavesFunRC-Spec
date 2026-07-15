@@ -1,7 +1,7 @@
 ---
 name: create-change-spec
 description: Create a specification for a requested change to the existing site
-without implementing it or recreating the application scaffold.
+without implementing it or recreating the application scaffold. Use if work type Category="Change".
 argument-hint: "[requested update]"
 disable-model-invocation: true
 ------------------------------

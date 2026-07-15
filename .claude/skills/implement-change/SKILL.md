@@ -1,6 +1,6 @@
 ---
 name: implement-change
-description: Implement one approved change specification against the existing site while preserving the scaffold and unrelated behaviour.
+description: Implement one approved change specification against the existing site while preserving the scaffold and unrelated behaviour. Use if work type Category="Change".
 argument-hint: "[path to change specification]"
 disable-model-invocation: true
 ------------------------------

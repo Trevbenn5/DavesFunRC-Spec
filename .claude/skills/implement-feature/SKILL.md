@@ -1,7 +1,7 @@
 ---
 name: implement-feature
 description: Implement one approved feature specification incrementally within
-  the existing website without recreating the scaffold.
+  the existing website without recreating the scaffold. Use if work type Category="Feature".
 argument-hint: "[path to feature specification]"
 disable-model-invocation: true
 ---

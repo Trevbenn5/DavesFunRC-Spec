@@ -1,7 +1,7 @@
 ---
 name: create-feature-spec
 description: Create or refine a specification for one website feature without
-  implementing it or changing the existing application scaffold.
+  implementing it or changing the existing application scaffold.  Use if work type Category="Feature".
 argument-hint: "[feature name or description]"
 disable-model-invocation: true
 ---

@@ -42,7 +42,7 @@ If uncertain, ask the user before continuing.
 
 ## Change rules
 
-**Any change to existing functionality, or adding new functionality MUST to go through the `create-change-spec` Skill first.  Do not implement any code changes until requested to do so by the user**
+**Any change to existing functionality (Category='Change') MUST to go through the `create-change-spec` Skill first.  Do not implement any code changes until requested to do so by the user**
 
 For each new feature to be created:
 
