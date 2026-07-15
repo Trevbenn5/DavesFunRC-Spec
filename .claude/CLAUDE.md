@@ -24,6 +24,22 @@ Read these files before planning or implementing changes:
 The existing source code is the source of truth for the current implementation.
 Feature specifications describe intentional additions or changes.
 
+## Determine work type; feature of change
+
+Ask yourself:
+
+1. Does the requested behaviour already exist?
+   - Yes → Change
+   - No → Feature
+
+2. Is the request modifying existing content, business rules, UI, integrations, or workflows?
+   - Yes → Change
+
+3. Is it introducing entirely new user-facing or system capability?
+   - Yes → Feature
+
+If uncertain, ask the user before continuing.
+
 ## Change rules
 
 **Any change to existing functionality, or adding new functionality MUST to go through the `create-change-spec` Skill first.  Do not implement any code changes until requested to do so by the user**
