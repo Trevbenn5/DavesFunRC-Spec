@@ -15,7 +15,7 @@ $ARGUMENTS
 
 Before changing code:
 
-1. Confirm you're on the main branch and have pulled the latest changes.
+1. Confirm you're on the relevant branch and have pulled the latest changes.
 2. Read `CLAUDE.md`.
 3. Read the change specification.
 4. Confirm the change status permits implementation.
