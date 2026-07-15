@@ -88,3 +88,7 @@ After successful implementation:
 
 The completed feature specification must remain the authoritative statement
 of current behaviour.
+
+## Commit the changed files
+
+Once the feature is complete and all tests pass, commit the changed files to the main branch with a commit message that includes the change specification path.
