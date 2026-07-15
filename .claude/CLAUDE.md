@@ -26,6 +26,8 @@ Feature specifications describe intentional additions or changes.
 
 ## Change rules
 
+**Any change to existing functionality, or adding new functionality MUST to go through the `create-change-spec` Skill first.  Do not implement any code changes until requested to do so by the user**
+
 For each new feature to be created:
 
 - Inspect the existing implementation before proposing changes.
