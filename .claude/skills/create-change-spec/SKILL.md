@@ -48,6 +48,14 @@ Classify the request as one of:
 * Dependency
 * Architecture
 
+## Branching strategy
+
+Before making any content;
+
+- Stay on the main branch for content changes to text, images, or other static assets that do not justify the overhead of a new branch.
+
+- For larger or complex changes,  switch to a new Git branch using the `branch_name` derived from the `$ARGUMENTS`. If the branch name is already taken, then append a version number to it: e.g. `changes/card-component-01`
+
 ## Output
 
 Create:
@@ -56,7 +64,7 @@ Create:
 
 ## Required structure
 
-The full change specification must contain:
+The full change specification for large and complex changes must contain:
 
 * Change ID
 * Status
@@ -73,7 +81,7 @@ The full change specification must contain:
 * Out of scope
 * Documentation updates
 
-The lightwekight change note must contain:
+The lightweight change note for minor text, image or static asset changes must contain:
 * Change ID
 * Status
 * Requested change
