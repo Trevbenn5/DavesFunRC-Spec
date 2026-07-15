@@ -42,7 +42,7 @@ If uncertain, ask the user before continuing.
 
 ## Change rules
 
-**Any change to existing functionality (Category='Change') MUST to go through the `create-change-spec` Skill first, with no exceptions — including changes that will end up as a lightweight change note.  Do not implement any code changes until requested to do so by the user**
+**Any change to existing functionality (Category='Change') MUST go through the create-change-spec Skill first, with no exceptions, except pure content edits that qualify for the Content fast path below — those skip create-change-spec entirely. Do not implement any code changes until requested to do so by the user.**
 
 For each new feature to be created:
 
@@ -59,11 +59,10 @@ For each new feature to be created:
 
 ## Change specification thresholds
 
-This section decides how detailed the change specification document must
-be. It does not decide whether `create-change-spec` runs — that Skill is
-required for every Category='Change' request, with no exceptions, per
-Change rules above. "Lightweight" describes a shorter output document,
-not a shortcut around the process.
+This section decides how a Category='Change' request is handled: full
+change specification, or Content fast path (see below). It does not create
+a third, informal option — anything that isn't pure content still requires
+`create-change-spec`.
 
 A full change specification is required when a request:
 
@@ -76,13 +75,44 @@ A full change specification is required when a request:
 - Changes the design system
 - Creates meaningful regression risk
 
-A lightweight change note is sufficient for:
+The Content fast path applies instead of `create-change-spec` when a
+request is purely:
 
 - Correcting text
 - Replacing an image
 - Updating contact details
 - Fixing a clear typo
 - Changing metadata with no behavioural impact
+
+If a request mixes a content edit with anything from the full-spec list
+above (e.g. a text change that also touches a shared component), treat it
+as a full change and run `create-change-spec`.
+
+A rollback of a change that was implemented via a full `CHG-*.md` change
+specification must itself go through `create-change-spec` and get its own
+`CHG-*` entry, even when the rollback content itself is pure text/copy —
+this preserves a paired record of the original change and its reversal. A
+rollback of a Content fast-path edit may itself use the fast path.
+
+## Content fast path
+
+For requests that qualify under Change specification thresholds:
+
+1. Confirm the request is content-only — no behaviour, structure, or
+   shared-component change — and that it is not a rollback of a change
+   that has its own `CHG-*.md` spec (see Change specification thresholds).
+2. Make the edit directly in the relevant file. Do not create a
+   `_specs/changes/CHG-*.md` file and do not run `create-change-spec` or
+   `implement-change`.
+3. Run the relevant checks (lint/typecheck/test/build) for the touched
+   area.
+4. Record the edit in `_specs/content-log.md` (create it if it doesn't
+   exist yet), one dated bullet per edit. When several content edits are
+   made together in the same request, batch them under a single dated
+   entry (as sub-bullets) rather than creating a separate entry per edit.
+5. Commit directly to `main` — no branch (see Branching strategy).
+6. The fast path shortens process, not approval — still do not implement
+   until the user has explicitly asked for the change to be made.
 
 ## Branching strategy
 
@@ -94,9 +124,9 @@ rather than defining their own branching rules.
 ### When to branch
 
 - **Features** always get a branch. No exceptions.
-- **Changes** get a branch unless the change is a lightweight change note
-  (see Change specification thresholds) — content, image, contact-detail, or
-  typo fixes stay on `main`.
+- **Changes** get a branch unless the change qualifies for the **Content
+  fast path** (see Change specification thresholds) — those stay on
+  `main`.
 
 ### Naming convention
 
