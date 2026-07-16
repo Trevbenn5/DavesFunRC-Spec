@@ -99,6 +99,7 @@ The full change specification for large and complex changes must contain:
 * Reason
 * Current behaviour
 * Desired behaviour
+* wireframes/mockups using artifact-design skill (only if the change is visual)
 * Change classification
 * Affected specification
 * Affected implementation areas
@@ -112,6 +113,7 @@ The lightweight change note for simple changes must contain:
 * Change ID
 * Status
 * Requested change
+* wireframes/mockups using artifact-design skill (only if the change is visual)
 * Affected files
 
 ## Boundaries
