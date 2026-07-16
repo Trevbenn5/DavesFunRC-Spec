@@ -21,6 +21,24 @@ This Skill creates or updates specification files only.
 
 Do not implement the change.
 
+## This Skill is mandatory, not conditional
+
+Run this Skill for every Category='Change' request, with no exceptions,
+including requests that look like a one-line text edit, image swap, or
+typo fix.
+
+The "lightweight change note" vs. "full change specification" distinction
+in `CLAUDE.md`'s Change specification thresholds controls only how detailed
+the output document is (see Required structure below). It does not mean the
+change is exempt from this Skill, and it is not permission to edit source
+files directly. Even a lightweight change gets a `_specs/changes/CHG-*.md`
+file, created by this Skill, before any code changes — do not shortcut this
+because the request seems small.
+
+Do not edit application source files as part of this Skill or before it has
+produced a spec file. Implementation happens only after the user reviews
+the spec and explicitly asks for it, via `implement-change`.
+
 ## Discovery
 
 Before writing the change specification:
@@ -58,6 +76,8 @@ Create:
 
 ## Required structure
 
+The structure of the change specification depends on the complexity of the requested change. The Skill will determine whether a full change specification or a lightweight change note is appropriate.
+
 The full change specification for large and complex changes must contain:
 
 * Change ID
@@ -75,7 +95,7 @@ The full change specification for large and complex changes must contain:
 * Out of scope
 * Documentation updates
 
-The lightweight change note for minor text, image or static asset changes must contain:
+The lightweight change note for simple changes must contain:
 * Change ID
 * Status
 * Requested change

@@ -59,12 +59,12 @@ For each new feature to be created:
 
 ## Change specification thresholds
 
-This section decides how a Category='Change' request is handled: full
+This section decides how a Category='Change' request is handled:
 change specification, or Content fast path (see below). It does not create
 a third, informal option — anything that isn't pure content still requires
 `create-change-spec`.
 
-A full change specification is required when a request:
+A change specification (full or lightweight format) is required when a request:
 
 - Changes user-visible behaviour
 - Changes validation or business rules
@@ -75,8 +75,7 @@ A full change specification is required when a request:
 - Changes the design system
 - Creates meaningful regression risk
 
-The Content fast path applies instead of `create-change-spec` when a
-request is purely:
+The Content fast path applies instead of `create-change-spec` when a request is purely:
 
 - Correcting text
 - Replacing an image
@@ -84,15 +83,9 @@ request is purely:
 - Fixing a clear typo
 - Changing metadata with no behavioural impact
 
-If a request mixes a content edit with anything from the full-spec list
-above (e.g. a text change that also touches a shared component), treat it
-as a full change and run `create-change-spec`.
+If a request mixes a content edit with anything from the full-spec list above (e.g. a text change that also touches a shared component), treat it as a change and run `create-change-spec`.
 
-A rollback of a change that was implemented via a full `CHG-*.md` change
-specification must itself go through `create-change-spec` and get its own
-`CHG-*` entry, even when the rollback content itself is pure text/copy —
-this preserves a paired record of the original change and its reversal. A
-rollback of a Content fast-path edit may itself use the fast path.
+A rollback of a change that was implemented via a `CHG-*.md` change specification must itself go through `create-change-spec` and get its own `CHG-*` entry, even when the rollback content itself is pure text/copy — this preserves a paired record of the original change and its reversal. A rollback of a Content fast-path edit may itself use the fast path.
 
 ## Content fast path
 
