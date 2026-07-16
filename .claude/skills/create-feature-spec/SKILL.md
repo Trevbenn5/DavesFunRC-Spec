@@ -17,8 +17,10 @@ $ARGUMENTS
 Your job will be to turn the user input above into:
 
 - A human friendly feature title in kebab-case (e.g. new-contact-form)
-- A safe git branch name not already taken (e.g. features/new-contact-form)
-- A detailed markdown spec file under the `_specs/` directory in the new branch
+- A feature slug/branch name (`features/<slug>`) for `implement-feature` to
+  use later — this Skill does not create that branch
+- A detailed markdown spec file under the `_specs/` directory, committed to
+  `main`
 
 ## Boundaries
 
@@ -49,9 +51,13 @@ Use the current application as the implementation baseline.
 
 ## Follow step 1 to step 5
 
-### Step 1. Check the current branch
+### Step 1. Check the working tree is clean
 
-Check the current Git branch, and abort this entire process if there are any uncommitted, unstaged, or untracked files in the working directory. Tell the user to commit or stash changes before proceeding, and DO NOT GO ANY FURTHER.
+Check git status, and abort this entire process if there are any
+uncommitted, unstaged, or untracked files in the working directory. Tell
+the user to commit or stash changes before proceeding, and DO NOT GO ANY
+FURTHER. (Per CLAUDE.md's Spec-creation commits, this Skill commits
+straight to `main`, so a dirty tree would bundle in unrelated work.)
 
 ### Step 2. Parse the arguments
 
@@ -62,11 +68,7 @@ From `$ARGUMENTS`, extract:
 
 If you cannot infer a sensible `feature_title` and `feature_slug`, ask the user to clarify instead of guessing.
 
-### Step 3. Switch to a new Git branch
-
-Before making any content, switch to a new Git branch using the `branch_name` derived from the `$ARGUMENTS`. If the branch name is already taken, then append a version number to it: e.g. `features/new-contact-form-01`
-
-### Step 4. Draft the spec content
+### Step 3. Draft the spec content
 
 Create:
 
@@ -74,11 +76,19 @@ Create:
 
 Create the directory if it does not exist.
 
+### Step 4. Commit the spec to main
+
+Commit the new spec file and the `feature-index.md` update (see
+Completion) directly to `main` — no branch, per CLAUDE.md's Spec-creation
+commits. Do not implement the feature or create `features/<branch_name>`;
+that happens later, only when the user explicitly asks for
+`implement-feature`.
+
 ### Step 5. Final output to the user
 
 After the file is saved, respond to the user with a short summary in this exact format:
 
-Branch: <branch_name>
+Suggested branch (for implement-feature): <branch_name>
 Spec file: _specs/features/<feature_slug>/spec.md
 Title: <feature_title>
 
@@ -168,3 +178,6 @@ Update `specs/feature-index.md` with:
 - Specification path
 - Status: Specified
 - Dependencies
+
+Commit this update together with the spec file (Step 4) in a single
+commit directly to `main`.

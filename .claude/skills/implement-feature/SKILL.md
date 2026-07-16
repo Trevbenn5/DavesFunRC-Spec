@@ -2,7 +2,7 @@
 name: implement-feature
 description: Implement one approved feature specification incrementally within
   the existing website without recreating the scaffold.  Use if work type Category="Feature".
-argument-hint: "[path to feature specification]"
+argument-hint: "[feature-slug or path to feature specification]"
 disable-model-invocation: true
 ---
 
@@ -12,11 +12,21 @@ Implement the feature described by:
 
 $ARGUMENTS
 
+If the argument is a feature slug (e.g. `new-contact-form`) rather than a file path,
+resolve it to its specification file by matching that slug against the
+filenames in `_specs/features/` (there should be exactly one match). If none
+or more than one file matches, stop and ask the user to disambiguate.
+
 ## Preconditions
 
 Before changing code:
 
-1. Confirm you're on the feature branch and have pulled the latest changes.
+1. Check git status; if the working tree is dirty, stop and tell the user
+   to commit or stash first (per CLAUDE.md's Dirty working tree rule).
+   Then create the feature branch (`features/<slug>`, per CLAUDE.md's
+   Branching strategy) from up-to-date `main` — the spec was committed to
+   `main` by `create-feature-spec`, not to a branch, so this Skill is the
+   one that creates it.
 2. Read `CLAUDE.md`.
 3. Confirm `_specs/scaffold-status.md` exists.
 4. Read the supplied feature specification.

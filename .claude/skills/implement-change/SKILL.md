@@ -1,7 +1,7 @@
 ---
 name: implement-change
 description: Implement one approved change specification against the existing site while preserving the scaffold and unrelated behaviour.  Use if work type Category="Change".
-argument-hint: "[path to change specification]"
+argument-hint: "[CHG-### or path to change specification]"
 disable-model-invocation: true
 ------------------------------
 
@@ -11,11 +11,21 @@ Implement the change described by:
 
 $ARGUMENTS
 
+If the argument is a change ID (e.g. `CHG-009`) rather than a file path,
+resolve it to its specification file by matching that ID against the
+filenames in `_specs/changes/` (there should be exactly one match). If none
+or more than one file matches, stop and ask the user to disambiguate.
+
 ## Preconditions
 
 Before changing code:
 
-1. Confirm you're on the relevant branch and have pulled the latest changes.
+1. Check git status; if the working tree is dirty, stop and tell the user
+   to commit or stash first (per CLAUDE.md's Dirty working tree rule).
+   Then create the change branch (`changes/<slug>`, per CLAUDE.md's
+   Branching strategy) from up-to-date `main` — the spec was committed to
+   `main` by `create-change-spec`, not to a branch, so this Skill is the
+   one that creates it.
 2. Read `CLAUDE.md`.
 3. Read the change specification.
 4. Confirm the change status permits implementation.

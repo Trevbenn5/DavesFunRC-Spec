@@ -116,10 +116,18 @@ rather than defining their own branching rules.
 
 ### When to branch
 
-- **Features** always get a branch. No exceptions.
-- **Changes** get a branch unless the change qualifies for the **Content
-  fast path** (see Change specification thresholds) — those stay on
-  `main`.
+Branching happens at implementation time, not at spec-creation time.
+`create-feature-spec` and `create-change-spec` never create or switch
+branches — each writes its spec file and commits it straight to `main`
+(see Spec-creation commits below). Only `implement-feature` and
+`implement-change` create a branch, immediately before they start
+changing code.
+
+- **Features** always get a branch, created by `implement-feature`. No
+  exceptions.
+- **Changes** get a branch, created by `implement-change`, unless the
+  change qualifies for the **Content fast path** (see Change
+  specification thresholds) — those stay on `main`.
 
 ### Naming convention
 
@@ -128,6 +136,20 @@ rather than defining their own branching rules.
 - `<slug>` is derived from the feature or change title: lowercase, kebab-case,
   `a-z`/`0-9`/`-` only, max 40 characters.
 - If the branch name is taken, append a version suffix: `changes/card-component-01`.
+
+### Spec-creation commits
+
+- `create-feature-spec` and `create-change-spec` write their spec file
+  (`_specs/features/<slug>/spec.md` or `_specs/changes/CHG-*.md`) and
+  commit it directly to `main`, then update `feature-index.md` /
+  `change-index.md` with a spec-only status (`Specified` / `Proposed`).
+- This mirrors the Content fast path's "commit directly to main" model
+  and gives every proposed feature or change a reviewable record on
+  `main` before any branch or implementation exists — the same as
+  `change-index.md` already does for changes.
+- Before committing, both Skills must still check git status and stop if
+  the working tree is dirty (see Dirty working tree below), so a spec
+  commit never bundles in unrelated uncommitted work.
 
 ### Dirty working tree
 
@@ -140,10 +162,10 @@ unstaged, or untracked changes:
 
 ### Branch lifecycle ownership
 
-- The `implement-feature` and `implement-change` Skills own the full branch
-  lifecycle: verify (lint/typecheck/test/build), commit, merge to `main`,
-  then delete the branch. This happens once, at the end of implementation —
-  no other Skill merges or deletes branches.
+- The `implement-feature` and `implement-change` Skills own the full
+  branch lifecycle end to end: create the branch, verify
+  (lint/typecheck/test/build), commit, merge to `main`, then delete the
+  branch. No other Skill creates, merges, or deletes branches.
 - `deploy` never manages branches. It assumes `main` is already up to date
   and only builds and pushes from `main`.
 - Branches are local only. Nothing is pushed to `origin` and no pull request
