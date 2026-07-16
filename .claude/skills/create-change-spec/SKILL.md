@@ -1,10 +1,10 @@
 ---
 name: create-change-spec
-description: Create a specification for a requested change to the existing site. Use if work type Category="Change".
-without implementing it or recreating the application scaffold.
+description: Create a specification for a requested change to the existing site
+  without implementing it or recreating the application scaffold. Use if work type Category="Change".
 argument-hint: "[requested update]"
 disable-model-invocation: true
-------------------------------
+---
 
 # Create change specification
 
@@ -43,14 +43,19 @@ the spec and explicitly asks for it, via `implement-change`.
 
 Before writing the change specification:
 
-1. Read `CLAUDE.md`.
-2. Read `_specs/architecture.md`.
-3. Read `_specs/design-system.md`.
-4. Read `_specs/feature-index.md`.
-5. Inspect the current implementation.
-6. Identify the feature, shared component or architectural area affected.
-7. Read the relevant existing feature specification.
-8. Search existing change specifications for overlap.
+1. Check git status, and abort this entire process if there are any
+   uncommitted, unstaged, or untracked files in the working directory. Tell
+   the user to commit or stash changes before proceeding, and DO NOT GO ANY
+   FURTHER. (Per CLAUDE.md's Spec-creation commits, this Skill commits
+   straight to `main`, so a dirty tree would bundle in unrelated work.)
+2. Read `CLAUDE.md`.
+3. Read `_specs/architecture.md`.
+4. Read `_specs/design-system.md`.
+5. Read `_specs/feature-index.md`.
+6. Inspect the current implementation.
+7. Identify the feature, shared component or architectural area affected.
+8. Read the relevant existing feature specification.
+9. Search existing change specifications for overlap.
 
 ## Classify the change
 
@@ -66,13 +71,21 @@ Classify the request as one of:
 
 ## Branching strategy
 
-Follow the Branching strategy defined in `CLAUDE.md` — dirty working tree
-handling, the branch-or-stay-on-main threshold, and the `changes/<slug>` naming convention.
+This Skill never creates or switches branches. Per CLAUDE.md's Branching
+strategy, it only writes the spec file and commits it straight to `main`;
+`changes/<slug>` (per the naming convention in CLAUDE.md) is created later,
+only by `implement-change`, and only when the change doesn't qualify for the
+Content fast path.
 
 ## Output
 Create:
 
 `_specs/changes/CHG-<next-number>-<change-slug>.md`
+
+Commit the new spec file and the `change-index.md` update (see Completion)
+directly to `main` — no branch, per CLAUDE.md's Spec-creation commits. Do
+not implement the change or create `changes/<slug>`; that happens later,
+only when the user explicitly asks for `implement-change`.
 
 ## Required structure
 
@@ -132,3 +145,6 @@ Update `_specs/change-index.md` with:
 * Classification
 * Affected feature
 * Status: Proposed
+
+Commit this update together with the spec file (see Output) in a single
+commit directly to `main`.
