@@ -20,5 +20,4 @@ Branch merging is not deploy's responsibility — see Branching strategy in
 user rather than merging or committing on their behalf.
 
 ## Deploy
-1. Build the application for production.
-2. Push the built application to the remote repository
+Push the built application to the remote repository
