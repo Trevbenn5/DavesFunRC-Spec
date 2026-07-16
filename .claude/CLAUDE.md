@@ -103,6 +103,11 @@ For requests that qualify under Change specification thresholds:
    exist yet), one dated bullet per edit. When several content edits are
    made together in the same request, batch them under a single dated
    entry (as sub-bullets) rather than creating a separate entry per edit.
+   `content-log.md` is the sole record for Content fast-path edits — do
+   not also update `_specs/feature-index.md` or any feature/change
+   specification. Those files are updated only by `implement-feature`/
+   `implement-change` (see Definition of done), which does not apply to
+   the Content fast path.
 5. Commit directly to `main` — no branch (see Branching strategy).
 6. The fast path shortens process, not approval — still do not implement
    until the user has explicitly asked for the change to be made.
