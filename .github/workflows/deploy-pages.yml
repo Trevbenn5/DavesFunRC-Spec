@@ -52,7 +52,7 @@ jobs:
   deploy:
     if: >
       github.repository != 'pcalverley/spec-driven-website' &&
-      github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+      github.ref == 'refs/heads/main'
     needs: build
     runs-on: ubuntu-latest
     environment:
