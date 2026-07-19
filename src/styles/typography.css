@@ -1,0 +1,44 @@
+body {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-body);
+  color: var(--colour-text);
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--colour-text);
+}
+
+h1 {
+  font-size: clamp(1.75rem, 1.4rem + 1.5vw, 2.5rem);
+}
+
+h2 {
+  font-size: clamp(1.4rem, 1.2rem + 1vw, 1.875rem);
+}
+
+h3 {
+  font-size: 1.25rem;
+}
+
+h4 {
+  font-size: 1.0625rem;
+}
+
+p {
+  max-width: 70ch;
+}
+
+a {
+  color: var(--colour-primary);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+a:hover {
+  color: var(--colour-accent);
+}

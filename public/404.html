@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>DavesFunRC</title>
+    <script>
+      // GitHub Pages has no server-side fallback routing, so a direct
+      // navigation to a client-side route 404s. Stash the intended URL and
+      // redirect to the root; index.html decodes it back on load.
+      sessionStorage.redirect = location.href;
+    </script>
+    <meta http-equiv="refresh" content="0;URL='/'" />
+  </head>
+  <body></body>
+</html>

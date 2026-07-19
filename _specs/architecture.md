@@ -1061,10 +1061,10 @@ A feature is architecturally compliant when:
 
 ---
 
-## 34. Scaffold Implementation Notes (2026-07-13)
+## 34. Scaffold Implementation Notes (2026-07-19)
 
-Recorded during initial scaffolding. See `_specs/scaffold-status.md` for
-full detail.
+Recorded during initial scaffolding for DavesFunRC. See
+`_specs/scaffold-status.md` for full detail.
 
 * **Routing**: implemented as a small hand-rolled `history`-based router
   (`src/app/router.tsx`, `src/app/routes.ts`) rather than a router
@@ -1073,17 +1073,31 @@ full detail.
   handled with the standard `public/404.html` redirect technique plus a
   decode script in `index.html`.
 * **Base path**: configured as `base: '/'` with `public/CNAME` set to
-  `purposeful.au`, assuming the site is served from that custom domain
-  rather than `pcalverley.github.io/purposeful/`. This was inferred, not
-  confirmed — see `_specs/scaffold-status.md` for how to switch it back
-  to a project-page subpath if that assumption is wrong.
-* **Navigation layout**: `_specs/design-system.md` specifies a left
-  sidebar for desktop navigation, but by user decision the scaffold uses
-  a conventional horizontal top navigation instead, since the rest of
-  that spec reads as a generic app/dashboard component library rather
-  than something written for this specific public marketing site.
+  `DavesFunRC.com`, per user decision to target that custom domain now
+  rather than the `Trevbenn5.github.io/DavesFunRC-Spec/` project-page
+  path. If the custom domain is dropped later, `vite.config.ts`'s `base`
+  and `public/CNAME` need to change together.
+* **Navigation layout**: `_specs/design-system.md`'s Navigation section
+  specifies horizontal desktop navigation with a mobile hamburger menu,
+  which the scaffold implements directly
+  (`src/components/navigation/MainNavigation.tsx`). Note that several
+  other sections of that design system (Tables, Dialogs, Toasts) read as
+  generic app/dashboard component-library boilerplate rather than
+  something written specifically for this public content site — only
+  the components actually needed so far (Button, Card) were built.
 * **Linting**: `eslint-plugin-preact` was evaluated and rejected
   (unmaintained since 2020, no ESLint 9 flat-config support, pulled in
   vulnerable transitive dependencies). Lint relies on `@eslint/js` +
   `typescript-eslint` recommended rules only.
+* **Dependency versions**: `vitest` was pinned to `^4.1.10` (rather than
+  the `^2.x` line) because `vitest@2.1.8`'s bundled `vite-node`/`vite`
+  transitive deps resolved to a pre-patch `esbuild` (dev-server CORS
+  advisory, GHSA-67mh-4wv8-2f99). `vite` itself stayed on the `^6.4.2`
+  line, which already satisfies `vitest@4`'s peer range and ships a
+  patched `esbuild`. `npm audit` reports 0 vulnerabilities as of this
+  scaffold.
+* **`_specs/static-assets/`**: referenced by `CLAUDE.md` and by a
+  `color_pallette.jpeg` mentioned in `design-system.md`, but neither
+  exists in this repo. The colour palette was applied from the hex
+  values written directly in `design-system.md` §Colour Palette instead.
 

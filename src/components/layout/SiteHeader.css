@@ -1,0 +1,28 @@
+.site-header {
+  position: relative;
+  border-bottom: 1px solid var(--colour-border);
+  background: var(--colour-background);
+}
+
+.site-header__inner {
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+  padding: var(--space-16) var(--page-padding-desktop);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-16);
+}
+
+.site-header__brand {
+  font-weight: 700;
+  font-size: 1.25rem;
+  text-decoration: none;
+  color: var(--colour-primary);
+}
+
+@media (max-width: 720px) {
+  .site-header__inner {
+    padding: var(--space-16) var(--page-padding-mobile);
+  }
+}
