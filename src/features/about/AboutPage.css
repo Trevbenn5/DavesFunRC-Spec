@@ -1,0 +1,6 @@
+.about-page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+  padding: var(--space-48) 0 var(--space-32);
+}
