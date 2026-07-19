@@ -3,6 +3,7 @@ import { PageLayout } from '../components/layout/PageLayout';
 import { PagePlaceholder } from '../components/content/PagePlaceholder';
 import { NotFoundPage } from '../components/content/NotFoundPage';
 import { HomePage } from '../features/home/HomePage';
+import { AboutPage } from '../features/about/AboutPage';
 
 function CurrentPage() {
   const { path } = useRouter();
@@ -15,7 +16,7 @@ function CurrentPage() {
     case '/3d-designs':
       return <PagePlaceholder title="3D Designs" />;
     case '/about':
-      return <PagePlaceholder title="About" />;
+      return <AboutPage />;
     default:
       return <NotFoundPage />;
   }

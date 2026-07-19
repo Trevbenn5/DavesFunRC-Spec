@@ -26,4 +26,11 @@ describe('App', () => {
     render(<App />);
     expect(screen.getByRole('heading', { level: 1, name: /page not found/i })).toBeInTheDocument();
   });
+
+  it('renders the About page (not the placeholder) at /about', () => {
+    window.history.pushState(null, '', '/about');
+    render(<App />);
+    expect(screen.getByRole('heading', { level: 1, name: /^about$/i })).toBeInTheDocument();
+    expect(screen.queryByText(/on the workbench/i)).not.toBeInTheDocument();
+  });
 });
