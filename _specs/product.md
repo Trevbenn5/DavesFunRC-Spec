@@ -1,16 +1,18 @@
 # Site title
-DavesFunRC
+DavesFunRC - Having Fun with RC Planes
 - URL DavesFunRC.com
 
 # Goal
 - A Website to go alongside DavesFunRC YouTube channel, which has over 100 videos, categorised by Playlists.  This Website should simplify getting to the right video the user might be interested in.
 - To provide useful technical how-to articles to fellow RC Plane enthusiasts
-- To keep uses informed of future planned projects
+- To keep users informed of future planned projects
+- Provide access to 3D models on various Cults3d, Ko-Fi and Tinkercad websites
 
 # External Links
-- YouTube Channel is https://
-- Cults3D 3D Designs is 
-- Ko-Fi
+- YouTube Channel is https://www.youtube.com/@DavesFunRC
+- Cults3D 3D Designs is https://cults3d.com/en/users/trevbenn/3d-models
+- Ko-Fi is https://ko-fi.com/davesfunrc
+- Tinkercad is https://www.tinkercad.com/things/iw4zzNgaSQg-davesfunrc-shared-designs?sharecode=i2wz_nIy2qr0iHzN0VqJUTFY3An9YuIsaoJSsA0D5YA
 
 # Website Audience
 - This site is useful for RC plane enthiasts of all types from all over the world
@@ -19,7 +21,7 @@ DavesFunRC
 # About
 Put this content on the About page verbatim:
 
-This site is all about having fun with RC planes—without spending a fortune.
+This site is all about having fun with RC planes, without spending a fortune.
 A few years ago I found my way back into the RC plane hobby after a long break. Like many people, life simply got in the way for a while. But once I rediscovered the hobby, I quickly remembered why I'd loved it so much.
 I've always had a passion for photography, so my return to flying actually started with a drone. It opened up a whole new perspective and gave me the chance to capture some amazing aerial footage.
 Before long, curiosity got the better of me and I bought an inexpensive electric RC plane—just to see if the flying spark was still there.
@@ -36,16 +38,16 @@ Thanks for stopping by, and happy flying!
 - Articles by category: Tech Support, Construction Techniques, CAD Design, 3D Printing, Getting Started
 - Watch Videos by category such as Store Bought Planes, Scratch Builds, Flying Clubs, Slope Soaring
 - Future Planned Projects
-- Future Project Suggestions
-- History
+- My History
 - Suggestions Page - Space for the reader to suggest future projects
 - About - See section above
 
 # Pages
 
 I want these topics as separate page:
-- Home Page: Put an engaing and fun heading with a brief summary of the purpose, What to expect on this site, summary of videos on DavesFunRC channel
+- Home Page: Put an engaging and fun heading with a brief summary of the purpose, What to expect on this site, summary of videos on DavesFunRC channel
 - Videos : List of YouTube Videos as a gallery categorised by top 5 YouTube Playlists
 - 3D Designs: Links to my Cults3D,  Ko-Fi sites and FreeCAD
+- Suggestions page
 - About
 
