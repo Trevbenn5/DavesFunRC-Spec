@@ -1,6 +1,7 @@
 import './HomePage.css';
 import { Card } from '../../components/ui/Card';
 import { siteConfig } from '../../app/app-config';
+import bannerImage from '../../assets/home/banner.jpg';
 
 const highlights = [
   {
@@ -29,6 +30,10 @@ const highlights = [
 export function HomePage() {
   return (
     <div className="home-page">
+      <div className="home-banner-wrap container">
+        <img className="home-banner" src={bannerImage} alt="" />
+      </div>
+
       <section className="home-hero container">
         <h1 className="brand-wordmark">G'day, welcome to DavesFunRC</h1>
         <p className="home-hero__lede">

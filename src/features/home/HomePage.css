@@ -1,5 +1,16 @@
+.home-banner-wrap {
+  padding-top: var(--space-32);
+}
+
+.home-banner {
+  width: 100%;
+  aspect-ratio: 2048 / 480;
+  object-fit: cover;
+  border-radius: var(--radius-card);
+}
+
 .home-hero {
-  padding-block: var(--space-64) var(--space-48);
+  padding-block: var(--space-48);
   text-align: center;
 }
 
