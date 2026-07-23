@@ -1,0 +1,60 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-8);
+  font-weight: 600;
+  font-size: 1rem;
+  padding: var(--space-8) var(--space-24);
+  border-radius: var(--radius-button);
+  border: 2px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color var(--motion-duration) ease, border-color var(--motion-duration) ease;
+}
+
+.button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.button--primary {
+  background: var(--colour-primary);
+  color: var(--colour-surface);
+}
+
+.button--primary:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--colour-primary) 85%, black);
+  text-decoration: none;
+}
+
+.button--secondary {
+  background: transparent;
+  border-color: var(--colour-accent);
+  color: var(--colour-accent);
+}
+
+.button--secondary:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--colour-accent) 12%, transparent);
+  text-decoration: none;
+}
+
+.button--tertiary {
+  background: transparent;
+  color: var(--colour-primary);
+  padding-inline: var(--space-8);
+}
+
+.button--tertiary:hover:not(:disabled) {
+  text-decoration: underline;
+}
+
+.button--destructive {
+  background: var(--colour-error);
+  color: var(--colour-surface);
+}
+
+.button--destructive:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--colour-error) 85%, black);
+  text-decoration: none;
+}

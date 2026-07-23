@@ -1,0 +1,22 @@
+.site-header {
+  background: var(--colour-surface);
+  box-shadow: var(--shadow-small);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.site-header__inner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-24);
+  padding-block: var(--space-16);
+}
+
+.site-header__logo {
+  font-size: 1.75rem;
+  text-decoration: none;
+  flex-shrink: 0;
+}
