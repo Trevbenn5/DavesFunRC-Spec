@@ -2,6 +2,7 @@
   background: var(--colour-primary);
   color: var(--colour-surface);
   margin-top: var(--space-64);
+  flex-shrink: 0;
 }
 
 .site-footer__inner {

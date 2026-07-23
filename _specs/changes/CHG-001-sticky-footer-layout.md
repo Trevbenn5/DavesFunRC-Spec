@@ -2,7 +2,7 @@
 
 ## Status
 
-Proposed
+Implemented (2026-07-24)
 
 ## Requested change
 
@@ -90,23 +90,23 @@ Shell) already cover where this code lives — no architectural change.
 
 ## Acceptance criteria
 
-- [ ] On a short-content page (e.g. `/videos` placeholder) at common
+- [x] On a short-content page (e.g. `/videos` placeholder) at common
       viewport heights (e.g. 800px, 1024px desktop; 844px mobile), the
       footer's bottom edge is flush with the viewport's bottom edge and
       there is no visible empty background below it.
-- [ ] On a page long enough to exceed the viewport (verify by temporarily
+- [x] On a page long enough to exceed the viewport (verify by temporarily
       viewing at a very short viewport height, e.g. 400px, against the
       current Home page content), the footer appears after the content in
       normal flow and the page scrolls to reveal it — it does not stay
       pinned/fixed while scrolling.
-- [ ] `SiteHeader` remains sticky to the top of the viewport on scroll,
+- [x] `SiteHeader` remains sticky to the top of the viewport on scroll,
       unchanged from current behaviour.
-- [ ] The mobile hamburger menu still opens as an overlay positioned under
+- [x] The mobile hamburger menu still opens as an overlay positioned under
       the header on both short and tall pages, unchanged from current
       behaviour.
-- [ ] `npm run lint`, `npm run typecheck`, `npm run test`, and `npm run
+- [x] `npm run lint`, `npm run typecheck`, `npm run test`, and `npm run
       build` all pass.
-- [ ] Existing tests in `tests/unit/App.test.tsx` and
+- [x] Existing tests in `tests/unit/App.test.tsx` and
       `src/components/ui/Button.test.tsx` continue to pass unmodified.
 
 ## Regression risks

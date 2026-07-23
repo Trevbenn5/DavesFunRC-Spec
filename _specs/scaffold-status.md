@@ -37,7 +37,12 @@ top of it were deliberately removed first. See `_specs/architecture.md`
 
 ## Shared layout locations
 
-- `src/components/layout/PageLayout.tsx` — skip link, header, main, footer
+- `src/components/layout/PageLayout.tsx` — skip link, header, main, footer.
+  `.page-layout` is a `min-height: 100%` flex column (`html`/`body`/`#app`
+  set to `height: 100%` in `src/styles/global.css`) with `<main>` set to
+  `flex: 1 0 auto`, so the footer stays pinned to the bottom of the
+  viewport on short pages and scrolls normally with taller content — see
+  [CHG-001](changes/CHG-001-sticky-footer-layout.md).
 - `src/components/layout/SiteHeader.tsx` / `SiteFooter.tsx`
 - `src/components/layout/ErrorBoundary.tsx` — global error boundary
 - `src/components/navigation/MainNavigation.tsx` — horizontal desktop nav
