@@ -17,7 +17,7 @@ Read these files before planning or implementing changes:
 1. `_specs/product.md`
 2. `_specs/architecture.md`
 3. `_specs/design-system.md`
-4. `_specs/static-assets/`
+4. `assets/`
 4. The relevant file under `_specs/features/`
 5. Existing source code and tests
 

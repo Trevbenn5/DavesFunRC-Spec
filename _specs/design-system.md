@@ -26,16 +26,35 @@ Every screen should emphasise the user's primary task.
 
 # Colour Palette
 
-Refer to the file `static_assets\color_pallette.jpeg` for inspiration on the theme
+Refer to `assets/Banner.jpg` and `assets/Chaotic_Thumbnail 2.jpg` for the
+source branding this palette is drawn from.
 
 ## Primary
-Deep Navy (#243746)
+
+Indigo (#2E2B70)
+
 Used for:
 
 - Primary buttons
 - Links
 - Active navigation
 - Focus indicators
+
+---
+
+## Brand Accent
+
+Periwinkle (#3D3CC4)
+
+Used for:
+
+- Site logo / wordmark only
+- Hero header accents
+
+Do not use for body text, buttons or large fills — reserved for the brand
+mark so it stays distinctive.
+
+---
 
 ## Secondary
 
@@ -51,7 +70,28 @@ Used for:
 
 ## Accent
 
-Burnt Copper (#B56A3B)
+Bold Orange (#F7941D)
+
+Used for:
+
+- Headline highlights
+- Callout emphasis
+- Secondary buttons
+
+---
+
+## Highlight
+
+Mustard Yellow (#D8D13B)
+
+Used for:
+
+- Badges
+- Tags
+- Callout panel backgrounds
+
+Use sparingly as a fill behind small elements — never as a full page or
+section background.
 
 ---
 
@@ -93,7 +133,7 @@ Used for:
 
 ## Error
 
-Red
+Red (#E5342E)
 
 Used for:
 
@@ -113,6 +153,23 @@ Fallback:
 
 - Arial
 - sans-serif
+
+Used for all body text and UI headings (H2 and below).
+
+---
+
+## Brand / Display Font
+
+A hand-lettered display font (e.g. Kalam or Caveat) matching the
+DavesFunRC wordmark in `assets/Banner.jpg`.
+
+Used only for:
+
+- The site logo / wordmark
+- Optionally, the H1 hero heading on the Home page
+
+Never use for body copy, form labels, or any text requiring high
+readability at small sizes.
 
 ---
 
@@ -238,6 +295,24 @@ Use Lucide icons.
 Avoid mixing icon libraries.
 
 Icons should always accompany destructive actions.
+
+---
+
+# Brand Assets
+
+Reference imagery for tone and identity: `assets/Banner.jpg`,
+`assets/Screenshot YouTube Channel.png`, `assets/Chaotic_Thumbnail 2.jpg`.
+
+The brand identity is casual, hand-crafted and Australian in tone —
+consistent with the "low-key, friendly, informal" audience described in
+`_specs/product.md`. Avoid corporate or sales-oriented visual treatments.
+
+## Mascot
+
+A plush koala holding an RC transmitter (see the channel bug in
+`assets/Firebird_Thumbnail_.jpg`, bottom-right) may be used as optional
+supporting imagery — e.g. About page or footer. Not part of core
+navigation or primary UI chrome.
 
 ---
 
