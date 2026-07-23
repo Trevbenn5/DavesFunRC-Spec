@@ -2,7 +2,7 @@
 
 ## Status
 
-Proposed
+Implemented (2026-07-24)
 
 ## Requested change
 
@@ -97,23 +97,23 @@ pattern — no existing spec content contradicts this change.
 
 ## Acceptance criteria
 
-- [ ] Home page (`/`) shows the banner image above the "G'day, welcome to
+- [x] Home page (`/`) shows the banner image above the "G'day, welcome to
       DavesFunRC" heading, at desktop, tablet and mobile widths, with no
       horizontal overflow.
-- [ ] The heading and lede text are pixel-identical to today (same copy,
+- [x] The heading and lede text are pixel-identical to today (same copy,
       same font, same position relative to each other) — only their
       position relative to the top of the page changes (now below the
       image).
-- [ ] The image has `alt=""` and does not introduce a duplicate
+- [x] The image has `alt=""` and does not introduce a duplicate
       accessible-name announcement for "DavesFunRC".
-- [ ] The three highlight cards (Watch / Read / Build) are visually and
+- [x] The three highlight cards (Watch / Read / Build) are visually and
       functionally unchanged.
-- [ ] The production build (`npm run build`) fingerprints the image file
+- [x] The production build (`npm run build`) fingerprints the image file
       under `dist/assets/` (confirms it was imported via `src/assets/`,
       not left unprocessed).
-- [ ] `npm run lint`, `npm run typecheck`, `npm run test`, and `npm run
+- [x] `npm run lint`, `npm run typecheck`, `npm run test`, and `npm run
       build` all pass.
-- [ ] Existing tests in `tests/unit/App.test.tsx` continue to pass
+- [x] Existing tests in `tests/unit/App.test.tsx` continue to pass
       unmodified (they assert on the H1 text, which is unchanged).
 
 ## Regression risks

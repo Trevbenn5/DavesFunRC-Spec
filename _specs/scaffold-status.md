@@ -62,6 +62,11 @@ top of it were deliberately removed first. See `_specs/architecture.md`
 - Fonts: Inter (body/UI) and Kalam (brand wordmark + Home hero H1 only,
   via the `.brand-wordmark` utility class), loaded from Google Fonts in
   `index.html`
+- `src/assets/` — component-imported image assets (Vite fingerprints these
+  for cache-busting), as distinct from `public/` (copied unprocessed). First
+  used by `src/assets/home/banner.jpg`, a copy of `assets/Banner.jpg`
+  imported by `src/features/home/HomePage.tsx` — see
+  [CHG-002](changes/CHG-002-home-hero-imagery.md).
 
 ## Pages
 
