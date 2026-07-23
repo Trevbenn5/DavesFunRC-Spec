@@ -1,53 +1,52 @@
-# Site title
-DavesFunRC - Having Fun with RC Planes
-- URL DavesFunRC.com
+# Website name
+DavesFunRC (https://www.davesfunrc.com)
 
-# Goal
-- A Website to go alongside DavesFunRC YouTube channel, which has over 100 videos, categorised by Playlists.  This Website should simplify getting to the right video the user might be interested in.
-- To provide useful technical how-to articles to fellow RC Plane enthusiasts
+The site is created by the founder - Dave from Downunder
+
+# Purpose
+
+- A Website to go alongside DavesFunRC YouTube channel, which has over 100 videos, categorised by Playlists. This Website should simplify getting to the right video the user might be interested in.
+- To provide useful technical how-to articles to fellow RC Plane enthusiasts.
 - To keep users informed of future planned projects
-- Provide access to 3D models on various Cults3d, Ko-Fi and Tinkercad websites
+Provide access to 3D models on various Cults3d, Ko-Fi and Tinkercad websites
 
-# External Links
+# External links for reference
 - YouTube Channel is https://www.youtube.com/@DavesFunRC
 - Cults3D 3D Designs is https://cults3d.com/en/users/trevbenn/3d-models
 - Ko-Fi is https://ko-fi.com/davesfunrc
 - Tinkercad is https://www.tinkercad.com/things/iw4zzNgaSQg-davesfunrc-shared-designs?sharecode=i2wz_nIy2qr0iHzN0VqJUTFY3An9YuIsaoJSsA0D5YA
 
-# Website Audience
-- This site is useful for RC plane enthiasts of all types from all over the world
-- The language should low-key, friendly, informal and not sales oriented
+# Problem it solves
 
-# About
-Put this content on the About page verbatim:
+DavesfunRC currently only has a presence on YouTube. There is no ability for youtube to have articles, future planned projects, suggestions and about etc
 
-This site is all about having fun with RC planes, without spending a fortune.
-A few years ago I found my way back into the RC plane hobby after a long break. Like many people, life simply got in the way for a while. But once I rediscovered the hobby, I quickly remembered why I'd loved it so much.
-I've always had a passion for photography, so my return to flying actually started with a drone. It opened up a whole new perspective and gave me the chance to capture some amazing aerial footage.
-Before long, curiosity got the better of me and I bought an inexpensive electric RC plane—just to see if the flying spark was still there.
-It definitely was.
-The technology in RC aircraft has come an incredibly long way over the past 25 years. Today's models are smarter, more capable, easier to fly, and far more affordable than I ever imagined. There is also an incredible online community where people freely share their knowledge and experience.
-My philosophy is simple: enjoy this fantastic hobby on a shoestring budget.
-These days I design and build many of my own aircraft using CAD software and a 3D printer, paired with affordable motors, electronics and batteries. I love proving that you don't need expensive equipment to have an amazing time in the air.
-Flying at local clubs has introduced me to a great community of friendly, knowledgeable people who have helped me enormously along the way. Their encouragement has inspired me to keep learning, experimenting and trying new ideas.
-Through my YouTube channel and this website, I enjoy sharing what I've learned—the successes, the mistakes, the budget-friendly tips, and hopefully a few laughs along the way.
-Whether you're returning to the hobby after many years, just getting started, or simply looking for new ideas, I hope you'll find something here that inspires you to get out and enjoy RC flying.
-Thanks for stopping by, and happy flying!
+# Target users
 
-# Feature of the site
+- This site is useful for RC plane enthiasts of all types from all over the world.  Given the nature of visitors to the site, the tone should low-key, friendly, informal and not sales oriented.
+
+# Core features
+
 - Articles by category: Tech Support, Construction Techniques, CAD Design, 3D Printing, Getting Started
-- Watch Videos by category such as Store Bought Planes, Scratch Builds, Flying Clubs, Slope Soaring
+- Watch Videos by category such as Store Bought Planes, Scratch Builds, - Flying Clubs, Slope Soaring
 - Future Planned Projects
+- Provide information about Melbourne-based flying clubs
 - My History
 - Suggestions Page - Space for the reader to suggest future projects
 - About - See section above
 
-# Pages
+# Page/route inventory 
 
-I want these topics as separate page:
+All pages should be accessible from the Home page and menu.
+
 - Home Page: Put an engaging and fun heading with a brief summary of the purpose, What to expect on this site, summary of videos on DavesFunRC channel
 - Videos : List of YouTube Videos as a gallery categorised by top 5 YouTube Playlists
-- 3D Designs: Links to my Cults3D,  Ko-Fi sites and FreeCAD
-- Suggestions page
+- 3D Designs: Links to my Cults3D, Ko-Fi sites and FreeCAD
+- Suggestions
 - About
 
+# Primary user journey(s) 
+[— the one or two flows that matter most (e.g. "visitor → reads services → submits contact form"), so the shell/nav prioritizes correctly.]
+
+# Out of scope
+
+eCommerce is not part of the site.  Visitors should be directed to Cults3D and Ko-fi to buy plane designs.
