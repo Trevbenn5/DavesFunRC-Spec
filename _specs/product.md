@@ -44,6 +44,12 @@ All pages should be accessible from the Home page and menu.
 - Suggestions
 - About
 
+# Style of homepage
+
+- use elements of `assets/Banner.jpg` as a header image on the home page
+- incorporate more colours on the header to make it stand out from the background
+- use `assets/Me Circle.png` somewhere suitable on the homepage
+
 # Primary user journey(s) 
 [— the one or two flows that matter most (e.g. "visitor → reads services → submits contact form"), so the shell/nav prioritizes correctly.]
 

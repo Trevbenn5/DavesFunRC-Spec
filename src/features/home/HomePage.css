@@ -1,0 +1,11 @@
+.home-page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+  text-align: center;
+  padding-block: var(--space-64);
+}
+
+.home-page h1 {
+  font-size: 3rem;
+}

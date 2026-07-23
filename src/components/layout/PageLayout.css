@@ -1,0 +1,10 @@
+.page-layout {
+  padding-block: var(--space-32);
+  min-height: 60vh;
+}
+
+@media (max-width: 640px) {
+  .page-layout {
+    padding-block: var(--space-24);
+  }
+}

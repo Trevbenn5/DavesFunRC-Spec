@@ -1,0 +1,9 @@
+.page-placeholder {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  padding: var(--space-32);
+  background-color: var(--colour-surface);
+  border-radius: var(--radius-card);
+  text-align: center;
+}
