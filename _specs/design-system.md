@@ -399,7 +399,7 @@ Avoid large walls of text.
 
 Desktop
 
-Horizontal navigation
+Horizontal navigation. Aligned to the center.
 
 Mobile
 
