@@ -1,8 +1,0 @@
-.home-hero {
-  padding: var(--space-48) 0 var(--space-32);
-}
-
-.home-hero__tagline {
-  color: var(--colour-secondary);
-  font-size: 1.125rem;
-}
