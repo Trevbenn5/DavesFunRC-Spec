@@ -2,7 +2,8 @@
 
 ## Status
 
-Proposed
+Rejected (2026-07-24) — the site owner reviewed the mockup and decided the
+current banner height looks fine as-is; no longer wanted.
 
 ## Requested change
 
