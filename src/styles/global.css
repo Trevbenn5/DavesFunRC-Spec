@@ -3,6 +3,12 @@
 @import './typography.css';
 @import './utilities.css';
 
+html,
+body,
+#app {
+  height: 100%;
+}
+
 body {
   background: var(--colour-background);
 }
@@ -10,6 +16,19 @@ body {
 :focus-visible {
   outline: 2px solid var(--colour-primary);
   outline-offset: 2px;
+}
+
+/* Sticky footer: .page-layout (src/components/layout/PageLayout.tsx) fills
+   at least the viewport height; <main> absorbs any slack so the footer sits
+   flush at the bottom on short pages and scrolls with tall ones. */
+.page-layout {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.page-layout > main {
+  flex: 1 0 auto;
 }
 
 .container {
