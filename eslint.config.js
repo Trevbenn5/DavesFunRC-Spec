@@ -5,12 +5,4 @@ export default tseslint.config(
   { ignores: ['dist/**', 'node_modules/**'] },
   js.configs.recommended,
   ...tseslint.configs.recommended,
-  {
-    files: ['**/*.{ts,tsx}'],
-    languageOptions: {
-      parserOptions: {
-        ecmaFeatures: { jsx: true },
-      },
-    },
-  },
 );

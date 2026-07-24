@@ -1,5 +1,5 @@
 body {
-  font-family: var(--font-family-base);
+  font-family: var(--font-body);
   font-size: var(--font-size-body);
   color: var(--colour-text);
 }
@@ -8,37 +8,42 @@ h1,
 h2,
 h3,
 h4 {
+  font-family: var(--font-body);
   font-weight: 700;
-  line-height: 1.25;
+  line-height: 1.2;
   color: var(--colour-text);
 }
 
 h1 {
-  font-size: clamp(1.75rem, 1.4rem + 1.5vw, 2.5rem);
+  font-size: 2.25rem;
 }
 
 h2 {
-  font-size: clamp(1.4rem, 1.2rem + 1vw, 1.875rem);
+  font-size: 1.75rem;
 }
 
 h3 {
-  font-size: 1.25rem;
+  font-size: 1.375rem;
 }
 
 h4 {
-  font-size: 1.0625rem;
+  font-size: 1.125rem;
 }
 
 p {
-  max-width: 70ch;
+  max-width: 65ch;
 }
 
 a {
   color: var(--colour-primary);
-  text-decoration: underline;
-  text-underline-offset: 0.15em;
 }
 
 a:hover {
-  color: var(--colour-accent);
+  text-decoration: underline;
+}
+
+/* Brand wordmark / hero heading only — never body copy or form labels. */
+.brand-wordmark {
+  font-family: var(--font-brand);
+  color: var(--colour-brand-accent);
 }

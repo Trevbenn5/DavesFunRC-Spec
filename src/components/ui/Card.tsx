@@ -1,20 +1,21 @@
-import type { ComponentChildren } from 'preact';
 import './Card.css';
+import { Button } from './Button';
 
 interface CardProps {
   title: string;
-  summary?: string;
-  action?: ComponentChildren;
-  children?: ComponentChildren;
+  summary: string;
+  href: string;
+  actionLabel: string;
 }
 
-export function Card({ title, summary, action, children }: CardProps) {
+export function Card({ title, summary, href, actionLabel }: CardProps) {
   return (
-    <div class="card">
-      <h3 class="card__title">{title}</h3>
-      {summary && <p class="card__summary">{summary}</p>}
-      {children}
-      {action && <div class="card__action">{action}</div>}
-    </div>
+    <article className="card">
+      <h3>{title}</h3>
+      <p>{summary}</p>
+      <Button href={href} variant="tertiary">
+        {actionLabel}
+      </Button>
+    </article>
   );
 }

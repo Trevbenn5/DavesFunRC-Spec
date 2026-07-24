@@ -1,23 +1,16 @@
 import type { ComponentChildren } from 'preact';
 import { SiteHeader } from './SiteHeader';
 import { SiteFooter } from './SiteFooter';
-import './PageLayout.css';
 
-interface PageLayoutProps {
-  children: ComponentChildren;
-}
-
-export function PageLayout({ children }: PageLayoutProps) {
+export function PageLayout({ children }: { children: ComponentChildren }) {
   return (
-    <>
-      <a href="#main-content" class="visually-hidden">
+    <div className="page-layout">
+      <a href="#main-content" className="skip-link">
         Skip to main content
       </a>
       <SiteHeader />
-      <main id="main-content" class="page-layout__main">
-        {children}
-      </main>
+      <main id="main-content">{children}</main>
       <SiteFooter />
-    </>
+    </div>
   );
 }

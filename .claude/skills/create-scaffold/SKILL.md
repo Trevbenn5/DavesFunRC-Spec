@@ -64,3 +64,7 @@ Update `_specs/architecture.md` if implementation decisions differ from the
 original proposal.
 
 Run the build, tests, linting and type checking.
+
+# Wrap up
+
+Once the scaffold is verified, commit all changes to the main branch.

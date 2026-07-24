@@ -1101,3 +1101,39 @@ Recorded during initial scaffolding for DavesFunRC. See
   exists in this repo. The colour palette was applied from the hex
   values written directly in `design-system.md` §Colour Palette instead.
 
+## 35. Scaffold Implementation Notes (2026-07-24)
+
+The scaffold was rebuilt from scratch (previous scaffold and the
+About-page feature were deliberately removed first). See
+`_specs/scaffold-status.md` for full detail. Notes below cover
+decisions made during the rebuild that extend or update §34.
+
+* **TypeScript pinned to `^6.0.3`, not the current `7.x` line**:
+  `typescript-eslint@8.65.0`'s peer range is `>=4.8.4 <6.1.0`, so
+  TypeScript 7 is not yet lintable with it. `6.0.3` is the newest
+  version inside that supported range.
+* **`vite` moved to the `^8.1.5` line** (up from the `^6.4.2` pin
+  recorded in §34) — no compatibility issue found with
+  `@preact/preset-vite@2.10.6` or `vitest@4.1.10`, both of which
+  declare support for Vite 8.
+* **Icon library wired in**: `lucide-preact` was added and used for the
+  mobile navigation's menu/close icons, fulfilling `design-system.md`'s
+  "Use Lucide icons" rule. No other icon library is present.
+* **Brand tokens**: `src/styles/tokens.css` was written directly from
+  the indigo/orange/mustard palette added to `design-system.md`'s
+  Colour Palette section (sourced from `assets/Banner.jpg` and
+  `assets/Chaotic_Thumbnail 2.jpg`). The brand/display font
+  (`--font-brand`, Kalam) is applied only via the `.brand-wordmark`
+  utility class — the logo and the Home hero heading — never to body
+  copy, per the design system's explicit restriction.
+* **Playwright is not a dependency**: a one-off Playwright install in
+  the scratch directory (not committed) was used to visually verify the
+  scaffold in a real browser during this build. Per §21/§29, e2e
+  tooling should only become a project dependency once a feature has a
+  critical user journey that needs it.
+* **Deferred empty directories**: `src/hooks/`, `src/services/`,
+  `src/data/`, `src/types/`, `src/utils/` and `tests/integration/` from
+  §5's target structure were not created — git doesn't track empty
+  directories, and creating placeholder files in them would be
+  scaffolding beyond what any current feature needs.
+

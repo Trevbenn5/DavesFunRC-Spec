@@ -1,22 +1,20 @@
-import {
-  createContext,
-  type ComponentChildren,
-  type JSX,
-} from 'preact';
-import { useContext, useEffect, useState, useCallback } from 'preact/hooks';
+import { createContext } from 'preact';
+import type { ComponentChildren } from 'preact';
+import { useContext, useEffect, useState } from 'preact/hooks';
+import { routes, type RouteDefinition } from './routes';
 
 interface RouterContextValue {
   path: string;
-  navigate: (path: string) => void;
+  navigate: (to: string) => void;
 }
 
 const RouterContext = createContext<RouterContextValue | null>(null);
 
-function normalise(path: string): string {
-  if (path.length > 1 && path.endsWith('/')) {
-    return path.slice(0, -1);
+function normalise(pathname: string): string {
+  if (pathname.length > 1 && pathname.endsWith('/')) {
+    return pathname.slice(0, -1);
   }
-  return path;
+  return pathname || '/';
 }
 
 export function RouterProvider({ children }: { children: ComponentChildren }) {
@@ -28,20 +26,16 @@ export function RouterProvider({ children }: { children: ComponentChildren }) {
     return () => window.removeEventListener('popstate', onPopState);
   }, []);
 
-  const navigate = useCallback((next: string) => {
-    const target = normalise(next);
+  const navigate = (to: string) => {
+    const target = normalise(to);
     if (target !== normalise(window.location.pathname)) {
       window.history.pushState(null, '', target);
+      setPath(target);
+      window.scrollTo(0, 0);
     }
-    setPath(target);
-    window.scrollTo(0, 0);
-  }, []);
+  };
 
-  return (
-    <RouterContext.Provider value={{ path, navigate }}>
-      {children}
-    </RouterContext.Provider>
-  );
+  return <RouterContext.Provider value={{ path, navigate }}>{children}</RouterContext.Provider>;
 }
 
 export function useRouter(): RouterContextValue {
@@ -52,34 +46,6 @@ export function useRouter(): RouterContextValue {
   return context;
 }
 
-interface LinkProps extends Omit<JSX.HTMLAttributes<HTMLAnchorElement>, 'href'> {
-  href: string;
+export function matchRoute(path: string): RouteDefinition | undefined {
+  return routes.find((route) => route.path === path);
 }
-
-export function Link({ href, onClick, children, ...rest }: LinkProps) {
-  const { navigate } = useRouter();
-
-  const handleClick = (event: JSX.TargetedMouseEvent<HTMLAnchorElement>) => {
-    onClick?.(event);
-    if (
-      event.defaultPrevented ||
-      event.button !== 0 ||
-      event.metaKey ||
-      event.ctrlKey ||
-      event.shiftKey ||
-      event.altKey
-    ) {
-      return;
-    }
-    event.preventDefault();
-    navigate(href);
-  };
-
-  return (
-    <a href={href} onClick={handleClick} {...rest}>
-      {children}
-    </a>
-  );
-}
-
-export { normalise as normalisePath };

@@ -2,90 +2,125 @@
 
 ## Completion date
 
-2026-07-19
+2026-07-24
+
+(This is a rebuild — a previous scaffold and the About-page feature built on
+top of it were deliberately removed first. See `_specs/architecture.md`
+§34–§35 for the decisions carried over and updated during this rebuild.)
 
 ## Framework and major dependencies
 
-- Vite 6 (`@preact/preset-vite`)
-- Preact 10
-- TypeScript 5.7 (strict mode)
-- Vitest 4 + `@testing-library/preact` + `@testing-library/jest-dom` (jsdom environment)
-- ESLint 9 flat config (`@eslint/js` + `typescript-eslint` recommended rules)
+- Vite `^8.1.5`
+- Preact `^10.29.7` (`@preact/preset-vite ^2.10.6`)
+- TypeScript `^6.0.3` (pinned below the `7.x` line — `typescript-eslint@8.65.0`'s
+  peer range is `>=4.8.4 <6.1.0`, so TS 7 isn't lintable with it yet)
+- ESLint `^10.7.0` + `@eslint/js` + `typescript-eslint` recommended configs
+  only (no `eslint-plugin-preact` — unmaintained, no flat-config support; no
+  `eslint-plugin-jsx-a11y` — its `6.10.2` peer range doesn't yet cover
+  ESLint 10)
+- Vitest `^4.1.10` + `@testing-library/preact` + `@testing-library/jest-dom`
+  + `jsdom`
+- `lucide-preact` (menu/close icons in mobile navigation)
+- `npm audit`: 0 vulnerabilities as of this scaffold
 
 ## Application entry points
 
-- HTML entry: [index.html](../index.html)
-- JS entry: [src/main.tsx](../src/main.tsx)
-- App shell: [src/app/App.tsx](../src/app/App.tsx)
+- HTML entry: `index.html`
+- JS entry: `src/main.tsx` (renders `<App />` into `#app`, imports
+  `src/styles/global.css`)
+- Application shell: `src/app/App.tsx` (composes `RouterProvider`,
+  `PageLayout`, `ErrorBoundary`, and the route outlet)
+- Routing: `src/app/routes.ts` (route table) + `src/app/router.tsx` (small
+  hand-rolled `history`-based router — no router package, per
+  `_specs/architecture.md` §29's preference for a local implementation given
+  the small, fixed route table)
 
 ## Shared layout locations
 
-- `src/components/layout/PageLayout.tsx`, `SiteHeader.tsx`, `SiteFooter.tsx`
-- `src/components/navigation/MainNavigation.tsx`
-- `src/components/content/PagePlaceholder.tsx`, `NotFoundPage.tsx`
-- `src/components/ui/Button.tsx`, `Card.tsx`
+- `src/components/layout/PageLayout.tsx` — skip link, header, main, footer.
+  `.page-layout` is a `min-height: 100%` flex column (`html`/`body`/`#app`
+  set to `height: 100%` in `src/styles/global.css`) with `<main>` set to
+  `flex: 1 0 auto`, so the footer stays pinned to the bottom of the
+  viewport on short pages and scrolls normally with taller content — see
+  [CHG-001](changes/CHG-001-sticky-footer-layout.md).
+- `src/components/layout/SiteHeader.tsx` / `SiteFooter.tsx`. The header
+  logo (`.site-header__logo`) is an icon-plus-wordmark lockup: a
+  transparent-background cutout of the plane from `assets/Logo.png`
+  (`src/assets/brand/plane-logo.png`, sized `1.6em` relative to the logo
+  text) next to the "DavesFunRC" text, both inside one link — see
+  [CHG-005](changes/CHG-005-plane-icon-header-logo.md). `assets/Logo.png`
+  has an opaque sky background baked in; the cutout was produced by
+  classifying each pixel's blue-channel cast (`B − R > 12` ⇒
+  background — the sky reads consistently bluer than every part of the
+  plane), median-filtering, dropping small disconnected components, and
+  feathering the alpha edge. This is a one-off script, not a project
+  dependency — if `assets/Logo.png` is ever replaced, an equivalent
+  cutout needs to be redone by hand or script.
+- `src/components/layout/ErrorBoundary.tsx` — global error boundary
+- `src/components/navigation/MainNavigation.tsx` — horizontal desktop nav
+  (centered), hamburger menu on mobile (`≤768px`)
+- `src/components/content/PlaceholderPage.tsx` / `NotFoundPage.tsx` — shared
+  stub content for routes and unknown paths
+- `src/components/ui/Button.tsx`, `Card.tsx` — only the components an actual
+  page currently needs; the rest of the design system's component list
+  (Modal, Table, Form, etc.) is built when a feature first requires it
 
 ## Design system locations
 
-- `src/styles/tokens.css` — colour, spacing, radius, shadow custom properties
-  from `_specs/design-system.md`
-- `src/styles/reset.css`, `typography.css`, `global.css`
+- `src/styles/tokens.css` — colour palette, spacing, radius, shadow tokens
+  from `_specs/design-system.md` (indigo/orange/mustard palette sourced from
+  `assets/Banner.jpg` and `assets/Chaotic_Thumbnail 2.jpg`)
+- `src/styles/reset.css`, `typography.css`, `utilities.css`, `global.css`
+- Fonts: Inter (body/UI) and Kalam (brand wordmark + Home hero H1 only,
+  via the `.brand-wordmark` utility class), loaded from Google Fonts in
+  `index.html`
+- `src/assets/` — component-imported image assets (Vite fingerprints these
+  for cache-busting), as distinct from `public/` (copied unprocessed). First
+  used by `src/assets/home/banner.jpg`, a copy of `assets/Banner.jpg`
+  imported by `src/features/home/HomePage.tsx` — see
+  [CHG-002](changes/CHG-002-home-hero-imagery.md).
+
+## Pages
+
+All five routes from `_specs/product.md`'s route inventory exist and are
+reachable from the nav: `/` (Home — the only page with real content so far),
+`/videos`, `/3d-designs`, `/suggestions`, `/about` (placeholder content via
+`src/components/content/PlaceholderPage.tsx`, one feature folder each under
+`src/features/`). Unknown paths render `NotFoundPage`.
 
 ## Test commands
 
 ```
-npm run test        # vitest run (unit/component)
-npm run test:watch  # vitest watch mode
+npm run test        # vitest run
+npm run typecheck    # tsc -b --noEmit
+npm run lint         # eslint .
 ```
-
-Sample test: `tests/unit/App.test.tsx` (home page render, nav links, 404
-fallback). No Playwright/e2e suite yet — add one under `tests/integration`
-when a feature has a critical user journey worth covering end-to-end.
 
 ## Build commands
 
 ```
-npm run dev         # local dev server
-npm run lint         # eslint .
-npm run typecheck    # tsc --noEmit
-npm run build         # tsc --noEmit && vite build -> dist/
-npm run preview       # preview the production build locally
+npm run dev          # vite dev server
+npm run build         # tsc -b && vite build
+npm run preview       # vite preview (serves dist/)
 ```
-
-All four (`lint`, `typecheck`, `test`, `build`) pass as of this scaffold.
 
 ## Architectural constraints
 
-See `_specs/architecture.md` for the full rules. Notably:
+See `_specs/architecture.md` for the full rule set. Key points affecting
+every future feature:
 
-- Vite + Preact + TypeScript only; no second framework, router package, or
-  state-management library without an accepted architectural decision.
-- Static output only — no server runtime, no database.
-- GitHub Pages is the hosting platform, deployed via
-  `.github/workflows/deploy-pages.yml` on push to `main`.
-- `base: '/'` is configured because this project targets the custom domain
-  `DavesFunRC.com` (see `public/CNAME`), not a `/repo-name/` project-page
-  path. If the custom domain is dropped, `vite.config.ts`'s `base` and
-  `public/CNAME` both need to change together — see architecture.md §13.
-
-## Routing
-
-Client-side routing via a small hand-rolled history-based router
-(`src/app/router.tsx`, route table in `src/app/routes.ts`), per
-architecture.md §12's preference for a local implementation over a router
-package at this scale. GitHub Pages' lack of fallback routing is handled by
-the standard `public/404.html` redirect-and-decode technique (decode script
-lives in `index.html`).
-
-Only `/` (Home) has real content. `/videos`, `/3d-designs` and `/about` are
-registered routes rendering a shared `PagePlaceholder` component — build out
-their actual content via `/create-feature-spec` + `/implement-feature`.
-
-## Known follow-ups
-
-- `_specs/static-assets/` referenced by `CLAUDE.md` and a
-  `color_pallette.jpeg` referenced by `design-system.md` do not exist in this
-  repo. The palette was applied from the hex values written directly in
-  `design-system.md` instead.
-- No Playwright/e2e setup yet — add when a feature has a critical journey
-  worth testing end-to-end (architecture.md §21).
+- Base path is `base: '/'` with `public/CNAME` set to `davesfunrc.com` (a
+  custom domain, not a `username.github.io/repo/` project path). If the
+  custom domain is ever dropped, `vite.config.ts`'s `base` and
+  `public/CNAME` must change together.
+- GitHub Pages has no server-side fallback routing — `public/404.html`
+  stashes the intended path to `sessionStorage` and redirects to `/`;
+  `index.html`'s inline script restores it via `history.replaceState`
+  before the app renders.
+- No dependency was added for state management, a second router, or a
+  component library — none of the pages need one yet.
+- `src/hooks/`, `src/services/`, `src/data/`, `src/types/`, `src/utils/`
+  and `tests/integration/` from the architecture doc's target structure
+  were not created — git doesn't track empty directories, and placeholder
+  files in them would be scaffolding beyond what any current feature needs.
+  Create each one the first time a feature actually needs it.

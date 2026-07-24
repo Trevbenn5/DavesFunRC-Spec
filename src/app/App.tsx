@@ -1,32 +1,27 @@
-import { RouterProvider, useRouter } from './router';
 import { PageLayout } from '../components/layout/PageLayout';
-import { PagePlaceholder } from '../components/content/PagePlaceholder';
+import { ErrorBoundary } from '../components/layout/ErrorBoundary';
 import { NotFoundPage } from '../components/content/NotFoundPage';
-import { HomePage } from '../features/home/HomePage';
-import { AboutPage } from '../features/about/AboutPage';
+import { RouterProvider, matchRoute, useRouter } from './router';
 
-function CurrentPage() {
+function RouteOutlet() {
   const { path } = useRouter();
+  const route = matchRoute(path);
 
-  switch (path) {
-    case '/':
-      return <HomePage />;
-    case '/videos':
-      return <PagePlaceholder title="Videos" />;
-    case '/3d-designs':
-      return <PagePlaceholder title="3D Designs" />;
-    case '/about':
-      return <AboutPage />;
-    default:
-      return <NotFoundPage />;
+  if (!route) {
+    return <NotFoundPage />;
   }
+
+  const { Component } = route;
+  return <Component />;
 }
 
 export function App() {
   return (
     <RouterProvider>
       <PageLayout>
-        <CurrentPage />
+        <ErrorBoundary>
+          <RouteOutlet />
+        </ErrorBoundary>
       </PageLayout>
     </RouterProvider>
   );

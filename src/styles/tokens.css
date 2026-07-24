@@ -1,23 +1,25 @@
 :root {
   /* Colour palette — see _specs/design-system.md */
-  --colour-primary: #243746; /* Deep Navy */
-  --colour-secondary: #7c9a7d; /* Sage Green */
-  --colour-accent: #b56a3b; /* Burnt Copper */
-  --colour-background: #f8f6f2; /* Warm Ivory */
-  --colour-text: #2e2e2e; /* Charcoal */
-
+  --colour-primary: #2e2b70;
+  --colour-brand-accent: #3d3cc4;
+  --colour-secondary: #7c9a7d;
+  --colour-accent: #f7941d;
+  --colour-highlight: #d8d13b;
+  --colour-background: #f8f6f2;
+  --colour-surface: #ffffff;
+  --colour-text: #2e2e2e;
+  --colour-text-secondary: #7c9a7d;
   --colour-success: #2e7d32;
-  --colour-warning: #b26a00;
-  --colour-error: #c62828;
-
-  --colour-primary-contrast: #ffffff;
-  --colour-border: var(--colour-secondary);
+  --colour-warning: #b3811a;
+  --colour-error: #e5342e;
+  --colour-border: #d8d5cd;
 
   /* Typography */
-  --font-family-base: 'Inter', Arial, sans-serif;
+  --font-body: 'Inter', Arial, sans-serif;
+  --font-brand: 'Kalam', 'Caveat', cursive;
   --font-size-body: 1rem;
 
-  /* 8-point spacing scale */
+  /* Spacing (8-point system) */
   --space-4: 0.25rem;
   --space-8: 0.5rem;
   --space-16: 1rem;
@@ -29,8 +31,8 @@
 
   /* Layout */
   --content-max-width: 1200px;
-  --page-padding-desktop: 32px;
-  --page-padding-mobile: 16px;
+  --page-padding-desktop: 2rem;
+  --page-padding-mobile: 1rem;
 
   /* Radius */
   --radius-card: 12px;
@@ -39,10 +41,11 @@
   --radius-badge: 999px;
 
   /* Shadows */
-  --shadow-sm: 0 1px 2px rgba(46, 46, 46, 0.08), 0 1px 1px rgba(46, 46, 46, 0.06);
-  --shadow-md: 0 4px 12px rgba(46, 46, 46, 0.12);
-  --shadow-lg: 0 12px 32px rgba(46, 46, 46, 0.18);
+  --shadow-small: 0 1px 3px rgba(46, 46, 46, 0.12);
+  --shadow-medium: 0 4px 12px rgba(46, 46, 46, 0.16);
+  --shadow-large: 0 12px 32px rgba(46, 46, 46, 0.2);
 
   /* Motion */
+  --motion-duration: 200ms;
   --motion-duration-max: 300ms;
 }

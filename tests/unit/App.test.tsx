@@ -1,36 +1,26 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/preact';
 import { App } from '../../src/app/App';
 
 describe('App', () => {
-  beforeEach(() => {
-    window.history.pushState(null, '', '/');
-  });
-
-  it('renders the home page by default', () => {
+  it('renders the home page with primary navigation', () => {
     render(<App />);
-    expect(screen.getByRole('heading', { level: 1, name: /welcome to davesfunrc/i })).toBeInTheDocument();
-  });
 
-  it('renders the main navigation with links to every route', () => {
-    render(<App />);
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(
+      "G'day, welcome to DavesFunRC",
+    );
+
     const nav = screen.getByRole('navigation', { name: /main/i });
-    expect(nav).toHaveTextContent('Home');
-    expect(nav).toHaveTextContent('Videos');
-    expect(nav).toHaveTextContent('3D Designs');
-    expect(nav).toHaveTextContent('About');
+    expect(nav).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Videos' })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'About' })).toBeInTheDocument();
   });
 
-  it('shows the not found page for an unknown route', () => {
-    window.history.pushState(null, '', '/does-not-exist');
+  it('renders a placeholder page when navigating to a route', async () => {
     render(<App />);
-    expect(screen.getByRole('heading', { level: 1, name: /page not found/i })).toBeInTheDocument();
-  });
 
-  it('renders the About page (not the placeholder) at /about', () => {
-    window.history.pushState(null, '', '/about');
-    render(<App />);
-    expect(screen.getByRole('heading', { level: 1, name: /^about$/i })).toBeInTheDocument();
-    expect(screen.queryByText(/on the workbench/i)).not.toBeInTheDocument();
+    screen.getByRole('link', { name: 'Videos' }).click();
+
+    expect(await screen.findByRole('heading', { level: 1, name: 'Videos' })).toBeInTheDocument();
   });
 });

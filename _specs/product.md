@@ -44,6 +44,7 @@ All pages should be accessible from the Home page and menu.
 - Suggestions
 - About
 
+
 # Primary user journey(s) 
 [— the one or two flows that matter most (e.g. "visitor → reads services → submits contact form"), so the shell/nav prioritizes correctly.]
 

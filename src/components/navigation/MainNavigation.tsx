@@ -1,44 +1,53 @@
 import { useState } from 'preact/hooks';
-import { Link, useRouter } from '../../app/router';
-import { routes } from '../../app/routes';
+import { Menu, X } from 'lucide-preact';
 import './MainNavigation.css';
+import { routes } from '../../app/routes';
+import { useRouter } from '../../app/router';
 
 export function MainNavigation() {
-  const { path } = useRouter();
+  const { path, navigate } = useRouter();
   const [isOpen, setIsOpen] = useState(false);
 
+  const navItems = routes.filter((route) => route.showInNav);
+
+  const handleNavigate = (href: string) => (event: MouseEvent) => {
+    event.preventDefault();
+    setIsOpen(false);
+    navigate(href);
+  };
+
   return (
-    <nav class="main-nav" aria-label="Main">
+    <nav className="main-nav" aria-label="Main">
       <button
         type="button"
-        class="main-nav__toggle"
+        className="main-nav__toggle"
         aria-expanded={isOpen}
         aria-controls="main-nav-list"
         onClick={() => setIsOpen((open) => !open)}
       >
-        <span class="visually-hidden">Toggle menu</span>
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path
-            d="M4 6h16M4 12h16M4 18h16"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-          />
-        </svg>
+        {isOpen ? <X aria-hidden="true" /> : <Menu aria-hidden="true" />}
+        <span className="visually-hidden">{isOpen ? 'Close menu' : 'Open menu'}</span>
       </button>
-      <ul class="main-nav__list" id="main-nav-list" data-open={isOpen}>
-        {routes.map((route) => (
-          <li key={route.path}>
-            <Link
-              href={route.path}
-              class="main-nav__link"
-              aria-current={path === route.path ? 'page' : undefined}
-              onClick={() => setIsOpen(false)}
-            >
-              {route.label}
-            </Link>
-          </li>
-        ))}
+      <ul
+        id="main-nav-list"
+        className={`main-nav__list${isOpen ? ' main-nav__list--open' : ''}`}
+        role="list"
+      >
+        {navItems.map((item) => {
+          const isActive = path === item.path;
+          return (
+            <li key={item.path}>
+              <a
+                href={item.path}
+                className="main-nav__link"
+                aria-current={isActive ? 'page' : undefined}
+                onClick={handleNavigate(item.path)}
+              >
+                {item.label}
+              </a>
+            </li>
+          );
+        })}
       </ul>
     </nav>
   );
