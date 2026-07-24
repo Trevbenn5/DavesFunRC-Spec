@@ -2,7 +2,7 @@
 
 ## Status
 
-Proposed
+Implemented (2026-07-24)
 
 ## Requested change
 
