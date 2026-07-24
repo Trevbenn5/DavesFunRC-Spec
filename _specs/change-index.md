@@ -7,3 +7,4 @@
 | [CHG-003](changes/CHG-003-full-bleed-home-banner.md) | Full-bleed home banner | Design | Home page | Implemented |
 | [CHG-004](changes/CHG-004-cap-home-banner-height.md) | Cap home banner height | Design | Home page | Rejected |
 | [CHG-005](changes/CHG-005-plane-icon-header-logo.md) | Plane icon in header logo | Design | Shared layout (SiteHeader) | Implemented |
+| [CHG-006](changes/CHG-006-mobile-nav-strikethrough.md) | Mobile nav strikethrough fix | Defect | Shared layout (MainNavigation) | Proposed |
