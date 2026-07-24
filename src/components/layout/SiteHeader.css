@@ -17,7 +17,16 @@
 }
 
 .site-header__logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
   font-size: 1.75rem;
   text-decoration: none;
   flex-shrink: 0;
+}
+
+.site-header__logo-icon {
+  height: 1.6em;
+  width: auto;
+  display: block;
 }

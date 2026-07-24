@@ -2,7 +2,7 @@
 
 ## Status
 
-Proposed
+Implemented (2026-07-24)
 
 ## Requested change
 
@@ -110,23 +110,23 @@ not changed.
 
 ## Acceptance criteria
 
-- [ ] The plane icon renders next to "DavesFunRC" in the header on
+- [x] The plane icon renders next to "DavesFunRC" in the header on
       desktop, tablet and mobile widths, with no visible background
       artifact around it.
-- [ ] Clicking the icon and clicking the text both navigate to `/`.
-- [ ] The link's accessible name (via `getByRole('link', { name:
+- [x] Clicking the icon and clicking the text both navigate to `/`.
+- [x] The link's accessible name (via `getByRole('link', { name:
       'DavesFunRC' })` or equivalent) remains exactly "DavesFunRC" — the
       decorative `alt=""` doesn't add to or replace it.
-- [ ] `SiteHeader` remains sticky to the top of the viewport on scroll
+- [x] `SiteHeader` remains sticky to the top of the viewport on scroll
       (regression check against CHG-001).
-- [ ] The mobile hamburger menu still opens/closes and overlays content
+- [x] The mobile hamburger menu still opens/closes and overlays content
       the same way as before, at the existing 768px breakpoint.
-- [ ] No horizontal overflow at desktop (~1280px), tablet (~768px) or
+- [x] No horizontal overflow at desktop (~1280px), tablet (~768px) or
       mobile (~390px) widths, and the logo + nav don't visibly crowd each
       other around the 768–900px range.
-- [ ] `npm run lint`, `npm run typecheck`, `npm run test`, and `npm run
+- [x] `npm run lint`, `npm run typecheck`, `npm run test`, and `npm run
       build` all pass.
-- [ ] Existing tests in `tests/unit/App.test.tsx` continue to pass
+- [x] Existing tests in `tests/unit/App.test.tsx` continue to pass
       unmodified.
 
 ## Regression risks

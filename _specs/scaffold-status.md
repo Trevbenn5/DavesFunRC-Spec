@@ -43,7 +43,19 @@ top of it were deliberately removed first. See `_specs/architecture.md`
   `flex: 1 0 auto`, so the footer stays pinned to the bottom of the
   viewport on short pages and scrolls normally with taller content — see
   [CHG-001](changes/CHG-001-sticky-footer-layout.md).
-- `src/components/layout/SiteHeader.tsx` / `SiteFooter.tsx`
+- `src/components/layout/SiteHeader.tsx` / `SiteFooter.tsx`. The header
+  logo (`.site-header__logo`) is an icon-plus-wordmark lockup: a
+  transparent-background cutout of the plane from `assets/Logo.png`
+  (`src/assets/brand/plane-logo.png`, sized `1.6em` relative to the logo
+  text) next to the "DavesFunRC" text, both inside one link — see
+  [CHG-005](changes/CHG-005-plane-icon-header-logo.md). `assets/Logo.png`
+  has an opaque sky background baked in; the cutout was produced by
+  classifying each pixel's blue-channel cast (`B − R > 12` ⇒
+  background — the sky reads consistently bluer than every part of the
+  plane), median-filtering, dropping small disconnected components, and
+  feathering the alpha edge. This is a one-off script, not a project
+  dependency — if `assets/Logo.png` is ever replaced, an equivalent
+  cutout needs to be redone by hand or script.
 - `src/components/layout/ErrorBoundary.tsx` — global error boundary
 - `src/components/navigation/MainNavigation.tsx` — horizontal desktop nav
   (centered), hamburger menu on mobile (`≤768px`)

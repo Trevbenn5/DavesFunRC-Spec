@@ -2,6 +2,7 @@ import './SiteHeader.css';
 import { MainNavigation } from '../navigation/MainNavigation';
 import { useRouter } from '../../app/router';
 import { siteConfig } from '../../app/app-config';
+import planeLogo from '../../assets/brand/plane-logo.png';
 
 export function SiteHeader() {
   const { navigate } = useRouter();
@@ -17,6 +18,7 @@ export function SiteHeader() {
             navigate('/');
           }}
         >
+          <img className="site-header__logo-icon" src={planeLogo} alt="" />
           {siteConfig.name}
         </a>
         <MainNavigation />
