@@ -247,25 +247,32 @@ loaded card shows the video's thumbnail, title, and publish date, and a
 
 ## Open questions
 
-- **Does the site owner already have a YouTube Data API v3 key?** This
-  feature cannot fetch real data without one (restricted by HTTP
-  referrer to the production domain, per Non-functional requirements).
-  This needs to be provided before `implement-feature` can produce a
-  working (not just structurally-complete) result.
-- **What is the channel's uploads playlist ID?** Needs a one-off lookup
-  via `channels.list?forHandle=DavesFunRC&part=contentDetails` once a
-  key exists (see Data requirements) — not a business-rule question, just
-  a lookup blocked on having a key.
+- **Does the site owner already have a YouTube Data API v3 key?**
+  **Resolved (implementation time):** not yet — the site owner chose to
+  implement the full feature now and add the real
+  `VITE_YOUTUBE_API_KEY` / `VITE_YOUTUBE_UPLOADS_PLAYLIST_ID` values to
+  the deployment environment later (see `.env.example`). Until then, the
+  page correctly shows the FR-005 error state rather than live data —
+  this is expected, not a defect, and needs no further code change once
+  the key is added.
+- **What is the channel's uploads playlist ID?** Still open — needs a
+  one-off lookup via `channels.list?forHandle=DavesFunRC&
+  part=contentDetails` once a key exists (see Data requirements). Not
+  resolved as part of implementation since it depends on the key above.
 - **Does the existing placeholder copy stay on the Videos page
   alongside the new "Latest videos" section**, framing it as a preview
   of the fuller categorised gallery still to come, or does the new
-  section fully replace the placeholder for now? Left to
-  `implement-feature` to propose, or the site owner to confirm, since
-  it's a content/framing choice, not specified here.
+  section fully replace the placeholder for now?
+  **Resolved:** the site owner chose to fully replace it — `VideosPage`
+  no longer renders `PlaceholderPage`.
 - **Human-readable date format** for "publish date" (FR-002) — e.g.
   relative ("3 days ago") vs. absolute ("14 Jul 2026") — not specified;
   either satisfies the acceptance criteria, so left as an implementation
   choice unless the site owner has a preference.
+  **Resolved (implementation choice):** relative for the first 30 days
+  ("Today", "1 day ago", "N days ago"), falling back to an absolute short
+  date (e.g. "14 Jun 2026") beyond that — see `VideoCard.tsx`'s
+  `formatPublishedDate`.
 
 ## Tests
 
