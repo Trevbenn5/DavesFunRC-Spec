@@ -8,3 +8,4 @@
 | [CHG-004](changes/CHG-004-cap-home-banner-height.md) | Cap home banner height | Design | Home page | Rejected |
 | [CHG-005](changes/CHG-005-plane-icon-header-logo.md) | Plane icon in header logo | Design | Shared layout (SiteHeader) | Implemented |
 | [CHG-006](changes/CHG-006-mobile-nav-strikethrough.md) | Mobile nav strikethrough fix | Defect | Shared layout (MainNavigation) | Implemented |
+| [CHG-007](changes/CHG-007-about-page-story.md) | About page story | Content | About page | Proposed |
