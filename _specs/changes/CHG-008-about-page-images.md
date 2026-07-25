@@ -2,7 +2,7 @@
 
 ## Status
 
-Proposed
+Implemented (2026-07-25)
 
 ## Requested change
 
@@ -73,9 +73,22 @@ None. No feature specification exists for the About page (see CHG-007).
   `src/assets/about/`.
 - `src/features/about/AboutPage.css` — new rules for the portrait
   (circular crop, fixed size, flex layout with the intro paragraph) and
-  the two inline photos (full-width within the container, constrained
-  height, `object-fit: cover`, caption styling), using only existing
-  `--space-*`/`--radius-*`/`--shadow-*` tokens.
+  the two inline photos (centered, `max-height: 600px`, width scaled to
+  fit — see implementation note below — caption styling), using only
+  existing `--space-*`/`--radius-*`/`--shadow-*` tokens.
+
+  **Implementation note**: the mockup's `object-fit: cover` + fixed
+  `max-height: 480px` banner treatment (mirroring the Home hero pattern)
+  was tried first but rejected after visual verification — at desktop
+  width it center-cropped both inline photos so aggressively that the
+  glider disappeared entirely from the slope-soaring photo and "PLANE
+  ONBOARD!" was cropped out of the backpack photo, contradicting the
+  `alt`/`figcaption` text describing content that was no longer visible.
+  Both source photos are portrait/near-square, not wide banner shapes, so
+  they're instead shown uncropped (`width: auto; max-width: 100%;
+  max-height: 600px`), scaled down and centered — narrower than the full
+  container on desktop, full container width on mobile, no cropping at
+  any breakpoint.
 - New files under `src/assets/about/`: copies of the three source images
   (`portrait.png`, `slope-soaring.jpg`, `backpack.jpg` or similar),
   following the `src/assets/<feature>/` convention established in CHG-002.
@@ -91,7 +104,9 @@ None. No feature specification exists for the About page (see CHG-007).
 3. The two inline photos render within the existing 1200px `.container`
    max-width — never full-bleed — and stay legible/proportional with no
    horizontal overflow at desktop (~1280px), tablet (~768px), and mobile
-   (~390px) widths.
+   (~390px) widths. Each photo's full frame is visible, uncropped, at every
+   breakpoint — no crop that cuts off the subject the `alt`/`figcaption`
+   describes.
 4. The portrait stacks above the intro paragraph on narrow screens rather
    than compressing the paragraph into a thin column.
 5. All twelve story paragraphs from CHG-007 remain present, unedited, and
@@ -101,23 +116,27 @@ None. No feature specification exists for the About page (see CHG-007).
 
 ## Acceptance criteria
 
-- [ ] `/about` shows the portrait beside the opening paragraph, the slope
+- [x] `/about` shows the portrait beside the opening paragraph, the slope
       soaring photo after "It definitely was.", and the backpack photo
-      after the "local clubs" paragraph, matching the mockup.
-- [ ] All three images have descriptive alt text (verified via accessible
-      name in testing-library queries, not just visual inspection).
-- [ ] Page remains visually consistent with the rest of the site (spacing,
-      type, colour) and free of horizontal overflow at desktop, tablet,
-      and mobile widths.
-- [ ] The production build (`npm run build`) fingerprints all three image
-      files under `dist/assets/`, confirming they were imported via
-      `src/assets/`, not left unprocessed.
-- [ ] `npm run lint`, `npm run typecheck`, `npm run test`, and `npm run
+      after the "local clubs" paragraph, matching the mockup's placement
+      (sizing treatment revised per the implementation note above).
+- [x] All three images have descriptive alt text (covered by new
+      `AboutPage.test.tsx` assertions using `getByAltText`).
+- [x] Page remains visually consistent with the rest of the site (spacing,
+      type, colour) and free of horizontal overflow at desktop and mobile
+      widths. Verified via Playwright screenshots against a production
+      preview build (not committed) — both inline photos render fully
+      uncropped at both breakpoints.
+- [x] The production build (`npm run build`) fingerprints all three image
+      files under `dist/assets/` (`portrait-*.png`, `slope-soaring-*.jpg`,
+      `backpack-*.jpg`), confirming they were imported via `src/assets/`,
+      not left unprocessed.
+- [x] `npm run lint`, `npm run typecheck`, `npm run test`, and `npm run
       build` all pass.
-- [ ] Existing `AboutPage.test.tsx` assertions (heading, paragraph
-      count/order, no placeholder text) continue to pass, updated only if
-      the paragraph-query selectors need adjusting now that `<figure>`
-      elements sit between some paragraphs.
+- [x] Existing `AboutPage.test.tsx` assertions (heading, paragraph
+      count/order, no placeholder text) continue to pass unmodified — the
+      `<figure>` elements didn't require changes to the paragraph-query
+      selectors.
 
 ## Regression risks
 
@@ -131,6 +150,12 @@ None. No feature specification exists for the About page (see CHG-007).
   otherwise the About page alone would add ~4.5MB to the production
   bundle. Compression happens as a one-time export step during
   implementation, not as a new build dependency.
+
+  Done: re-exported via `sips` to a 1400px-long-edge cap — portrait stays
+  the original PNG (221KB, already small, alpha-transparent circular
+  crop preserved), slope-soaring became a JPEG (3.2MB → 236KB), backpack
+  became a resized JPEG (1.2MB → 465KB). Total new asset weight ≈920KB,
+  not ~4.5MB.
 - Three images in one page is more visual weight than any other current
   page carries — worth a layout check at mobile widths to confirm spacing
   between photos and text doesn't feel cramped.
