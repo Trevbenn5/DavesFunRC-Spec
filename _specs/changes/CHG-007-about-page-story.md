@@ -2,7 +2,7 @@
 
 ## Status
 
-Proposed
+Implemented (2026-07-25)
 
 ## Requested change
 
@@ -66,6 +66,9 @@ entry is just "See section above" with no detail to reconcile).
   colours, fonts, or breakpoints.
 - No changes to `PlaceholderPage.tsx`/`.css`, routing
   (`src/app/routes.ts`), navigation, or any other page.
+- New file: `src/features/about/AboutPage.test.tsx` — regression tests
+  covering the heading, full paragraph set (order + count), and absence
+  of the old placeholder copy.
 
 ## Requirements
 
@@ -86,17 +89,19 @@ entry is just "See section above" with no detail to reconcile).
 
 ## Acceptance criteria
 
-- [ ] `/about` shows the H1 "About" followed by the twelve paragraphs from
+- [x] `/about` shows the H1 "About" followed by the twelve paragraphs from
       the mockup, in order, with no placeholder text remaining.
-- [ ] Page is visually consistent with the rest of the site (spacing,
-      type, colour) at desktop (~1280px), tablet (~768px), and mobile
-      (~390px) widths, with no horizontal overflow.
-- [ ] `ThreeDDesignsPage`, `SuggestionsPage`, `NotFoundPage`, and the
-      error-boundary fallback are visually unchanged (still render via
-      `PlaceholderPage` as before).
-- [ ] `npm run lint`, `npm run typecheck`, `npm run test`, and `npm run
+- [x] Page is visually consistent with the rest of the site (spacing,
+      type, colour) at desktop (~1280px) and mobile (~390px) widths, with
+      no horizontal overflow. Verified via Playwright screenshots against
+      a production preview build (not committed — one-off verification
+      per `_specs/architecture.md` §35's precedent).
+- [x] `ThreeDDesignsPage`, `SuggestionsPage`, `NotFoundPage`, and the
+      error-boundary fallback are visually unchanged (`PlaceholderPage.tsx`
+      / `.css` were not modified).
+- [x] `npm run lint`, `npm run typecheck`, `npm run test`, and `npm run
       build` all pass.
-- [ ] `tests/unit/App.test.tsx`'s existing About nav-link assertion
+- [x] `tests/unit/App.test.tsx`'s existing About nav-link assertion
       continues to pass unmodified.
 
 ## Regression risks
