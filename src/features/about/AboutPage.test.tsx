@@ -28,4 +28,23 @@ describe('AboutPage', () => {
 
     expect(screen.queryByText(/coming soon/i)).not.toBeInTheDocument();
   });
+
+  it('renders the three story photos with descriptive alt text', () => {
+    render(<AboutPage />);
+
+    expect(screen.getByAltText(/Dave, smiling outdoors on a coastal walk/)).toBeInTheDocument();
+    expect(
+      screen.getByAltText(/launching a slope-soaring glider from a coastal cliff/),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByAltText(/riding his bike to the flying field with a plane packed/),
+    ).toBeInTheDocument();
+  });
+
+  it('captions the two inline story photos', () => {
+    render(<AboutPage />);
+
+    expect(screen.getByText('Slope soaring on the coast')).toBeInTheDocument();
+    expect(screen.getByText('Budget-friendly and portable — no car required')).toBeInTheDocument();
+  });
 });
