@@ -273,18 +273,17 @@ Google's systems, outside this codebase's control.
   feature or a decision to accept the risk for a small hobby site.
   Flagging rather than deciding, per this Skill's instruction not to
   invent missing business rules.
-- **GA property / Measurement ID**: this spec assumes the site owner
-  will create (or already has) a GA4 property for davesfunrc.com and
-  will supply the `G-XXXXXXXXXX` Measurement ID as deployment
-  configuration. Not something this spec can determine.
-- **Where the production env var is set**: the project has no CI/CD
-  pipeline wired up yet beyond what architecture §27 describes in
-  principle (GitHub Actions deploying to GitHub Pages). Whoever runs
-  `implement-feature` will need to confirm how `VITE_GA_MEASUREMENT_ID`
-  reaches the production build (GitHub Actions secret/variable, or a
-  local `.env.production` not committed to source) — likely the same
-  mechanism already decided (or still pending) for
-  `VITE_YOUTUBE_API_KEY`.
+- ~~**GA property / Measurement ID**~~ — Resolved. The site owner
+  supplied a GA4 Measurement ID (`G-HCTLCML1MF`) for davesfunrc.com.
+- ~~**Where the production env var is set**~~ — Resolved by
+  [CHG-009](../../changes/CHG-009-ga-measurement-id-deploy-workflow.md):
+  `VITE_GA_MEASUREMENT_ID` is a GitHub Actions repo secret, forwarded to
+  the build step in `.github/workflows/deploy-pages.yml`, the same
+  mechanism used for `VITE_YOUTUBE_API_KEY`. (Originally implemented
+  without this forwarding step, which meant the production build always
+  inlined the variable as `undefined` and the minifier dead-code-
+  eliminated the analytics script-loading logic entirely — no data
+  reached Google Analytics until CHG-009 fixed it.)
 
 ## Tests
 

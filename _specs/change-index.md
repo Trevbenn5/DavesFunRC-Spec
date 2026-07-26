@@ -10,4 +10,4 @@
 | [CHG-006](changes/CHG-006-mobile-nav-strikethrough.md) | Mobile nav strikethrough fix | Defect | Shared layout (MainNavigation) | Implemented |
 | [CHG-007](changes/CHG-007-about-page-story.md) | About page story | Content | About page | Implemented |
 | [CHG-008](changes/CHG-008-about-page-images.md) | About page images | Design | About page | Implemented |
-| [CHG-009](changes/CHG-009-ga-measurement-id-deploy-workflow.md) | Forward GA measurement ID to deploy workflow | Configuration | Deploy workflow (Google Analytics Tracking feature) | Proposed |
+| [CHG-009](changes/CHG-009-ga-measurement-id-deploy-workflow.md) | Forward GA measurement ID to deploy workflow | Configuration | Deploy workflow (Google Analytics Tracking feature) | Implemented |
