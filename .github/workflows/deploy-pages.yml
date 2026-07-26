@@ -45,6 +45,7 @@ jobs:
         env:
           VITE_YOUTUBE_API_KEY: ${{ secrets.VITE_YOUTUBE_API_KEY }}
           VITE_YOUTUBE_UPLOADS_PLAYLIST_ID: ${{ secrets.VITE_YOUTUBE_UPLOADS_PLAYLIST_ID }}
+          VITE_GA_MEASUREMENT_ID: ${{ secrets.VITE_GA_MEASUREMENT_ID }}
 
       - name: Upload build artifact
         if: github.ref == 'refs/heads/main'

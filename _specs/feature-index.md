@@ -3,7 +3,7 @@
 | Feature | Specification | Status | Dependencies |
 | --- | --- | --- | --- |
 | Latest Videos | [_specs/features/latest-videos/spec.md](features/latest-videos/spec.md) | Implemented | Requires `VITE_YOUTUBE_API_KEY` (HTTP-referrer-restricted) and `VITE_YOUTUBE_UPLOADS_PLAYLIST_ID` in the deployment environment — see `.env.example`. Until the site owner adds real values, the Videos page shows the designed error state (with a link to the YouTube channel) rather than live data; this is expected, not a defect. |
-| Google Analytics Tracking | [_specs/features/google-analytics-tracking/spec.md](features/google-analytics-tracking/spec.md) | Implemented | Requires `VITE_GA_MEASUREMENT_ID` in the deployment environment — see `.env.example`. Until set, the site functions normally with analytics disabled (no error, no tracking). |
+| Google Analytics Tracking | [_specs/features/google-analytics-tracking/spec.md](features/google-analytics-tracking/spec.md) | Implemented | Requires `VITE_GA_MEASUREMENT_ID` in the deployment environment — see `.env.example`. Set as a GitHub Actions repo secret and forwarded to the build in `.github/workflows/deploy-pages.yml` (see [CHG-009](changes/CHG-009-ga-measurement-id-deploy-workflow.md)). Until set, the site functions normally with analytics disabled (no error, no tracking). |
 
 ## Latest Videos — implementation summary
 
