@@ -3,6 +3,7 @@
 | Feature | Specification | Status | Dependencies |
 | --- | --- | --- | --- |
 | Latest Videos | [_specs/features/latest-videos/spec.md](features/latest-videos/spec.md) | Implemented | Requires `VITE_YOUTUBE_API_KEY` (HTTP-referrer-restricted) and `VITE_YOUTUBE_UPLOADS_PLAYLIST_ID` in the deployment environment — see `.env.example`. Until the site owner adds real values, the Videos page shows the designed error state (with a link to the YouTube channel) rather than live data; this is expected, not a defect. |
+| Google Analytics Tracking | [_specs/features/google-analytics-tracking/spec.md](features/google-analytics-tracking/spec.md) | Specified | Requires `VITE_GA_MEASUREMENT_ID` in the deployment environment — see `.env.example`. Until set, the site functions normally with analytics disabled (no error, no tracking). |
 
 ## Latest Videos — implementation summary
 
