@@ -2,6 +2,7 @@ import { createContext } from 'preact';
 import type { ComponentChildren } from 'preact';
 import { useContext, useEffect, useState } from 'preact/hooks';
 import { routes, type RouteDefinition } from './routes';
+import { trackPageView } from '../services/analytics.service';
 
 interface RouterContextValue {
   path: string;
@@ -25,6 +26,14 @@ export function RouterProvider({ children }: { children: ComponentChildren }) {
     window.addEventListener('popstate', onPopState);
     return () => window.removeEventListener('popstate', onPopState);
   }, []);
+
+  // Runs for the initial path and every subsequent change (navigate()
+  // and popstate alike, since both update `path`), covering FR-003,
+  // FR-004 and FR-008 (404s are just an unmatched path, tracked the
+  // same way) from the Google Analytics Tracking feature spec.
+  useEffect(() => {
+    trackPageView(path);
+  }, [path]);
 
   const navigate = (to: string) => {
     const target = normalise(to);
