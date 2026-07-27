@@ -11,3 +11,4 @@
 | [CHG-007](changes/CHG-007-about-page-story.md) | About page story | Content | About page | Implemented |
 | [CHG-008](changes/CHG-008-about-page-images.md) | About page images | Design | About page | Implemented |
 | [CHG-009](changes/CHG-009-ga-measurement-id-deploy-workflow.md) | Forward GA measurement ID to deploy workflow | Configuration | Deploy workflow (Google Analytics Tracking feature) | Implemented |
+| [CHG-010](changes/CHG-010-weekly-update-markdown-source.md) | Store the Home weekly update content as Markdown | Existing-feature enhancement | Home Page Weekly Update | Proposed |
