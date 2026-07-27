@@ -134,19 +134,40 @@ data file directly — not by going through `create-change-spec` each time.
 
 ## Data requirements
 
-Single data module, e.g. `src/data/home-weekly-update.ts`:
+The edited source of truth is a Markdown file, `src/data/home-weekly-update.md`
+(see [CHG-010](../../changes/CHG-010-weekly-update-markdown-source.md)):
+
+```md
+# What's Dave working on this week?
+
+First paragraph...
+
+Second paragraph...
+```
+
+Convention: the first line is a single `#` (H1) heading; every remaining
+blank-line-separated block becomes one body paragraph, in order. No other
+Markdown syntax is rendered — the body displays as plain text, same as
+before.
+
+`src/data/home-weekly-update.ts` is a small loader/parser, not a literal:
+it imports the `.md` file's raw text via Vite's built-in `?raw` import
+suffix (no new dependency — `_specs/architecture.md` §17 already lists
+"Markdown processed at build time" as an approved static content form)
+and parses it into the same typed shape:
 
 ```ts
 export interface HomeWeeklyUpdate {
   heading: string;
-  body: string; // one or more paragraphs; editorial guideline: <100 words
+  body: string[]; // one entry per paragraph; editorial guideline: <100 words total
 }
 
-export const homeWeeklyUpdate: HomeWeeklyUpdate = {
-  heading: "What's Dave working on this week?",
-  body: '...',
-};
+export const homeWeeklyUpdate: HomeWeeklyUpdate = parseWeeklyUpdate(rawContent);
 ```
+
+`WeeklyUpdate.tsx` still imports `homeWeeklyUpdate` from
+`src/data/home-weekly-update` unchanged — only the underlying source
+(Markdown file instead of a TS literal) changed.
 
 The image is not part of this data record — it's a fixed asset imported
 directly in the component (e.g. `WeeklyUpdate.tsx`), since it does not
@@ -167,8 +188,10 @@ modules).
   its layout/scroll CSS are non-trivial enough to warrant its own
   component rather than inlining in `HomePage.tsx`, per
   `_specs/architecture.md` §9.
-- New data module: `src/data/home-weekly-update.ts` (heading + body only —
-  see Data requirements).
+- New data module: `src/data/home-weekly-update.ts`, parsing
+  `src/data/home-weekly-update.md` (heading + body only — see Data
+  requirements; format changed from a TS literal to Markdown by
+  [CHG-010](../../changes/CHG-010-weekly-update-markdown-source.md)).
 - New asset: `src/assets/home/foam-sheet-construction.jpg` (or similar),
   copied/re-exported from `assets/Foam Sheet Construction.jpg`, imported
   directly in `WeeklyUpdate.tsx`.

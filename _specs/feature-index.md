@@ -78,10 +78,14 @@ interface, per the spec's User experience section.
 Adds a narrow "What's Dave working on this week?" column beside the
 existing Home hero, so the site owner can post an informal weekly build
 update without touching component code. The heading and body paragraphs
-come from a new typed data module, `src/data/home-weekly-update.ts`
-(`{ heading: string; body: string[] }`) — editing `body` there and
-rebuilding is all a routine weekly update requires, qualifying as a
-`CLAUDE.md` Content fast-path edit (no `CHG-*` spec needed).
+come from `src/data/home-weekly-update.md` (a `#` heading line followed by
+blank-line-separated paragraphs), parsed at build time by
+`src/data/home-weekly-update.ts` via Vite's `?raw` import into a typed
+`{ heading: string; body: string[] }` record (Markdown source added by
+[CHG-010](changes/CHG-010-weekly-update-markdown-source.md), replacing the
+original TS literal) — editing the `.md` file and rebuilding is all a
+routine weekly update requires, qualifying as a `CLAUDE.md` Content
+fast-path edit (no `CHG-*` spec needed).
 
 New component `src/features/home/components/WeeklyUpdate.tsx` (+ `.css`)
 renders the heading (H2), a small fixed image
@@ -101,7 +105,9 @@ single column ≤900px, matching the existing highlights breakpoint) —
 `HomePage.css` gained `.home-hero-row` and a mobile override; no other
 page, route, or shared component was touched.
 
-**Tests**: `WeeklyUpdate.test.tsx` (heading, alt text present and
+**Tests**: `home-weekly-update.test.ts` (new, added by CHG-010 — heading
+extraction, paragraph splitting, whitespace trimming of the Markdown
+parser), `WeeklyUpdate.test.tsx` (heading, alt text present and
 non-empty, scrollable region present/focusable/contains body paragraphs),
 `HomePage.test.tsx` (new file — hero heading, weekly update heading, and
 all three existing highlight cards all render together, confirming no
