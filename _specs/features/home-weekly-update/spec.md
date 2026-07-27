@@ -13,21 +13,24 @@ data file directly — not by going through `create-change-spec` each time.
 
 ## Scope
 
-- A new section on the Home page (`src/features/home/HomePage.tsx`),
-  placed after the existing hero section and before (or after — see Open
-  questions) the existing "Watch / Read / Build" highlights section.
-- The section renders:
+- A new narrow column, positioned to the right-hand side of the Home page
+  (a sidebar, not a full-width section) — see Layout under User experience.
+- The column contains, top to bottom:
   - A fixed heading: "What's Dave working on this week?"
-  - A single supporting graphic/image.
-  - A short body of free text (guideline: under 100 words — see
+  - A small, fixed graphic/image (`assets/Foam Sheet Construction.jpg`),
+    displayed outside/above the scrolling area — it does not change week
+    to week (see Open questions, resolved).
+  - Below the graphic, a fixed-height box with its own internal vertical
+    scroll containing the body text (guideline: under 100 words — see
     Non-functional requirements).
-- The heading, image, and body text are all sourced from one plain data
-  file under `src/data/`, imported by the Home page — not hardcoded inline
-  in the component's JSX.
+- The heading and body text are sourced from one plain data file under
+  `src/data/`, imported by the Home page — not hardcoded inline in the
+  component's JSX. The image is a fixed asset import (see Data
+  requirements) since it does not rotate weekly.
 - Documenting, in this spec and in `CLAUDE.md` terms, that routine edits to
-  this data file's body text (and swapping its image) qualify for the
-  existing **Content fast path** (`_specs/content-log.md`, no `CHG-*`
-  spec) — this is what satisfies "editable without a change request".
+  this data file's body text qualify for the existing **Content fast
+  path** (`_specs/content-log.md`, no `CHG-*` spec) — this is what
+  satisfies "editable without a change request".
 
 ## Out of scope
 
@@ -48,44 +51,64 @@ data file directly — not by going through `create-change-spec` each time.
 - As a site visitor, I want to see what Dave is currently working on when I
   land on the Home page, so I feel like the site (and channel) is active
   and I know what to look out for on YouTube.
-- As Dave (site owner), I want to update this week's text and photo myself
-  by editing one simple file, without writing a change specification each
+- As Dave (site owner), I want to update this week's text myself by
+  editing one simple file, without writing a change specification each
   time, so that keeping it current isn't a chore.
 
 ## User experience
 
-- The section appears on the Home page for every visitor, no interaction
-  required (no tabs, no dismiss, no loading state — content is static at
-  build time, same as the rest of the Home page).
-- Layout: heading, then image and body text arranged like the existing
-  About page's inline photo-plus-text treatment (CHG-008) — image above or
-  beside the text on desktop, stacked on mobile, full text still readable
-  without the image (real `alt` text, not decorative).
+- The column appears on the Home page for every visitor, no required
+  interaction for the page overall (no tabs, no dismiss, no loading state
+  — content is static at build time, same as the rest of the Home page).
+  The one interactive element is the internal scroll area itself (see
+  Layout), which is scrollable by mouse, touch, or keyboard.
+- **Layout**:
+  - Positioned as a narrow right-hand column, alongside the Home page's
+    main content — default assumption: beside the hero section (§Open
+    questions), stacking full-width below the hero on tablet/mobile per
+    the design system's single-column mobile grid.
+  - Top to bottom within the column: heading (H2, always visible, not
+    part of the scroll area) → small fixed graphic (always visible, not
+    part of the scroll area, kept visually small per the request) → a
+    fixed-height box below/around the body text with `overflow-y: auto`,
+    so long text scrolls internally within its own box rather than
+    pushing the rest of the page down.
+  - If the body text is short enough to fit without scrolling, the box
+    simply shows no scrollbar — no minimum content requirement.
+  - The scroll box must be keyboard-operable (reachable via Tab, scrollable
+    with arrow keys once focused) per `_specs/architecture.md` §22
+    (Accessibility) — not a mouse/touch-only interaction.
 - No empty state is needed in normal operation — the data file always has
   a value once this feature ships. If the site owner ever leaves the body
-  text blank, the section should not render a broken/empty box; see Edge
-  cases.
+  text blank, the column should not render a broken/empty scroll box; see
+  Edge cases.
 
 ## Functional requirements
 
-- FR-001: The Home page displays a section with the fixed heading "What's
-  Dave working on this week?" (H2, per the heading hierarchy in
-  `_specs/design-system.md`, since H1 is the existing hero heading).
-- FR-002: The section displays one image, sourced from a single named
-  import in the data file. The initial image is
-  `assets/Foam Sheet Construction.jpg` (copied into `src/assets/home/`
-  per the existing `src/assets/<feature>/` convention).
-- FR-003: The section displays a body of free text, sourced from the data
-  file, rendered as one or more paragraphs.
-- FR-004: The heading, image (`src` + `alt`), and body text are each a
-  separate field in one typed data module under `src/data/` (e.g.
-  `src/data/home-weekly-update.ts`), imported by `HomePage.tsx` — not
-  inlined in the component.
-- FR-005: Updating the body text value, or swapping which image file the
-  data module points to (with a new `alt` value), requires editing only
-  that data file (plus, for an image swap, adding the new image under
-  `src/assets/home/`) — no change to component logic, routing, or other
-  pages.
+- FR-001: The Home page displays a narrow right-hand column with the fixed
+  heading "What's Dave working on this week?" (H2, per the heading
+  hierarchy in `_specs/design-system.md`, since H1 is the existing hero
+  heading).
+- FR-002: The column displays one small, fixed image,
+  `assets/Foam Sheet Construction.jpg` (copied into `src/assets/home/` per
+  the existing `src/assets/<feature>/` convention), positioned outside/
+  above the scrolling body-text area. This image does not need to be
+  editable data — it is a fixed asset import in the component, since it
+  does not change week to week.
+- FR-003: Below the heading and image, the column displays a fixed-height
+  box with internal vertical scrolling (`overflow-y: auto`) containing the
+  body text (one or more paragraphs), sourced from the data file.
+- FR-004: The heading and body text are each a separate field in one typed
+  data module under `src/data/` (e.g. `src/data/home-weekly-update.ts`),
+  imported by `HomePage.tsx` — not inlined in the component.
+- FR-005: Updating the body text value requires editing only that data
+  file — no change to component logic, image, routing, or other pages.
+  (Separately, per `CLAUDE.md`'s existing Content fast path, swapping the
+  image file itself remains possible as a "replacing an image" content
+  edit if ever needed — but this is not an expected weekly action.)
+- FR-006: The scroll box is reachable and operable via keyboard alone
+  (e.g. a focusable container scrollable with arrow keys, or native
+  scrollable-region semantics), not dependent on mouse or touch.
 
 ## Non-functional requirements
 
@@ -93,19 +116,21 @@ data file directly — not by going through `create-change-spec` each time.
   informative content, not decorative, per `_specs/architecture.md` §22 —
   same reasoning as CHG-008's About page photos). Heading uses correct
   level (H2, not skipping from the page's H1). Sufficient colour contrast
-  using existing tokens only.
+  using existing tokens only. The internal scroll box is keyboard-focusable
+  and scrollable (see FR-006), with a visible focus indicator per the
+  design system's Accessibility section.
 - Performance: image is imported from `src/assets/home/` (Vite-processed,
-  fingerprinted), not `public/`, and re-exported at a reasonable web size
-  per the precedent set in CHG-008 (source `assets/` originals are large).
+  fingerprinted), not `public/`, kept small (both in display size and file
+  weight) since it renders at a small fixed size in a narrow column.
 - Editorial guideline (not enforced in code): body text should stay under
-  ~100 words so the section stays skimmable and doesn't dominate the Home
-  page, per the design system's "Cards... avoid large walls of text" and
-  "spacious rather than cluttered" principles.
-- Content-editability: per Scope, future edits to the body text or image
-  must be classifiable as Content fast-path edits under `CLAUDE.md`'s
-  Change specification thresholds (i.e. this feature must not require the
-  data file's *structure* to change for an ordinary weekly text/photo
-  update — only its values).
+  ~100 words so the box rarely needs much internal scrolling, per the
+  design system's "Cards... avoid large walls of text" and "spacious
+  rather than cluttered" principles.
+- Content-editability: per Scope, future edits to the body text must be
+  classifiable as Content fast-path edits under `CLAUDE.md`'s Change
+  specification thresholds (i.e. this feature must not require the data
+  file's *structure* to change for an ordinary weekly text update — only
+  its `body` value).
 
 ## Data requirements
 
@@ -115,21 +140,18 @@ Single data module, e.g. `src/data/home-weekly-update.ts`:
 export interface HomeWeeklyUpdate {
   heading: string;
   body: string; // one or more paragraphs; editorial guideline: <100 words
-  image: {
-    src: string; // imported from src/assets/home/
-    alt: string;
-  };
 }
 
 export const homeWeeklyUpdate: HomeWeeklyUpdate = {
   heading: "What's Dave working on this week?",
   body: '...',
-  image: {
-    src: foamSheetConstructionImage,
-    alt: '...',
-  },
 };
 ```
+
+The image is not part of this data record — it's a fixed asset imported
+directly in the component (e.g. `WeeklyUpdate.tsx`), since it does not
+rotate weekly (see Open questions, resolved). Its `alt` text is a plain
+string constant alongside the import, not editable data.
 
 No persistence beyond the source file — no backend, no database, no
 external service, consistent with `_specs/architecture.md` §17 (Data
@@ -138,39 +160,43 @@ modules).
 
 ## Interfaces
 
-- `src/features/home/HomePage.tsx` — add the new section, importing from
-  the new data module.
-- New data module: `src/data/home-weekly-update.ts`.
+- `src/features/home/HomePage.tsx` — add the new column, laid out beside
+  the hero section (default placement assumption).
+- New component: `src/features/home/components/WeeklyUpdate.tsx` +
+  `WeeklyUpdate.css` — the markup (heading, fixed image, scroll box) and
+  its layout/scroll CSS are non-trivial enough to warrant its own
+  component rather than inlining in `HomePage.tsx`, per
+  `_specs/architecture.md` §9.
+- New data module: `src/data/home-weekly-update.ts` (heading + body only —
+  see Data requirements).
 - New asset: `src/assets/home/foam-sheet-construction.jpg` (or similar),
-  copied/re-exported from `assets/Foam Sheet Construction.jpg`.
-- Possibly a small new presentational component (e.g.
-  `src/features/home/components/WeeklyUpdate.tsx` +
-  `.css`) if the markup is non-trivial enough to warrant separating from
-  `HomePage.tsx` — decide during implementation based on actual markup
-  size, per `_specs/architecture.md` §9 (feature-specific components stay
-  under `src/features/` unless genuinely reusable).
+  copied/re-exported from `assets/Foam Sheet Construction.jpg`, imported
+  directly in `WeeklyUpdate.tsx`.
 
 ## Existing components to reuse
 
 - Existing `.container` layout utility and `--space-*`/`--radius-*` tokens
   from `src/styles/tokens.css`.
-- Layout/treatment precedent from the About page's inline photo sections
-  (CHG-008) — image + caption-style treatment, responsive stacking.
 - No use of `Card` (`src/components/ui/Card.tsx`) — Card is built for a
   title/summary/action link pattern (used by the existing highlights
-  section); this section is a single narrative text block plus image, not
-  a card grid.
+  section); this is a single fixed graphic plus a scrolling text box, not
+  a card grid. No existing component currently provides a scrollable text
+  box, so `WeeklyUpdate` is new (see Interfaces).
 
 ## Expected changes
 
-- `src/features/home/HomePage.tsx` — add new section + import.
-- `src/features/home/HomePage.css` — new rules for the section (or a new
-  component-scoped CSS file if a subcomponent is created).
+- `src/features/home/HomePage.tsx` — add the new column alongside the
+  hero, adjusting the hero section's layout to accommodate a two-column
+  arrangement on desktop (single column, stacked, on mobile/tablet).
+- `src/features/home/HomePage.css` — layout rules for the new two-column
+  arrangement.
+- New: `src/features/home/components/WeeklyUpdate.tsx` +
+  `WeeklyUpdate.css`.
 - New: `src/data/home-weekly-update.ts`.
 - New: `src/assets/home/foam-sheet-construction.jpg` (re-exported/resized
   from `assets/Foam Sheet Construction.jpg`).
-- New/updated tests: `src/features/home/HomePage.test.tsx` (create if it
-  doesn't exist yet, or extend).
+- New/updated tests: `src/features/home/HomePage.test.tsx` and/or
+  `WeeklyUpdate.test.tsx` (create if they don't exist yet, or extend).
 - No routing, navigation, or shared-component changes.
 
 ## Constraints
@@ -184,14 +210,15 @@ modules).
 
 ## Edge cases
 
-- If the body text is ever left empty in the data file: render nothing for
-  the body (no broken paragraph), but still show heading + image, so a
-  blank edit doesn't produce a visibly broken section. (Simple guard, not
-  a full empty-state UI — there's no user-facing "no update yet" scenario
-  expected in normal use.)
-- Very long body text (someone ignores the ~100 word guideline): no
-  truncation logic — text wraps naturally; this is an editorial concern,
-  not a functional bug.
+- If the body text is ever left empty in the data file: render nothing in
+  the scroll box (no broken empty paragraph), but still show heading and
+  image, so a blank edit doesn't produce a visibly broken column. (Simple
+  guard, not a full empty-state UI — there's no user-facing "no update
+  yet" scenario expected in normal use.)
+- Very long body text (someone ignores the ~100 word guideline): handled
+  by the scroll box itself — text scrolls internally rather than growing
+  the column or pushing page content down; this is the reason the box has
+  a fixed height in the first place.
 - Missing/broken image reference: this would be a TypeScript import error
   caught at build time (`npm run build` fails), not a runtime broken-image
   state, since the image is imported rather than referenced by string
@@ -200,41 +227,51 @@ modules).
 ## Acceptance criteria
 
 - Given a visitor loads the Home page, when the page renders, then a
-  section with the heading "What's Dave working on this week?", the
-  configured image (with alt text), and the configured body text is
-  visible, positioned after the hero section.
-- Given the site owner edits only the `body` string (or swaps `image.src`
-  and `image.alt`) in `src/data/home-weekly-update.ts`, when the site is
-  rebuilt, then the Home page reflects the new text/image with no other
-  code change required.
+  narrow right-hand column is visible with the heading "What's Dave
+  working on this week?", the fixed graphic (with alt text), and a
+  fixed-height scroll box containing the configured body text.
+- Given the site owner edits only the `body` string in
+  `src/data/home-weekly-update.ts`, when the site is rebuilt, then the
+  Home page reflects the new text with no other code change required.
+- Given the body text is long enough to exceed the scroll box's fixed
+  height, when the visitor scrolls within the box (mouse, touch, or
+  keyboard), then the full text becomes readable without the rest of the
+  page layout shifting.
 - Given the page is viewed at desktop, tablet, and mobile widths, then the
-  section remains legible with no horizontal overflow and the image/text
-  layout adapts responsively.
-- Given a screen reader user, when they reach the image, then they hear
-  meaningful alt text (not empty/decorative alt).
+  column remains legible with no horizontal overflow, and stacks
+  full-width below the hero on narrower widths.
+- Given a screen reader or keyboard-only user, when they reach the image,
+  then they hear meaningful alt text (not empty/decorative alt); when they
+  Tab to the scroll box, then it is focusable and scrollable with arrow
+  keys.
 
 ## Open questions
 
-1. **Placement**: should this section sit between the hero and the
-   "Watch / Read / Build" highlights, or after the highlights? (Default
-   assumption above: immediately after the hero, since it's timely/newsy
-   content the site owner likely wants near the top.)
-2. **Does the image change every week, alongside the text?** The request
-   names one specific image ("Foam Sheet Construction") for the current
-   update. This spec treats the image as part of the same editable data
-   record as the body text (so a future week showing a different project
-   can swap both together) rather than a fixed, permanent graphic for the
-   section. Confirm this is the intent before implementation.
+1. **Placement**: default assumption above is that the column sits beside
+   the hero section (visible without scrolling the main page, near the
+   top). Confirm this is the intended position rather than, e.g., beside
+   the "Watch / Read / Build" highlights further down.
+2. ~~Does the image change every week, alongside the text?~~ **Resolved**:
+   no — the photo stays fixed; only the `body` text is expected to change
+   weekly (see Scope, Data requirements).
 3. Should the heading ever change (e.g. "...this month?" instead of
    "...this week?"), or is it always fixed text? Default assumption: fixed,
    not part of the "editable" data the owner is expected to touch weekly.
+4. **Scroll box fixed height**: no specific pixel/line-count value has
+   been given. Default assumption for implementation: a height that
+   comfortably shows most of a ~100-word update without scrolling (so
+   scrolling is the exception, not the norm), using existing `--space-*`
+   tokens — exact value to be finalised during implementation and visually
+   verified in a real browser.
 
 ## Tests
 
-- `HomePage.test.tsx` (new or extended): renders the heading, image (with
-  non-empty alt text), and body text from the data module; confirms
-  section appears after the hero section; confirms existing hero and
-  highlights content still renders (no regression).
+- `WeeklyUpdate.test.tsx` (new): renders the heading, fixed image (with
+  non-empty alt text), and body text from the data module; confirms the
+  scroll container is present and keyboard-focusable.
+- `HomePage.test.tsx` (new or extended): confirms the column renders
+  beside the hero section; confirms existing hero and highlights content
+  still renders (no regression).
 - No service/hook tests needed — no async behaviour, no external service.
 
 ## Completion
