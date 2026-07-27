@@ -1,5 +1,6 @@
 import './HomePage.css';
 import { Card } from '../../components/ui/Card';
+import { WeeklyUpdate } from './components/WeeklyUpdate';
 import { siteConfig } from '../../app/app-config';
 import bannerImage from '../../assets/home/banner.jpg';
 
@@ -32,12 +33,16 @@ export function HomePage() {
     <div className="home-page">
       <img className="home-banner" src={bannerImage} alt="" />
 
-      <section className="home-hero container">
-        <h1 className="brand-wordmark">G'day, welcome to DavesFunRC</h1>
-        <p className="home-hero__lede">
-          Store-bought planes, scratch builds and the odd slope-soaring adventure — this
-          is the home for everything alongside the {siteConfig.name} YouTube channel.
-        </p>
+      <section className="home-hero-row container">
+        <div className="home-hero">
+          <h1 className="brand-wordmark">G'day, welcome to DavesFunRC</h1>
+          <p className="home-hero__lede">
+            Store-bought planes, scratch builds and the odd slope-soaring adventure — this
+            is the home for everything alongside the {siteConfig.name} YouTube channel.
+          </p>
+        </div>
+
+        <WeeklyUpdate />
       </section>
 
       <section className="home-highlights container" aria-label="What to expect">
