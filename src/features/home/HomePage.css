@@ -5,8 +5,16 @@
   object-fit: cover;
 }
 
-.home-hero {
+.home-hero-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-32);
   padding-block: var(--space-48);
+}
+
+.home-hero {
+  flex: 1 1 auto;
+  min-width: 0;
   text-align: center;
 }
 
@@ -32,6 +40,10 @@
 @media (max-width: 900px) {
   .home-highlights {
     grid-template-columns: 1fr;
+  }
+
+  .home-hero-row {
+    flex-direction: column;
   }
 
   .home-hero h1 {

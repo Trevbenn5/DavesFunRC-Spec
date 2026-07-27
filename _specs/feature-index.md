@@ -4,7 +4,7 @@
 | --- | --- | --- | --- |
 | Latest Videos | [_specs/features/latest-videos/spec.md](features/latest-videos/spec.md) | Implemented | Requires `VITE_YOUTUBE_API_KEY` (HTTP-referrer-restricted) and `VITE_YOUTUBE_UPLOADS_PLAYLIST_ID` in the deployment environment — see `.env.example`. Until the site owner adds real values, the Videos page shows the designed error state (with a link to the YouTube channel) rather than live data; this is expected, not a defect. |
 | Google Analytics Tracking | [_specs/features/google-analytics-tracking/spec.md](features/google-analytics-tracking/spec.md) | Implemented | Requires `VITE_GA_MEASUREMENT_ID` in the deployment environment — see `.env.example`. Set as a GitHub Actions repo secret and forwarded to the build in `.github/workflows/deploy-pages.yml` (see [CHG-009](changes/CHG-009-ga-measurement-id-deploy-workflow.md)). Until set, the site functions normally with analytics disabled (no error, no tracking). |
-| Home Page Weekly Update | [_specs/features/home-weekly-update/spec.md](features/home-weekly-update/spec.md) | Specified | None. |
+| Home Page Weekly Update | [_specs/features/home-weekly-update/spec.md](features/home-weekly-update/spec.md) | Implemented | None. |
 
 ## Latest Videos — implementation summary
 
@@ -72,3 +72,43 @@ init), `src/app/router.test.tsx` (initial-path, `navigate()`,
 suite (`npm run lint`, `typecheck`, `test`, `build`). No visible UI
 changes to verify in a browser — this feature has no rendered
 interface, per the spec's User experience section.
+
+## Home Page Weekly Update — implementation summary
+
+Adds a narrow "What's Dave working on this week?" column beside the
+existing Home hero, so the site owner can post an informal weekly build
+update without touching component code. The heading and body paragraphs
+come from a new typed data module, `src/data/home-weekly-update.ts`
+(`{ heading: string; body: string[] }`) — editing `body` there and
+rebuilding is all a routine weekly update requires, qualifying as a
+`CLAUDE.md` Content fast-path edit (no `CHG-*` spec needed).
+
+New component `src/features/home/components/WeeklyUpdate.tsx` (+ `.css`)
+renders the heading (H2), a small fixed image
+(`src/assets/home/foam-sheet-construction.jpg`, re-exported from
+`assets/Foam Sheet Construction.jpg` via `sips` at 480px long-edge —
+2.5MB source down to 66KB) with descriptive alt text, and a fixed-height
+(`220px`) `overflow-y: auto` box holding the body paragraphs. The box has
+`role="region"`, `aria-labelledby` pointing at the heading, and
+`tabIndex={0}` so it's reachable and scrollable via keyboard, per the
+spec's FR-006. The photo is a plain component-level import, not part of
+the editable data record, since the site owner confirmed it stays fixed
+(only the text rotates weekly).
+
+`HomePage.tsx`'s hero section was wrapped in a new `.home-hero-row` flex
+row (hero text + `WeeklyUpdate` side by side on desktop, stacking to a
+single column ≤900px, matching the existing highlights breakpoint) —
+`HomePage.css` gained `.home-hero-row` and a mobile override; no other
+page, route, or shared component was touched.
+
+**Tests**: `WeeklyUpdate.test.tsx` (heading, alt text present and
+non-empty, scrollable region present/focusable/contains body paragraphs),
+`HomePage.test.tsx` (new file — hero heading, weekly update heading, and
+all three existing highlight cards all render together, confirming no
+regression). All verified passing alongside the full existing suite
+(`npm run lint`, `typecheck`, `test`, `build`); the production build
+fingerprints the new image under `dist/assets/`, confirming it was
+imported via `src/assets/`, not left unprocessed. Visually verified in a
+real browser at desktop and mobile widths (layout, responsive stacking,
+image rendering, and that the box's content genuinely overflows its fixed
+height and is scrollable).
