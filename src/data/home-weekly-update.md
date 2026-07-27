@@ -1,7 +1,8 @@
 # What's Dave working on this week?
 
-Hello, this week I'm working on finishing my MKVI Canberra Bomber. This version has a larger body and wing cord. I've also made nicer undercarriage for it and fitted new 30mm EDF's. The new receiver with differential brushed ESC's blew up after a day, so I've ordered another one.
+This week I've been putting the finishing touches on my MKVI Canberra Bomber. This latest version features a larger fuselage, a wider wing chord, improved undercarriage, and a pair of new 30mm EDFs. Unfortunately, the new receiver with its built-in differential brushed ESCs let the magic smoke out after just one day, so a replacement is already on the way!
 
-I'm also learning how to fly my MKVI Chaotic 3D flyer in the park and at indoor aviation. This little number is a lot of fun.
+I've also been spending time learning to fly my MKVI Chaotic 3D Flyer at the local park and during indoor flying sessions. It's a tiny aircraft with loads of personality, and it's an absolute blast to fly.
 
-Check out my construction and flight videos for these two planes.
+If you'd like to see how they're built and how they fly, be sure to check out my construction and flight videos for both aircraft!
+
