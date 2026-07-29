@@ -227,12 +227,11 @@ Each loaded card shows the playlist's thumbnail graphic and title, and a
 - **Definition of "top 5"**: **Resolved** — the site owner confirmed
   ranking by video count (`itemCount`), descending. No hardcoded/manually
   curated list.
-- **Channel ID derivation**: assumes the `UU` → `UC` prefix swap on
-  `VITE_YOUTUBE_UPLOADS_PLAYLIST_ID` correctly yields the channel ID. This
-  is YouTube's documented convention and not expected to fail, but hasn't
-  been verified against the live DavesFunRC channel yet (the real API key/
-  playlist ID aren't configured — see `latest-videos`' Open questions,
-  still unresolved as of this spec).
+- **Channel ID derivation**: **Resolved** — verified working against the
+  live DavesFunRC channel during implementation (visual verification in a
+  real browser via a local `.env`): the `UU` → `UC` prefix swap on
+  `VITE_YOUTUBE_UPLOADS_PLAYLIST_ID` correctly resolved the channel ID and
+  returned the channel's real playlists.
 - **Pagination beyond 50 playlists**: not handled (see Edge cases) — raise
   if the channel is known to have more than 50 playlists.
 
