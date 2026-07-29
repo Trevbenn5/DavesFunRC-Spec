@@ -4,7 +4,7 @@ import { VideoCard } from './components/VideoCard';
 import { Button } from '../../components/ui/Button';
 import { siteConfig } from '../../app/app-config';
 
-const LATEST_VIDEO_COUNT = 3;
+const LATEST_VIDEO_COUNT = 6;
 
 export function VideosPage() {
   const state = useLatestVideos(LATEST_VIDEO_COUNT);

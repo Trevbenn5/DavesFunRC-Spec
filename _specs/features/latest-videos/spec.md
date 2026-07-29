@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Give visitors to the Videos page a reason to check back: show the 3 most
+Give visitors to the Videos page a reason to check back: show the 6 most
 recently uploaded DavesFunRC YouTube videos, newest first, pulled live from
 the channel rather than hand-maintained. Currently the Videos page shows no
 videos at all — just placeholder text — so this is new capability, not a
@@ -11,7 +11,7 @@ change to existing behaviour (per `CLAUDE.md`'s Change vs Feature rule).
 ## Scope
 
 - A "Latest videos" section on the existing Videos page
-  (`src/features/videos/VideosPage.tsx`) showing the 3 most recent uploads
+  (`src/features/videos/VideosPage.tsx`) showing the 6 most recent uploads
   from the DavesFunRC YouTube channel, ordered newest first.
 - Each video shown as a card: thumbnail, title, published date, and a link
   to watch it on YouTube (opens in a new tab, reusing the existing
@@ -22,7 +22,7 @@ change to existing behaviour (per `CLAUDE.md`'s Change vs Feature rule).
 
 - The full "gallery categorised by top 5 YouTube Playlists" vision from
   `_specs/product.md`'s route inventory for `/videos`. This feature is
-  only the "latest 3 uploads" slice; the categorised playlist gallery is a
+  only the "latest 6 uploads" slice; the categorised playlist gallery is a
   separate, larger feature for later.
 - Embedding playable video (YouTube iframe embeds) — cards link out to
   YouTube; they don't play video in-page.
@@ -42,8 +42,8 @@ change to existing behaviour (per `CLAUDE.md`'s Change vs Feature rule).
 ## User experience
 
 On loading `/videos`, above (or instead of, see Interfaces) today's
-placeholder text, a "Latest videos" section fetches and shows 3 video
-cards ordered newest-first by publish date. While loading, 3 skeleton
+placeholder text, a "Latest videos" section fetches and shows 6 video
+cards ordered newest-first by publish date. While loading, 6 skeleton
 card placeholders show (per `_specs/design-system.md`'s "prefer skeleton
 loaders" rule). If the fetch fails or the API isn't configured, a clear
 message explains that the videos couldn't be loaded right now and links
@@ -54,7 +54,7 @@ loaded card shows the video's thumbnail, title, and publish date, and a
 
 ## Functional requirements
 
-- FR-001: The Videos page fetches the 3 most recent videos uploaded to
+- FR-001: The Videos page fetches the 6 most recent videos uploaded to
   the DavesFunRC YouTube channel, ordered by publish date descending
   (newest first).
 - FR-002: Each video is rendered as a card showing: thumbnail image,
@@ -63,7 +63,7 @@ loaded card shows the video's thumbnail, title, and publish date, and a
 - FR-003: The "Watch on YouTube" link opens in a new tab (reusing
   `Button`'s existing external-link handling: `target="_blank" rel="noopener
   noreferrer"`).
-- FR-004: While the fetch is in flight, 3 skeleton placeholders render in
+- FR-004: While the fetch is in flight, 6 skeleton placeholders render in
   place of the cards (matching each card's approximate size, per the
   design system's loading-state rule).
 - FR-005: If the fetch fails (network error, quota exceeded, missing/
@@ -215,8 +215,8 @@ loaded card shows the video's thumbnail, title, and publish date, and a
 - **API key invalid or quota exceeded**: same error state; the service
   module should distinguish this in a `console.error` for developers but
   must not expose the raw API error to the visitor.
-- **Channel has fewer than 3 uploads**: show however many are returned
-  (0, 1 or 2) rather than an error — only truly zero videos is the empty
+- **Channel has fewer than 6 uploads**: show however many are returned
+  (0 through 5) rather than an error — only truly zero videos is the empty
   state (FR-006).
 - **Slow network**: skeleton loaders (FR-004) prevent a blank page while
   waiting; no specific timeout is required beyond the browser's own
@@ -228,9 +228,9 @@ loaded card shows the video's thumbnail, title, and publish date, and a
 ## Acceptance criteria
 
 - Given the Videos page is loading the video list, when the fetch is in
-  flight, then 3 skeleton placeholders are shown in place of video cards.
-- Given the YouTube API returns 3 or more videos, when the fetch
-  completes, then exactly the 3 most recently published videos are
+  flight, then 6 skeleton placeholders are shown in place of video cards.
+- Given the YouTube API returns 6 or more videos, when the fetch
+  completes, then exactly the 6 most recently published videos are
   shown, ordered newest first.
 - Given a shown video card, when a visitor activates "Watch on YouTube",
   then the video opens on youtube.com in a new tab.
@@ -277,15 +277,15 @@ loaded card shows the video's thumbnail, title, and publish date, and a
 ## Tests
 
 - Unit: `videos.service.ts` — mock `global.fetch`, verify the correct
-  endpoint/params are used (uploads playlist, `maxResults=3`), and that
+  endpoint/params are used (uploads playlist, `maxResults=6`), and that
   the response is mapped to `VideoSummary[]` correctly, including error
   handling when `fetch` rejects or the API returns a non-2xx response.
 - Unit: `useLatestVideos.ts` — verify the `loading` → `loaded`/`error`
   state transitions.
 - Component: `VideoCard` renders title, thumbnail (with correct `alt`),
   publish date, and a working external watch link.
-- Component/integration: `VideosPage` — loading state shows 3 skeletons;
-  loaded state shows 3 cards in the right order; error state shows the
+- Component/integration: `VideosPage` — loading state shows 6 skeletons;
+  loaded state shows 6 cards in the right order; error state shows the
   fallback message and YouTube channel link; empty state shows the
   empty-state message. Extends the existing pattern in
   `tests/unit/App.test.tsx` / co-located feature tests (e.g.

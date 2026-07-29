@@ -9,12 +9,14 @@
 ## Latest Videos — implementation summary
 
 Replaces the Videos page's placeholder content with a "Latest videos"
-section that fetches the 3 most recent DavesFunRC YouTube uploads
+section that fetches the 6 most recent DavesFunRC YouTube uploads
 (newest first) from the YouTube Data API v3 `playlistItems.list`
-endpoint, client-side, via a new feature-local service. Loading shows 3
+endpoint, client-side, via a new feature-local service. Loading shows 6
 skeleton placeholders; a fetch failure or missing configuration shows a
 plain-language error with a link to the YouTube channel; zero results
-shows an empty-state message with the same fallback link.
+shows an empty-state message with the same fallback link. The video
+count was increased from 3 to 6 by
+[CHG-011](changes/CHG-011-latest-videos-show-six.md).
 
 New files: `src/features/videos/videos.types.ts`,
 `videos.service.ts`, `useLatestVideos.ts`,
