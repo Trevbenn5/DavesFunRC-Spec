@@ -13,4 +13,4 @@
 | [CHG-009](changes/CHG-009-ga-measurement-id-deploy-workflow.md) | Forward GA measurement ID to deploy workflow | Configuration | Deploy workflow (Google Analytics Tracking feature) | Implemented |
 | [CHG-010](changes/CHG-010-weekly-update-markdown-source.md) | Store the Home weekly update content as Markdown | Existing-feature enhancement | Home Page Weekly Update | Implemented |
 | [CHG-011](changes/CHG-011-latest-videos-show-six.md) | Show 6 latest videos instead of 3 | Existing-feature enhancement | Latest Videos | Implemented |
-| [CHG-012](changes/CHG-012-move-latest-videos-to-home.md) | Move "Latest videos" from the Videos page to the Home page | Existing-feature enhancement | Latest Videos, Home Page | Proposed |
+| [CHG-012](changes/CHG-012-move-latest-videos-to-home.md) | Move "Latest videos" from the Videos page to the Home page | Existing-feature enhancement | Latest Videos, Home Page | Implemented |
