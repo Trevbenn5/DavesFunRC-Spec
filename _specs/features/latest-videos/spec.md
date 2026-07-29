@@ -2,17 +2,21 @@
 
 ## Purpose
 
-Give visitors to the Videos page a reason to check back: show the 6 most
-recently uploaded DavesFunRC YouTube videos, newest first, pulled live from
-the channel rather than hand-maintained. Currently the Videos page shows no
-videos at all — just placeholder text — so this is new capability, not a
-change to existing behaviour (per `CLAUDE.md`'s Change vs Feature rule).
+Give visitors a reason to check back: show the 6 most recently uploaded
+DavesFunRC YouTube videos, newest first, pulled live from the channel
+rather than hand-maintained. Originally shipped on the Videos page;
+[CHG-012](../../changes/CHG-012-move-latest-videos-to-home.md) relocated
+this section to the Home page (below the Watch/Read/Build highlights) so
+it's visible as soon as a visitor lands on the site. The Videos page now
+hosts the Playlists gallery instead — see the `videos-playlist-gallery`
+feature spec.
 
 ## Scope
 
-- A "Latest videos" section on the existing Videos page
-  (`src/features/videos/VideosPage.tsx`) showing the 6 most recent uploads
-  from the DavesFunRC YouTube channel, ordered newest first.
+- A "Latest videos" section on the Home page
+  (`src/features/home/HomePage.tsx`, below `.home-highlights`) showing the
+  6 most recent uploads from the DavesFunRC YouTube channel, ordered
+  newest first.
 - Each video shown as a card: thumbnail, title, published date, and a link
   to watch it on YouTube (opens in a new tab, reusing the existing
   external-link handling already in `Button`).
@@ -36,14 +40,14 @@ change to existing behaviour (per `CLAUDE.md`'s Change vs Feature rule).
 
 - As a visitor, I want to see the newest DavesFunRC videos without leaving
   the site, so I don't have to go to YouTube just to check what's new.
-- As Dave, I want the Videos page to stay current automatically as I
+- As Dave, I want the Home page to stay current automatically as I
   upload, without having to hand-edit the website every time.
 
 ## User experience
 
-On loading `/videos`, above (or instead of, see Interfaces) today's
-placeholder text, a "Latest videos" section fetches and shows 6 video
-cards ordered newest-first by publish date. While loading, 6 skeleton
+On loading `/`, directly below the Watch/Read/Build highlights row, a
+"Latest videos" section fetches and shows 6 video cards ordered
+newest-first by publish date. While loading, 6 skeleton
 card placeholders show (per `_specs/design-system.md`'s "prefer skeleton
 loaders" rule). If the fetch fails or the API isn't configured, a clear
 message explains that the videos couldn't be loaded right now and links
@@ -54,7 +58,7 @@ loaded card shows the video's thumbnail, title, and publish date, and a
 
 ## Functional requirements
 
-- FR-001: The Videos page fetches the 6 most recent videos uploaded to
+- FR-001: The Home page fetches the 6 most recent videos uploaded to
   the DavesFunRC YouTube channel, ordered by publish date descending
   (newest first).
 - FR-002: Each video is rendered as a card showing: thumbnail image,
@@ -106,8 +110,8 @@ loaded card shows the video's thumbnail, title, and publish date, and a
 
 ## Data requirements
 
-- `VideoSummary` (feature-local type, e.g.
-  `src/features/videos/videos.types.ts`):
+- `VideoSummary` (feature-local type, `src/features/home/videos.
+  types.ts`):
   - `id: string` — YouTube video ID
   - `title: string`
   - `publishedAt: string` (ISO 8601, from the API's `snippet.publishedAt`)
@@ -128,29 +132,26 @@ loaded card shows the video's thumbnail, title, and publish date, and a
 
 ## Interfaces
 
-- **Page**: `src/features/videos/VideosPage.tsx` — currently renders only
-  `PlaceholderPage`. This feature adds a "Latest videos" section above or
-  alongside that placeholder content (see Open questions on whether the
-  placeholder copy is replaced or kept as a secondary note about the
-  full playlist gallery still to come).
-- **Service**: a new feature-local `src/features/videos/videos.service.ts`
-  exporting a typed function (e.g. `getLatestVideos(count: number):
-  Promise<VideoSummary[]>`) that calls the YouTube Data API v3
-  `playlistItems.list` endpoint directly via `fetch()` (no new npm
-  dependency — native `fetch` and `JSON.parse` are sufficient; the
-  YouTube RSS feed alternative was rejected, see Constraints).
-- **Hook**: a small feature-local hook (e.g.
-  `src/features/videos/useLatestVideos.ts`) wrapping the service call in
-  local component state (`idle` / `loading` / `loaded` / `error`), per
-  `_specs/architecture.md` §11 (no state-management library).
-- **Component**: a feature-local `VideoCard` component (e.g.
-  `src/features/videos/components/VideoCard.tsx`) — visually consistent
-  with the shared `Card` component's conventions (border, radius, shadow,
-  spacing tokens) but with a thumbnail slot that `Card` doesn't currently
-  have. Kept feature-local rather than added to the shared `Card`
-  (mirrors the same reasoning `CHG-002` used to defer adding an image
-  slot to `Card`) unless a second feature needs the same thumbnail-card
-  layout, at which point it should be promoted to `src/components/ui/`.
+- **Page**: `src/features/home/HomePage.tsx` — renders the "Latest videos"
+  section directly below `.home-highlights` (relocated from the Videos
+  page by `CHG-012`).
+- **Service**: `src/features/home/videos.service.ts` exporting a typed
+  function `getLatestVideos(count: number): Promise<VideoSummary[]>` that
+  calls the YouTube Data API v3 `playlistItems.list` endpoint directly via
+  `fetch()` (no new npm dependency — native `fetch` and `JSON.parse` are
+  sufficient; the YouTube RSS feed alternative was rejected, see
+  Constraints).
+- **Hook**: `src/features/home/useLatestVideos.ts` wrapping the service
+  call in local component state (`idle` / `loading` / `loaded` / `error`),
+  per `_specs/architecture.md` §11 (no state-management library).
+- **Component**: `src/features/home/components/VideoCard.tsx` — visually
+  consistent with the shared `Card` component's conventions (border,
+  radius, shadow, spacing tokens) but with a thumbnail slot that `Card`
+  doesn't currently have. Kept feature-local rather than added to the
+  shared `Card` (mirrors the same reasoning `CHG-002` used to defer adding
+  an image slot to `Card`) unless a second feature needs the same
+  thumbnail-card layout, at which point it should be promoted to
+  `src/components/ui/`.
 - **External integration**: YouTube Data API v3
   (`https://www.googleapis.com/youtube/v3/playlistItems`), documented
   here per `_specs/architecture.md` §18's requirement that every external
@@ -166,24 +167,20 @@ loaded card shows the video's thumbnail, title, and publish date, and a
   the new `VideoCard`, even though `VideoCard` is a separate component.
 - `siteConfig.externalLinks.youtube` (`src/app/app-config.ts`) as the
   fallback link shown in the error and empty states.
-- `PlaceholderPage` conventions (`src/components/content/PlaceholderPage.
-  css`'s spacing) for consistent section padding on the Videos page.
 
 ## Expected changes
 
-- `src/features/videos/VideosPage.tsx` — add the "Latest videos" section.
-- `src/features/videos/videos.service.ts` — new.
-- `src/features/videos/videos.types.ts` — new.
-- `src/features/videos/useLatestVideos.ts` — new.
-- `src/features/videos/components/VideoCard.tsx` (+ `.css`) — new.
-- `src/features/videos/VideosPage.test.tsx` and/or
-  `useLatestVideos.test.ts` — new, with `fetch` mocked (no new test
-  dependency needed).
-- `.env.example` or equivalent documentation of the two required
-  `VITE_YOUTUBE_*` values (see Data requirements) — new, since these
-  don't exist anywhere in the project yet.
-- No changes to shared components, routing, other pages, or
-  `package.json`.
+- `src/features/home/HomePage.tsx` — renders the "Latest videos" section
+  below `.home-highlights`.
+- `src/features/home/videos.service.ts`, `videos.types.ts`,
+  `useLatestVideos.ts`, `components/VideoCard.tsx` (+ `.css`) — relocated
+  from `src/features/videos/` by `CHG-012`.
+- `src/features/home/HomePage.test.tsx` and `useLatestVideos.test.ts` —
+  cover the section's loading/loaded/error/empty states, with `fetch`
+  mocked (no new test dependency needed).
+- `.env.example` documents the two required `VITE_YOUTUBE_*` values (see
+  Data requirements) — unchanged by the relocation.
+- No changes to shared components, routing, or `package.json`.
 
 ## Constraints
 
@@ -227,7 +224,7 @@ loaded card shows the video's thumbnail, title, and publish date, and a
 
 ## Acceptance criteria
 
-- Given the Videos page is loading the video list, when the fetch is in
+- Given the Home page is loading the video list, when the fetch is in
   flight, then 6 skeleton placeholders are shown in place of video cards.
 - Given the YouTube API returns 6 or more videos, when the fetch
   completes, then exactly the 6 most recently published videos are
@@ -284,7 +281,7 @@ loaded card shows the video's thumbnail, title, and publish date, and a
   state transitions.
 - Component: `VideoCard` renders title, thumbnail (with correct `alt`),
   publish date, and a working external watch link.
-- Component/integration: `VideosPage` — loading state shows 6 skeletons;
+- Component/integration: `HomePage` — loading state shows 6 skeletons;
   loaded state shows 6 cards in the right order; error state shows the
   fallback message and YouTube channel link; empty state shows the
   empty-state message. Extends the existing pattern in

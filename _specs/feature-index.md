@@ -9,35 +9,41 @@
 
 ## Latest Videos — implementation summary
 
-Replaces the Videos page's placeholder content with a "Latest videos"
-section that fetches the 6 most recent DavesFunRC YouTube uploads
+Originally replaced the Videos page's placeholder content with a "Latest
+videos" section fetching the 6 most recent DavesFunRC YouTube uploads
 (newest first) from the YouTube Data API v3 `playlistItems.list`
-endpoint, client-side, via a new feature-local service. Loading shows 6
+endpoint, client-side, via a feature-local service. Loading shows 6
 skeleton placeholders; a fetch failure or missing configuration shows a
 plain-language error with a link to the YouTube channel; zero results
 shows an empty-state message with the same fallback link. The video
 count was increased from 3 to 6 by
 [CHG-011](changes/CHG-011-latest-videos-show-six.md).
+[CHG-012](changes/CHG-012-move-latest-videos-to-home.md) then relocated
+the whole section from the Videos page to the Home page (below the
+Watch/Read/Build highlights), and the Videos page picked up the new
+Playlists gallery in its place — see the "Videos Playlist Gallery" row
+below.
 
-New files: `src/features/videos/videos.types.ts`,
-`videos.service.ts`, `useLatestVideos.ts`,
-`components/VideoCard.tsx` (+ `.css`), `VideosPage.css`, and `.env.example`
-at the repo root documenting the two required `VITE_YOUTUBE_*` values.
-`VideosPage.tsx` was rewritten to use these instead of `PlaceholderPage`.
+Current files (relocated by CHG-012 via `git mv`, preserving history):
+`src/features/home/videos.types.ts`, `videos.service.ts`,
+`useLatestVideos.ts`, `components/VideoCard.tsx` (+ `.css`). `HomePage.tsx`
+renders the section below `.home-highlights`; `HomePage.css` gained the
+matching grid/skeleton/empty styles. `.env.example` at the repo root still
+documents the two required `VITE_YOUTUBE_*` values, unchanged by the move.
 
-No shared components, routing, or other pages were touched. No new npm
+No shared components or routing were touched by the relocation. No new npm
 dependency — native `fetch` only. The no-auth YouTube RSS feed
 alternative was investigated and rejected (no CORS support for direct
 browser fetch); see the spec's Constraints section.
 
-**Tests**: `src/features/videos/videos.service.test.ts` (request
+**Tests**: `src/features/home/videos.service.test.ts` (request
 params, response mapping/sorting, thumbnail fallback, error handling),
 `useLatestVideos.test.ts` (loading → loaded / error state transitions),
-`VideosPage.test.tsx` (loading, loaded/ordering, error, empty states,
-accessible link names). All verified passing, alongside the full existing
-suite (`npm run lint`, `typecheck`, `test`, `build`). Visually verified
-in a real browser (loading, loaded, error, and mobile-responsive states)
-via a temporary build with mocked API responses — not committed.
+`HomePage.test.tsx` (loading, loaded/ordering, error, empty states,
+accessible link names, alongside the existing hero/weekly-update/
+highlights coverage). `VideosPage.test.tsx` now only asserts the page
+heading. All verified passing, alongside the full existing suite
+(`npm run lint`, `typecheck`, `test`, `build`).
 
 ## Google Analytics Tracking — implementation summary
 

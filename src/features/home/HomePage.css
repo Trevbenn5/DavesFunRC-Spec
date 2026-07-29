@@ -34,11 +34,50 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: var(--space-24);
+  padding-block-end: var(--space-48);
+}
+
+.home-videos {
   padding-block-end: var(--space-64);
+}
+
+.home-videos__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-24);
+  margin-top: var(--space-8);
+}
+
+.home-video-skeleton {
+  border-radius: var(--radius-card);
+  background: var(--colour-border);
+  aspect-ratio: 4 / 5;
+  animation: home-video-skeleton-pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes home-video-skeleton-pulse {
+  0%,
+  100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.home-videos__empty {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-16);
 }
 
 @media (max-width: 900px) {
   .home-highlights {
+    grid-template-columns: 1fr;
+  }
+
+  .home-videos__grid {
     grid-template-columns: 1fr;
   }
 

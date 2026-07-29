@@ -1,8 +1,13 @@
 import './HomePage.css';
 import { Card } from '../../components/ui/Card';
+import { Button } from '../../components/ui/Button';
 import { WeeklyUpdate } from './components/WeeklyUpdate';
+import { VideoCard } from './components/VideoCard';
+import { useLatestVideos } from './useLatestVideos';
 import { siteConfig } from '../../app/app-config';
 import bannerImage from '../../assets/home/banner.jpg';
+
+const LATEST_VIDEO_COUNT = 6;
 
 const highlights = [
   {
@@ -29,6 +34,8 @@ const highlights = [
 ] as const;
 
 export function HomePage() {
+  const videosState = useLatestVideos(LATEST_VIDEO_COUNT);
+
   return (
     <div className="home-page">
       <img className="home-banner" src={bannerImage} alt="" />
@@ -55,6 +62,52 @@ export function HomePage() {
             href={highlight.href}
           />
         ))}
+      </section>
+
+      <section className="home-videos container">
+        <h2>Latest videos</h2>
+
+        {videosState.status === 'loading' && (
+          <>
+            <p className="visually-hidden" role="status">
+              Loading latest videos…
+            </p>
+            <div className="home-videos__grid" aria-hidden="true">
+              {Array.from({ length: LATEST_VIDEO_COUNT }).map((_, index) => (
+                <div className="home-video-skeleton" key={index} />
+              ))}
+            </div>
+          </>
+        )}
+
+        {videosState.status === 'loaded' && videosState.videos.length > 0 && (
+          <div className="home-videos__grid">
+            {videosState.videos.map((video) => (
+              <VideoCard key={video.id} video={video} />
+            ))}
+          </div>
+        )}
+
+        {videosState.status === 'loaded' && videosState.videos.length === 0 && (
+          <div className="home-videos__empty">
+            <p>No videos yet — check back soon.</p>
+            <Button href={siteConfig.externalLinks.youtube} variant="secondary">
+              Visit the YouTube channel
+            </Button>
+          </div>
+        )}
+
+        {videosState.status === 'error' && (
+          <div className="home-videos__empty">
+            <p>
+              We couldn&apos;t load the latest videos right now. You can always check them
+              directly on the DavesFunRC YouTube channel.
+            </p>
+            <Button href={siteConfig.externalLinks.youtube} variant="secondary">
+              Visit the YouTube channel
+            </Button>
+          </div>
+        )}
       </section>
     </div>
   );
