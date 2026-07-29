@@ -224,12 +224,9 @@ Each loaded card shows the playlist's thumbnail graphic and title, and a
 
 ## Open questions
 
-- **Definition of "top 5"**: this spec ranks by video count
-  (`itemCount`), since that's available in the same API call with no extra
-  quota cost. If the site owner would rather curate the 5 manually, or
-  rank by a different signal (e.g. most recently updated), that's a
-  different, simpler implementation (a hardcoded list of 5 playlist IDs)
-  and should be raised before implementation starts.
+- **Definition of "top 5"**: **Resolved** — the site owner confirmed
+  ranking by video count (`itemCount`), descending. No hardcoded/manually
+  curated list.
 - **Channel ID derivation**: assumes the `UU` → `UC` prefix swap on
   `VITE_YOUTUBE_UPLOADS_PLAYLIST_ID` correctly yields the channel ID. This
   is YouTube's documented convention and not expected to fail, but hasn't
