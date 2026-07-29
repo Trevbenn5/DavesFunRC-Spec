@@ -25,12 +25,13 @@ describe('VideosPage', () => {
     expect(screen.getByRole('heading', { level: 1, name: 'Videos' })).toBeInTheDocument();
   });
 
-  it('shows a loading announcement and skeleton placeholders while loading', () => {
+  it('shows a loading announcement and 6 skeleton placeholders while loading', () => {
     vi.spyOn(videosService, 'getLatestVideos').mockReturnValue(new Promise(() => {}));
 
-    renderVideosPage();
+    const { container } = renderVideosPage();
 
     expect(screen.getByRole('status')).toHaveTextContent(/loading latest videos/i);
+    expect(container.querySelectorAll('.video-card-skeleton')).toHaveLength(6);
   });
 
   it('shows the latest videos, newest first, once loaded', async () => {
