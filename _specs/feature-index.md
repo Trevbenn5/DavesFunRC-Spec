@@ -2,10 +2,10 @@
 
 | Feature | Specification | Status | Dependencies |
 | --- | --- | --- | --- |
-| Latest Videos | [_specs/features/latest-videos/spec.md](features/latest-videos/spec.md) | Implemented | Requires `VITE_YOUTUBE_API_KEY` (HTTP-referrer-restricted) and `VITE_YOUTUBE_UPLOADS_PLAYLIST_ID` in the deployment environment — see `.env.example`. Until the site owner adds real values, the Videos page shows the designed error state (with a link to the YouTube channel) rather than live data; this is expected, not a defect. |
+| Latest Videos | [_specs/features/latest-videos/spec.md](features/latest-videos/spec.md) | Implemented | Requires `VITE_YOUTUBE_API_KEY` (HTTP-referrer-restricted) and `VITE_YOUTUBE_UPLOADS_PLAYLIST_ID` in the deployment environment — see `.env.example`. Without real values in the deployment environment, the Home page shows the designed error state (with a link to the YouTube channel) rather than live data; this is expected, not a defect. |
 | Google Analytics Tracking | [_specs/features/google-analytics-tracking/spec.md](features/google-analytics-tracking/spec.md) | Implemented | Requires `VITE_GA_MEASUREMENT_ID` in the deployment environment — see `.env.example`. Set as a GitHub Actions repo secret and forwarded to the build in `.github/workflows/deploy-pages.yml` (see [CHG-009](changes/CHG-009-ga-measurement-id-deploy-workflow.md)). Until set, the site functions normally with analytics disabled (no error, no tracking). |
 | Home Page Weekly Update | [_specs/features/home-weekly-update/spec.md](features/home-weekly-update/spec.md) | Implemented | None. |
-| Videos Playlist Gallery | [_specs/features/videos-playlist-gallery/spec.md](features/videos-playlist-gallery/spec.md) | Specified | Reuses `VITE_YOUTUBE_API_KEY` from Latest Videos; requires `CHG-012` (moving Latest Videos off the Videos page) to land alongside it. |
+| Videos Playlist Gallery | [_specs/features/videos-playlist-gallery/spec.md](features/videos-playlist-gallery/spec.md) | Implemented | Reuses `VITE_YOUTUBE_API_KEY`/`VITE_YOUTUBE_UPLOADS_PLAYLIST_ID` from Latest Videos — no new config. Same deployment-environment caveat applies. |
 
 ## Latest Videos — implementation summary
 
@@ -43,7 +43,51 @@ params, response mapping/sorting, thumbnail fallback, error handling),
 accessible link names, alongside the existing hero/weekly-update/
 highlights coverage). `VideosPage.test.tsx` now only asserts the page
 heading. All verified passing, alongside the full existing suite
-(`npm run lint`, `typecheck`, `test`, `build`).
+(`npm run lint`, `typecheck`, `test`, `build`). Visually verified in a
+real browser (desktop and mobile) against the live DavesFunRC channel via
+a local `.env` — see the Videos Playlist Gallery summary below for the
+same verification pass.
+
+## Videos Playlist Gallery — implementation summary
+
+Gives the Videos page (emptied by CHG-012's relocation of Latest Videos)
+its own content: a "Playlists" section listing the DavesFunRC channel's
+top 5 playlists by video count, each as a card with thumbnail, title, and
+a "View playlist" link out to YouTube. Loading shows 5 skeleton
+placeholders; fetch failure or missing config shows a plain-language error
+with a channel link; zero playlists shows the same fallback as an
+empty-state message — mirroring the Latest Videos feature's established
+patterns exactly.
+
+New files: `src/features/videos/videos.types.ts` (`PlaylistSummary`),
+`videos.service.ts` (`getPlaylists` — new module, since the original file
+of that name relocated to `src/features/home/` under CHG-012),
+`usePlaylists.ts`, `components/PlaylistCard.tsx` (+ `.css`). No channel-ID
+env var was added: `getPlaylists` derives it from the existing
+`VITE_YOUTUBE_UPLOADS_PLAYLIST_ID` by swapping its `UU` prefix for `UC`
+(YouTube's documented convention) — verified correct against the real
+DavesFunRC channel during visual verification. `VideosPage.tsx` renders
+the section; `VideosPage.css`'s existing grid/skeleton/empty-state rules
+(left in place, unused, by CHG-012) were reused and the skeleton class
+renamed from `.video-card-skeleton` to `.playlist-card-skeleton` to match
+its new purpose.
+
+No shared components, routing, or `package.json` changes. No new npm
+dependency — native `fetch`, same as Latest Videos.
+
+**Tests**: `videos.service.test.ts` (endpoint/params, `UU`→`UC` channel-id
+derivation, rank-by-`itemCount`-then-slice, thumbnail fallback, error
+handling), `usePlaylists.test.ts` (loading → loaded/error transitions),
+`components/PlaylistCard.test.tsx` (title, thumbnail alt text, external
+link), `VideosPage.test.tsx` (loading skeletons, ranked order, error,
+empty states, accessible link names). All verified passing, alongside the
+full existing suite (`npm run lint`, `typecheck`, `test`, `build`).
+Visually verified in a real browser (desktop and mobile, via a temporary
+local Playwright install per the precedent in
+`_specs/architecture.md` §35 — not committed) against the live
+DavesFunRC channel: both the Home page's relocated Latest Videos section
+and the Videos page's new Playlists section render real thumbnails,
+titles and working links, with no console errors.
 
 ## Google Analytics Tracking — implementation summary
 
