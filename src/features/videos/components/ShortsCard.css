@@ -1,0 +1,11 @@
+.shorts-card__icon {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius-card);
+  background: var(--colour-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--space-8);
+  color: var(--colour-primary);
+}

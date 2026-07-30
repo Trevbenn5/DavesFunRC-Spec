@@ -20,6 +20,10 @@ explicitly deferred as "a separate, larger feature for later."
 - Each playlist shown as a card: thumbnail graphic, playlist title, and a
   "View playlist" link to the playlist on YouTube (opens in a new tab,
   reusing `Button`'s existing external-link handling).
+- A static "YouTube Shorts" tile ([CHG-013](../../changes/CHG-013-videos-page-shorts-button.md))
+  rendered as the final item in the same grid, once loaded with at least
+  one playlist — visually matching the playlist cards but linking out to
+  the channel's Shorts feed rather than to fetched playlist data.
 - Loading, error and empty states for the live data fetch, matching the
   conventions already established by the (relocating) latest-videos
   feature.
@@ -144,6 +148,12 @@ Each loaded card shows the playlist's thumbnail graphic and title, and a
   features/videos/components/PlaylistCard.tsx` + `.css`), visually
   consistent with `VideoCard`'s conventions (border, radius, shadow,
   spacing tokens, thumbnail slot) but without a publish-date line.
+- **Component**: a static `ShortsCard` component (`src/features/videos/
+  components/ShortsCard.tsx` + `.css`, added by CHG-013), reusing
+  `PlaylistCard`'s `.playlist-card` container styling with a `SquarePlay`
+  icon (`lucide-preact`) in place of a fetched thumbnail, linking to
+  `siteConfig.externalLinks.youtubeShorts`. Renders alongside the
+  playlist cards, not as fetched data.
 - **External integration**: YouTube Data API v3 (`https://www.
   googleapis.com/youtube/v3/playlists`), documented here per
   `_specs/architecture.md` §18.
@@ -169,6 +179,10 @@ Each loaded card shows the playlist's thumbnail graphic and title, and a
 - `src/features/videos/videos.types.ts` — add `PlaylistSummary`.
 - `src/features/videos/usePlaylists.ts` — new.
 - `src/features/videos/components/PlaylistCard.tsx` (+ `.css`) — new.
+- `src/features/videos/components/ShortsCard.tsx` (+ `.css`) — new
+  (CHG-013), a static grid item linking to YouTube Shorts.
+- `src/app/app-config.ts` — new `externalLinks.youtubeShorts` field
+  (CHG-013).
 - `src/features/videos/VideosPage.css` — grid styles for the playlist
   cards (likely reusing `.videos-page__grid`'s existing 3-column/1-column
   responsive pattern).

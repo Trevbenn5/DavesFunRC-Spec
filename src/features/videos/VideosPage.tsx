@@ -1,6 +1,7 @@
 import './VideosPage.css';
 import { usePlaylists } from './usePlaylists';
 import { PlaylistCard } from './components/PlaylistCard';
+import { ShortsCard } from './components/ShortsCard';
 import { Button } from '../../components/ui/Button';
 import { siteConfig } from '../../app/app-config';
 
@@ -32,6 +33,7 @@ export function VideosPage() {
           {state.playlists.map((playlist) => (
             <PlaylistCard key={playlist.id} playlist={playlist} />
           ))}
+          <ShortsCard />
         </div>
       )}
 
