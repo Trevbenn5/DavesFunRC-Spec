@@ -1,0 +1,68 @@
+.three-d-designs-page {
+  padding-block: var(--space-64);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+}
+
+.three-d-designs-page__intro {
+  display: flex;
+  gap: var(--space-32);
+  align-items: flex-start;
+}
+
+.three-d-designs-page__figure {
+  flex: 0 0 320px;
+  margin: 0;
+}
+
+.three-d-designs-page__figure img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-small);
+}
+
+.three-d-designs-page__figure figcaption {
+  margin-top: var(--space-8);
+  font-size: 0.875rem;
+  color: var(--colour-text-secondary);
+  text-align: center;
+}
+
+.three-d-designs-page__body {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.three-d-designs-page__body p {
+  margin: 0 0 var(--space-16);
+  max-width: 65ch;
+}
+
+.three-d-designs-page__actions {
+  display: flex;
+  gap: var(--space-16);
+  flex-wrap: wrap;
+  margin-top: var(--space-8);
+}
+
+@media (max-width: 900px) {
+  .three-d-designs-page__intro {
+    flex-direction: column;
+  }
+
+  .three-d-designs-page__figure {
+    flex: none;
+    width: 100%;
+    max-width: 320px;
+    align-self: center;
+  }
+
+  .three-d-designs-page__actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
