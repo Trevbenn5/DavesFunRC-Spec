@@ -12,20 +12,30 @@ decisions (e.g. which article categories or playlists to prioritise).
 
 ## Scope
 
-- Load Google Analytics (GA4) on every page of the site.
-- Record a page-view event for the initial page load and for every
-  subsequent in-app navigation (the site uses a client-side router, so a
-  route change does not trigger a full page reload / new `gtag.js`
-  page-load event on its own).
-- Centralise the GA integration behind a single service module, per
+**Note**: [CHG-015](../../changes/CHG-015-switch-to-google-tag-manager.md)
+replaced the original direct-`gtag.js` loading mechanism described below
+with Google Tag Manager. The sections in this spec have been updated to
+describe the current (GTM-based) implementation; see CHG-015 for the
+reasoning.
+
+- Load Google Tag Manager (container `GTM-54ZWZN4W`) on every page of the
+  site, via the standard GTM install snippet in `index.html`. GA4 (and any
+  future tags) is configured as a tag *inside* the GTM container, in
+  Tag Manager's own web UI — outside this codebase.
+- Push a page-view event onto `window.dataLayer` for the initial page load
+  and for every subsequent in-app navigation (the site uses a client-side
+  router, so a route change does not trigger a full page reload / a new
+  GTM container-load event on its own), so a GTM tag can be triggered off
+  it.
+- Centralise the page-view push behind a single service module, per
   `_specs/architecture.md` §18 (External Services), so components and
-  routing code never talk to `gtag`/`dataLayer` directly.
-- Make the GA Measurement ID configurable via a `VITE_`-prefixed
-  environment variable, per architecture §20, rather than hard-coded.
-- Degrade gracefully (site works normally, nothing crashes, no page view
-  is recorded) when the Measurement ID is not configured — mirroring the
-  pattern already established by the Latest Videos feature for missing
-  `VITE_YOUTUBE_*` config.
+  routing code never touch `window.dataLayer` directly. The GTM *loader*
+  itself is necessarily static markup in `index.html` (its `<noscript>`
+  fallback only works as HTML), not something a service module can own.
+- Make the GTM container ID configurable via a `VITE_`-prefixed
+  environment variable, per architecture §20, rather than hard-coded —
+  substituted into `index.html` via Vite's built-in HTML env replacement
+  (`%VITE_GTM_CONTAINER_ID%`).
 
 ## Out of scope
 
@@ -73,100 +83,109 @@ No visible UI changes. Analytics loads silently in the background.
   Browser back/forward (`popstate`) navigation also reports a page view,
   since `src/app/router.tsx`'s `RouterProvider` already treats `popstate`
   the same as an in-app navigation.
-- If the Measurement ID is not configured (e.g. local development, or
-  before the site owner sets the production value), the site functions
-  identically but no GA script loads and no events are sent — same
-  pattern as the Latest Videos error/missing-config handling, but
-  silent rather than showing an error state, since analytics is not
-  user-facing content.
+- If `VITE_GTM_CONTAINER_ID` is not configured (e.g. local development
+  without a `.env`), the GTM snippet still attempts to load — pointed at
+  the literal, unresolved `%VITE_GTM_CONTAINER_ID%` string — which simply
+  fails as an invalid container id with no visible error to a visitor
+  (see Edge cases). This differs from the previous direct-integration
+  behaviour, which explicitly skipped loading anything when unconfigured;
+  GTM's snippet has no equivalent conditional built in.
 
 ## Functional requirements
 
-- FR-001: The application must load the Google Analytics GA4 tag
-  (`gtag.js`) on every page, only when a valid Measurement ID is
-  configured via environment variable.
-- FR-002: The Measurement ID must be read from a `VITE_`-prefixed
-  environment variable (`VITE_GA_MEASUREMENT_ID`) and must never be
-  hard-coded in source.
-- FR-003: A page-view event must be recorded for the initial page load,
-  using the current path.
-- FR-004: A page-view event must be recorded on every subsequent
-  client-side route change (in-app link navigation and browser
+- FR-001: The application must load Google Tag Manager on every page, via
+  the standard GTM `<script>`/`<noscript>` snippet in `index.html`, with
+  the container ID configured via environment variable.
+- FR-002: The container ID must be read from a `VITE_`-prefixed
+  environment variable (`VITE_GTM_CONTAINER_ID`) and must never be
+  hard-coded in source — substituted into `index.html` via Vite's HTML
+  env replacement.
+- FR-003: A page-view event must be pushed to `window.dataLayer` for the
+  initial page load, using the current path.
+- FR-004: A page-view event must be pushed to `window.dataLayer` on every
+  subsequent client-side route change (in-app link navigation and browser
   back/forward), using the new path — without requiring a full page
   reload.
-- FR-005: All GA-specific logic (script loading, `gtag`/`dataLayer`
-  calls) must be isolated behind a single service module under
-  `src/services/`. No component or routing file may call `gtag` or
-  touch `window.dataLayer` directly.
-- FR-006: When `VITE_GA_MEASUREMENT_ID` is missing or empty, the service
-  must no-op (no script loaded, no events sent) and must not throw or
-  log an error that a visitor would see. A `console.info`/`console.warn`
-  in dev builds only is acceptable, matching existing project
-  conventions if any are found during implementation.
-- FR-007: GA script loading must not block initial page render (loaded
-  asynchronously).
-- FR-008: The 404 / unmatched-route state must also report a page view
-  for the attempted path, since `_specs/architecture.md` treats routing
-  as centralised and this is a real state visitors reach.
+- FR-005: The page-view push must be isolated behind a single service
+  module under `src/services/`. No component or routing file may touch
+  `window.dataLayer` directly. (The GTM loader/`<noscript>` snippet itself
+  is static markup in `index.html`, not something a service module can
+  own — see Constraints.)
+- FR-006: ~~When the Measurement ID is missing or empty, the service must
+  no-op~~ — superseded by CHG-015. GTM's snippet has no conditional
+  loading behaviour to mirror; an unset `VITE_GTM_CONTAINER_ID` results in
+  the snippet attempting (and failing) to load an invalid container id,
+  not a skipped load — see Edge cases. `trackPageView` itself still never
+  throws, regardless of whether GTM loaded successfully.
+- FR-007: GTM's loader script must not block initial page render (loaded
+  asynchronously, per Google's standard snippet).
+- FR-008: The 404 / unmatched-route state must also push a page-view
+  event for the attempted path, since `_specs/architecture.md` treats
+  routing as centralised and this is a real state visitors reach.
 
 ## Non-functional requirements
 
 - **Privacy**: no personally identifiable information (name, email,
-  Suggestions form content, etc.) may be passed into GA event
-  parameters — only the built-in page path/location that `gtag.js`
-  collects by default. GA4's default configuration already applies
-  IP-address truncation/anonymisation; no additional configuration is
-  required for that.
-- **Security**: the Measurement ID is not a secret (GA Measurement IDs
-  are always exposed in client-side requests by design), so it is safe
-  as a `VITE_` variable per architecture §20. No other credentials are
+  Suggestions form content, etc.) may be passed into `dataLayer` pushes —
+  only the page path. Any IP-address/consent handling is now whatever the
+  site owner configures on the GA4 tag inside GTM, outside this
+  codebase's control.
+- **Security**: the GTM container ID is not a secret (container IDs are
+  always exposed in client-side requests by design), so it is safe as a
+  `VITE_` variable per architecture §20. No other credentials are
   involved.
-- **Performance**: the GA script must be loaded asynchronously/deferred
-  so it does not delay first paint or block the main thread; per
-  architecture §23, no new npm dependency should be added when loading
-  the standard `gtag.js` `<script>` tag achieves the same result.
+- **Performance**: GTM's loader script must be loaded asynchronously so
+  it does not delay first paint or block the main thread (built into
+  Google's standard snippet); per architecture §23, no new npm dependency
+  should be added when the standard snippet achieves the same result.
 - **Accessibility**: not applicable — this feature has no visible UI.
-- **Resilience**: if the GA script fails to load (network failure,
-  ad-blocker, etc.), the site must continue to function normally with
-  no visible error, broken layout, or console error surfaced to the
-  visitor.
-- **Supportability**: the Measurement ID must be documented in a root
+- **Resilience**: if the GTM script fails to load (network failure,
+  ad-blocker, etc.), the site must continue to function normally with no
+  visible error, broken layout, or console error surfaced to the visitor
+  — `trackPageView`'s `dataLayer.push` still succeeds even if GTM's
+  script never arrives to process the queue.
+- **Supportability**: the container ID must be documented in a root
   `.env.example` entry (see Expected changes) so a future maintainer
-  knows the variable exists and where it's used, consistent with how
-  the Latest Videos feature previously documented its `VITE_YOUTUBE_*`
+  knows the variable exists and where it's used, consistent with how the
+  Latest Videos feature previously documented its `VITE_YOUTUBE_*`
   variables.
 
 ## Data requirements
 
 No application data model changes. The only new "data" is configuration:
 
-- `VITE_GA_MEASUREMENT_ID` — string, format `G-XXXXXXXXXX`, sourced from
-  the site owner's Google Analytics 4 property. Public (browser-exposed)
+- `VITE_GTM_CONTAINER_ID` — string, format `GTM-XXXXXXX`, sourced from
+  the site owner's Google Tag Manager container. Public (browser-exposed)
   by design, not a secret.
 
-No data is persisted by the application itself; GA stores event data in
-Google's systems, outside this codebase's control.
+No data is persisted by the application itself; GTM/GA store event data
+in Google's systems, outside this codebase's control. Which tags actually
+fire off the `page_view` `dataLayer` event (e.g. a GA4 Configuration tag)
+is configured in Tag Manager's own web UI, not in this codebase.
 
 ## Interfaces
 
-- New service: `src/services/analytics.service.ts` — the single
-  integration point named directly in architecture §18's own example
-  (`src/services/analytics.service.ts`). Responsible for:
-  - Reading `import.meta.env.VITE_GA_MEASUREMENT_ID`.
-  - Lazily injecting the `gtag.js` `<script>` tag and initialising
-    `window.dataLayer`/`gtag` exactly once, only if a Measurement ID is
-    present.
-  - Exposing a typed function (e.g. `trackPageView(path: string): void`)
-    that the routing layer calls on navigation.
-- Modified: `src/main.tsx` — initialise the analytics service once at
-  startup, alongside the other "approved application-wide services"
-  architecture §6 explicitly calls out as `main.tsx`'s responsibility.
-- Modified: `src/app/router.tsx` — the existing `RouterProvider` already
-  centralises every path change (initial `useState` value, and the
-  `popstate`/`navigate` updates to `path`). This is the single place
-  a `useEffect` on `path` can call `analytics.trackPageView(path)` for
-  every route change, including 404s, without duplicating tracking
-  calls across every page component.
+- `src/services/analytics.service.ts` — the single integration point
+  named directly in architecture §18's own example. Responsible only for:
+  - Exposing a typed function `trackPageView(path: string): void` that
+    the routing layer calls on navigation, which pushes
+    `{ event: 'page_view', page_path: path }` onto `window.dataLayer`
+    (initialising `dataLayer` first if GTM hasn't already).
+- `index.html` — owns loading GTM itself: the standard loader `<script>`
+  high in `<head>` (immediately after `<meta charset>`) and the
+  `<noscript><iframe>` fallback immediately after the opening `<body>`
+  tag, both referencing `%VITE_GTM_CONTAINER_ID%`. This is necessarily
+  static markup rather than something `analytics.service.ts` injects —
+  GTM's `<noscript>` fallback only has any value as real HTML present
+  before any JavaScript runs.
+- `src/main.tsx` — no longer touches analytics at all; there is nothing
+  left to initialise from JavaScript once GTM's own snippet owns loading.
+- `src/app/router.tsx` — unchanged by CHG-015. The existing
+  `RouterProvider` already centralises every path change (initial
+  `useState` value, and the `popstate`/`navigate` updates to `path`) and
+  calls `analytics.trackPageView(path)` in a `useEffect` on `path`, for
+  every route change including 404s, without duplicating tracking calls
+  across every page component.
 
 ## Existing components to reuse
 
@@ -183,80 +202,100 @@ Google's systems, outside this codebase's control.
 
 ## Expected changes
 
-- New: `src/services/analytics.service.ts`
-- New: `src/services/analytics.service.test.ts`
-- Modified: `src/main.tsx` (initialise the service)
-- Modified: `src/app/router.tsx` (call `trackPageView` on path change)
-- Modified: `src/app/router.tsx`'s existing test file, if one exists, or
-  a new test alongside it, to cover the tracking call
-- New: root `.env.example`, documenting `VITE_GA_MEASUREMENT_ID`
-  (the file was removed from the repo on 2026-07-24 during the scaffold
-  rebuild — this feature reintroduces it for this variable)
+_As originally implemented (`src/main.tsx` initialising `analytics.
+service.ts`, which injected `gtag.js` directly) — superseded by
+[CHG-015](../../changes/CHG-015-switch-to-google-tag-manager.md)._
+Current state:
+
+- `index.html` — GTM `<script>`/`<noscript>` snippets (CHG-015).
+- `src/services/analytics.service.ts` — reduced to `trackPageView` only
+  (CHG-015).
+- `src/services/analytics.service.test.ts`
+- `src/main.tsx` — no longer references analytics at all (CHG-015).
+- `tests/unit/index.html.test.ts` — regression test for the GTM markup
+  (CHG-015).
+- Root `.env.example`, documenting `VITE_GTM_CONTAINER_ID` (CHG-015;
+  originally documented `VITE_GA_MEASUREMENT_ID`).
+- `.github/workflows/deploy-pages.yml` — forwards
+  `VITE_GTM_CONTAINER_ID` (CHG-015; originally
+  `VITE_GA_MEASUREMENT_ID`, added by
+  [CHG-009](../../changes/CHG-009-ga-measurement-id-deploy-workflow.md)).
+- `src/app/router.tsx` and its test — unchanged since the original
+  implementation; `trackPageView(path)`'s contract never changed.
 - No changes to `src/app/routes.ts`, `src/app/App.tsx`, shared layout
   components, or any individual page/feature component.
 
 ## Constraints
 
-- Must not introduce a new npm dependency — `gtag.js` is loaded via a
-  plain `<script>` tag and the small wrapper service, consistent with
-  architecture §23/§29 ("A new dependency must not be introduced when a
-  small local implementation would be clearer") and the precedent set
-  by the Latest Videos feature (native `fetch`, no SDK).
-  the official `gtag.js` snippet is the standard, Google-documented
-  integration method and does not require an npm package.
+- Must not introduce a new npm dependency — GTM is loaded via a plain
+  `<script>`/`<noscript>` snippet and a small service module, consistent
+  with architecture §23/§29 ("A new dependency must not be introduced
+  when a small local implementation would be clearer") and the precedent
+  set by the Latest Videos feature (native `fetch`, no SDK). The official
+  GTM snippet is the standard, Google-documented integration method and
+  does not require an npm package.
 - Must not modify the application shell (`App.tsx`), shared layout
   components, or routes/navigation structure — tracking hooks into the
   existing router, not into individual pages.
 - Must comply with architecture §18: external services accessed only
-  through a typed service module.
-- Must comply with architecture §20: the Measurement ID is exposed via
-  a `VITE_`-prefixed variable and treated as public.
+  through a typed service module — with the caveat (see Interfaces) that
+  GTM's loader/`<noscript>` fallback is unavoidably static HTML, not
+  something a service module can inject.
+- Must comply with architecture §20: the container ID is exposed via a
+  `VITE_`-prefixed variable and treated as public.
 - Local development and CI builds must succeed with no
-  `VITE_GA_MEASUREMENT_ID` set at all (see FR-006).
+  `VITE_GTM_CONTAINER_ID` set at all, though (unlike the original
+  `gtag.js` implementation's FR-006 no-op) the GTM snippet will still
+  attempt to load with a literal, unresolved placeholder id — see Edge
+  cases.
 
 ## Edge cases
 
-- **No Measurement ID configured** (local dev, CI, or before the site
-  owner sets the production secret): service no-ops entirely; no script
-  tag is injected; `npm run build`/`test` are unaffected.
-- **GA script blocked** (ad-blocker, network failure, offline visitor):
-  `trackPageView` calls become no-ops once `gtag` fails to load; must
-  not throw an unhandled error that could trip the app's
+- **No container ID configured** (local dev without `.env`, or before
+  the site owner sets the production secret): the GTM snippet still
+  attempts to load `gtm.js?id=%VITE_GTM_CONTAINER_ID%` (an invalid id) —
+  the request fails, no container loads, but `trackPageView`'s
+  `dataLayer.push` still succeeds harmlessly into an array nothing reads.
+  `npm run build`/`test` are unaffected either way.
+- **GTM script blocked** (ad-blocker, network failure, offline visitor):
+  `trackPageView` calls still push onto `window.dataLayer` — the push
+  itself can never fail — they just have nothing downstream to process
+  them; must not throw an unhandled error that could trip the app's
   `ErrorBoundary` (`src/components/layout/ErrorBoundary.tsx`) or log a
   visible console error.
-- **Rapid navigation** (visitor clicks multiple nav links quickly):
-  each path change fires its own page-view call; no debouncing is
-  required since GA is designed to handle this.
+- **Rapid navigation** (visitor clicks multiple nav links quickly): each
+  path change fires its own page-view push; no debouncing is required.
 - **Direct deep link / full page load on a non-home route** (e.g.
   sharing a link to `/videos`): still recorded correctly, since
   `trackPageView` fires from the router's initial state, not only on
   subsequent navigation.
 - **Unknown route (404)**: still recorded, per FR-008, using the
   attempted path.
-- **Duplicate initialisation** (e.g. React/Preact StrictMode-style
-  double-invoke in dev, or hot-module-reload during `npm run dev`): the
-  service must guard against injecting the `gtag.js` script or
-  re-initialising `dataLayer` more than once per page load.
+- **GTM tag/trigger configuration**: whether the `page_view` event this
+  codebase pushes actually results in a GA4 hit depends entirely on the
+  site owner configuring a matching Custom Event trigger (and a GA4 tag)
+  inside the GTM container's own web UI — outside this codebase's
+  control or verification. See CHG-015's Regression risks.
 
 ## Acceptance criteria
 
-- Given `VITE_GA_MEASUREMENT_ID` is set to a valid ID, when a visitor
-  loads any route directly (e.g. `/about`), then the GA script loads
-  and a page-view event is recorded for that path.
-- Given `VITE_GA_MEASUREMENT_ID` is set, when a visitor navigates
-  between routes using in-app navigation (header nav, footer links, or
-  a `Button`/link using the router), then a new page-view event is
-  recorded for each route reached, without a full page reload.
-- Given `VITE_GA_MEASUREMENT_ID` is set, when a visitor uses browser
-  back/forward, then a page-view event is recorded for the resulting
-  path.
-- Given `VITE_GA_MEASUREMENT_ID` is set, when a visitor navigates to a
-  non-existent path, then a page-view event is recorded for that
-  attempted path and `NotFoundPage` still renders normally.
-- Given `VITE_GA_MEASUREMENT_ID` is unset or empty, when the site is
-  built and run, then no GA script is requested, no console errors
-  appear, and every existing page/feature test still passes unchanged.
-- Given the GA script fails to load, when a visitor navigates the site,
+- Given a production build with `VITE_GTM_CONTAINER_ID` set, when
+  `dist/index.html` is inspected, then it contains the GTM loader script
+  in `<head>` and the `<noscript>` iframe after `<body>`, both with the
+  real container id substituted in.
+- Given a visitor loads any route directly (e.g. `/about`), then GTM
+  loads and a `page_view` event with that path is pushed to
+  `window.dataLayer`.
+- Given a visitor navigates between routes using in-app navigation
+  (header nav, footer links, or a `Button`/link using the router), then a
+  new `page_view` event is pushed for each route reached, without a full
+  page reload.
+- Given a visitor uses browser back/forward, then a `page_view` event is
+  pushed for the resulting path.
+- Given a visitor navigates to a non-existent path, then a `page_view`
+  event is pushed for that attempted path and `NotFoundPage` still
+  renders normally.
+- Given the GTM script fails to load, when a visitor navigates the site,
   then no error is thrown or surfaced, and the rest of the site
   continues to function normally.
 - `npm run lint`, `npm run typecheck`, `npm run test`, and `npm run
@@ -284,29 +323,41 @@ Google's systems, outside this codebase's control.
   inlined the variable as `undefined` and the minifier dead-code-
   eliminated the analytics script-loading logic entirely — no data
   reached Google Analytics until CHG-009 fixed it.)
+- **"Tag never detected"**: Resolved by
+  [CHG-015](../../changes/CHG-015-switch-to-google-tag-manager.md). The
+  direct `gtag.js` integration above was confirmed technically working
+  end-to-end (script loaded, `dataLayer` processed, events queued), but
+  the site owner's actual verification method was Google Tag Manager,
+  which was never installed on the site at all. CHG-015 replaced the
+  direct integration with GTM (container `GTM-54ZWZN4W`, env var renamed
+  to `VITE_GTM_CONTAINER_ID`, same GitHub-secret-forwarding mechanism as
+  CHG-009 established). GA4 tracking itself now depends on the site owner
+  completing setup inside the GTM web UI (see CHG-015's Out of scope) —
+  not purely a code concern any more.
 
 ## Tests
 
 - `src/services/analytics.service.test.ts`:
-  - Does not inject a script tag or call `gtag` when
-    `VITE_GA_MEASUREMENT_ID` is unset/empty.
-  - Injects exactly one `gtag.js` script tag when a valid Measurement
-    ID is present, even if the init function is called more than once
-    (duplicate-initialisation guard).
-  - `trackPageView(path)` calls `gtag('event', 'page_view', ...)` (or
-    equivalent) with the given path once initialised.
-  - `trackPageView(path)` is a safe no-op when analytics was never
-    initialised (no Measurement ID).
-- `src/app/router.test.tsx` (new, or extend an existing router test if
-  one is found during implementation):
+  - `trackPageView(path)` pushes `{ event: 'page_view', page_path: path
+    }` onto `window.dataLayer`.
+  - Initialises `window.dataLayer` itself if it doesn't already exist.
+  - Appends to an existing `dataLayer` (e.g. GTM's own bootstrap entries)
+    rather than replacing it.
+- `tests/unit/index.html.test.ts`:
+  - The GTM loader script is present in `<head>`, above `</head>` and
+    after `<meta charset>`, referencing `%VITE_GTM_CONTAINER_ID%`.
+  - The `<noscript>` iframe is present immediately after `<body>`,
+    referencing the same placeholder.
+  - No leftover reference to the retired `gtag` integration.
+- `src/app/router.test.tsx` (unchanged by CHG-015):
   - Mounting `RouterProvider` triggers a tracked page view for the
     initial path.
   - Calling `navigate()` to a new path triggers a tracked page view for
     the new path.
   - A `popstate` event triggers a tracked page view for the resulting
     path.
-  - Use a mocked/spied `analytics.service` module — these tests must
-    not depend on the real `gtag.js` script or network access.
+  - Uses a mocked/spied `analytics.service` module — these tests don't
+    depend on GTM's real script or network access.
 - Full existing suite (`npm run test`) must continue to pass unchanged,
   confirming no regression to routing, layout, or page components.
 
