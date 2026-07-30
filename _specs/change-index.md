@@ -16,3 +16,4 @@
 | [CHG-012](changes/CHG-012-move-latest-videos-to-home.md) | Move "Latest videos" from the Videos page to the Home page | Existing-feature enhancement | Latest Videos, Home Page | Implemented |
 | [CHG-013](changes/CHG-013-videos-page-shorts-button.md) | Add a YouTube Shorts button to the Videos page | Existing-feature enhancement | Videos Playlist Gallery | Implemented |
 | [CHG-014](changes/CHG-014-3d-designs-intro.md) | 3D Designs page text introduction | Design | 3D Designs page | Implemented |
+| [CHG-015](changes/CHG-015-switch-to-google-tag-manager.md) | Switch Google Analytics loading to Google Tag Manager | Existing-feature enhancement | Google Analytics Tracking | Proposed |
