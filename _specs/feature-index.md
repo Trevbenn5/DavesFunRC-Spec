@@ -3,7 +3,7 @@
 | Feature | Specification | Status | Dependencies |
 | --- | --- | --- | --- |
 | Latest Videos | [_specs/features/latest-videos/spec.md](features/latest-videos/spec.md) | Implemented | Requires `VITE_YOUTUBE_API_KEY` (HTTP-referrer-restricted) and `VITE_YOUTUBE_UPLOADS_PLAYLIST_ID` in the deployment environment — see `.env.example`. Without real values in the deployment environment, the Home page shows the designed error state (with a link to the YouTube channel) rather than live data; this is expected, not a defect. |
-| Google Analytics Tracking | [_specs/features/google-analytics-tracking/spec.md](features/google-analytics-tracking/spec.md) | Implemented | Requires `VITE_GA_MEASUREMENT_ID` in the deployment environment — see `.env.example`. Set as a GitHub Actions repo secret and forwarded to the build in `.github/workflows/deploy-pages.yml` (see [CHG-009](changes/CHG-009-ga-measurement-id-deploy-workflow.md)). Until set, the site functions normally with analytics disabled (no error, no tracking). |
+| Google Analytics Tracking | [_specs/features/google-analytics-tracking/spec.md](features/google-analytics-tracking/spec.md) | Implemented | Requires `VITE_GTM_CONTAINER_ID` in the deployment environment — see `.env.example`. Set as a GitHub Actions repo secret and forwarded to the build in `.github/workflows/deploy-pages.yml` (originally `VITE_GA_MEASUREMENT_ID`, per [CHG-009](changes/CHG-009-ga-measurement-id-deploy-workflow.md); switched to Google Tag Manager by [CHG-015](changes/CHG-015-switch-to-google-tag-manager.md)). GA4 tracking additionally depends on the site owner configuring a matching tag/trigger inside the GTM container's own web UI — see CHG-015. |
 | Home Page Weekly Update | [_specs/features/home-weekly-update/spec.md](features/home-weekly-update/spec.md) | Implemented | None. |
 | Videos Playlist Gallery | [_specs/features/videos-playlist-gallery/spec.md](features/videos-playlist-gallery/spec.md) | Implemented | Reuses `VITE_YOUTUBE_API_KEY`/`VITE_YOUTUBE_UPLOADS_PLAYLIST_ID` from Latest Videos — no new config. Same deployment-environment caveat applies. |
 
@@ -104,40 +104,66 @@ titles and working links, with no console errors.
 
 ## Google Analytics Tracking — implementation summary
 
-Adds GA4 page-view tracking across every route via a new
-`src/services/analytics.service.ts`, the sole module that touches
-`gtag`/`window.dataLayer`. `initAnalytics()` is called once from
-`src/main.tsx` at startup; it reads `VITE_GA_MEASUREMENT_ID` and, if
-set, injects the `gtag.js` script tag (guarded against duplicate
-injection via a stable element id, so a dev HMR reload can't double it
-up) and configures GA with `send_page_view: false` so the initial view
-isn't double-counted. `trackPageView(path)` is called from
-`src/app/router.tsx`'s `RouterProvider` in a `useEffect` keyed on its
-existing `path` state, so it fires for the initial load, `navigate()`
-calls, `popstate` (back/forward), and unmatched (404) paths alike,
-without any per-page wiring. When the measurement id is unset, both
-functions no-op silently — no script, no error, no tracking — matching
-the Latest Videos feature's precedent for optional `VITE_*` config.
+Adds page-view tracking across every route. Originally implemented as a
+direct `gtag.js` integration (script-injected from
+`src/services/analytics.service.ts`, initialised from `src/main.tsx`);
+[CHG-015](changes/CHG-015-switch-to-google-tag-manager.md) replaced that
+with Google Tag Manager (container `GTM-54ZWZN4W`) after the site owner
+reported GA had never detected the tag — investigation confirmed the
+direct integration worked end-to-end, but the site owner's verification
+method was Tag Manager, which had never been installed.
 
-New files: `src/services/analytics.service.ts` (+ `.test.ts`),
-`src/app/router.test.tsx` (first test file for the router), and a
-reintroduced root `.env.example` (removed during the 2026-07-24
-scaffold rebuild) documenting all three `VITE_*` variables used by the
-site so far. Modified: `src/main.tsx` (one `initAnalytics()` call),
-`src/app/router.tsx` (one `useEffect` calling `trackPageView`). No
-shared layout, page components, or routes were touched, and no new npm
-dependency — the standard `gtag.js` snippet is loaded via a plain
-`<script>` tag.
+Current implementation: the standard GTM `<script>`/`<noscript>` snippet
+lives directly in `index.html` (loader script immediately after
+`<meta charset>`, `<noscript><iframe>` immediately after `<body>`), both
+referencing `%VITE_GTM_CONTAINER_ID%` via Vite's built-in HTML env
+replacement. `src/services/analytics.service.ts` is reduced to a single
+function, `trackPageView(path)`, which pushes
+`{ event: 'page_view', page_path: path }` onto `window.dataLayer` — the
+"virtual pageview" GTM needs for SPA route changes, since its own base
+snippet only fires once, on initial load. `src/main.tsx` no longer
+references analytics at all. `src/app/router.tsx`'s `RouterProvider`
+still calls `trackPageView(path)` in a `useEffect` on its `path` state,
+unchanged since the original implementation, so it fires for the initial
+load, `navigate()` calls, `popstate` (back/forward), and unmatched (404)
+paths alike.
 
-**Tests**: `src/services/analytics.service.test.ts` (no-op when
-unconfigured, single script injection across repeated init calls, GA
-config call shape, `trackPageView` event shape, safe no-op before
-init), `src/app/router.test.tsx` (initial-path, `navigate()`,
+`VITE_GTM_CONTAINER_ID` replaces `VITE_GA_MEASUREMENT_ID` in
+`.env.example` and in the deploy workflow's GitHub Actions secret
+forwarding (same mechanism [CHG-009](changes/CHG-009-ga-measurement-id-deploy-workflow.md)
+established). GA4 tracking itself now depends on the site owner
+completing setup inside the GTM web UI (a GA4 tag triggered by a Custom
+Event matching the `page_view` push) — that configuration lives in Tag
+Manager, outside this codebase, and isn't verifiable from here.
+
+New files: `tests/unit/index.html.test.ts` (CHG-015). Modified:
+`index.html`, `src/services/analytics.service.ts` (+ `.test.ts`, fully
+rewritten), `src/main.tsx`, `.env.example`,
+`.github/workflows/deploy-pages.yml`, `src/vite-env.d.ts` (new
+`*.html?raw` ambient module declaration, mirroring the existing
+`*.md?raw` one, so the new index.html test can import its raw source).
+No shared layout, page components, routes, or `src/app/router.tsx` were
+touched, and no new npm dependency.
+
+**Tests**: `src/services/analytics.service.test.ts` (`trackPageView`
+pushes the right shape, initialises `dataLayer` if missing, appends
+rather than replaces an existing `dataLayer`), `tests/unit/
+index.html.test.ts` (GTM script/noscript present and correctly
+positioned, referencing the env placeholder, no leftover `gtag`
+reference), `src/app/router.test.tsx` (initial-path, `navigate()`,
 `popstate`, and unmatched-path tracking, via a mocked
-`analytics.service`). All verified passing, alongside the full existing
-suite (`npm run lint`, `typecheck`, `test`, `build`). No visible UI
-changes to verify in a browser — this feature has no rendered
-interface, per the spec's User experience section.
+`analytics.service` — unchanged by this change). All verified passing,
+alongside the full existing suite (`npm run lint`, `typecheck`, `test`,
+`build`). Verified against a real production build
+(`VITE_GTM_CONTAINER_ID=GTM-54ZWZN4W npm run build`): `dist/index.html`
+has the container id correctly substituted in both snippets, no leftover
+placeholder text. Also verified live in a real browser (local dev
+server via a temporary Playwright install, not committed, per
+`_specs/architecture.md` §35's precedent): GTM's `gtm.js` request fires,
+`window.dataLayer` gets GTM's own bootstrap/`gtm.dom`/`gtm.load` entries
+plus the `page_view` push for the initial route, and a further
+`page_view` push appears after an in-app navigation — with no console
+errors.
 
 ## Home Page Weekly Update — implementation summary
 
