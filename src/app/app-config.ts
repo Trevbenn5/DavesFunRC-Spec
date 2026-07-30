@@ -3,6 +3,7 @@ export const siteConfig = {
   tagline: "Dave from Downunder's RC plane projects, builds and how-tos",
   externalLinks: {
     youtube: 'https://www.youtube.com/@DavesFunRC',
+    youtubeShorts: 'https://www.youtube.com/@DavesFunRC/shorts',
     cults3d: 'https://cults3d.com/en/users/trevbenn/3d-models',
     koFi: 'https://ko-fi.com/davesfunrc',
     tinkercad:

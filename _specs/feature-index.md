@@ -75,12 +75,25 @@ its new purpose.
 No shared components, routing, or `package.json` changes. No new npm
 dependency — native `fetch`, same as Latest Videos.
 
+[CHG-013](changes/CHG-013-videos-page-shorts-button.md) added a static
+"YouTube Shorts" tile as the grid's final item (once loaded with at least
+one playlist), filling the cell left empty when exactly 5 playlist cards
+render in the 3-column grid. It's not fetched data — a `ShortsCard`
+component reusing `PlaylistCard`'s `.playlist-card` styling with a
+`SquarePlay` icon and a "Watch Shorts" link to a new
+`siteConfig.externalLinks.youtubeShorts` (`https://www.youtube.com/
+@DavesFunRC/shorts`). Does not render during loading, error, or empty
+states.
+
 **Tests**: `videos.service.test.ts` (endpoint/params, `UU`→`UC` channel-id
 derivation, rank-by-`itemCount`-then-slice, thumbnail fallback, error
 handling), `usePlaylists.test.ts` (loading → loaded/error transitions),
 `components/PlaylistCard.test.tsx` (title, thumbnail alt text, external
-link), `VideosPage.test.tsx` (loading skeletons, ranked order, error,
-empty states, accessible link names). All verified passing, alongside the
+link), `components/ShortsCard.test.tsx` (heading, external Shorts link —
+added by CHG-013), `VideosPage.test.tsx` (loading skeletons, ranked order
+plus Shorts tile, error, empty states, accessible link names, Shorts tile
+absent outside the loaded state — updated by CHG-013). All verified
+passing, alongside the
 full existing suite (`npm run lint`, `typecheck`, `test`, `build`).
 Visually verified in a real browser (desktop and mobile, via a temporary
 local Playwright install per the precedent in

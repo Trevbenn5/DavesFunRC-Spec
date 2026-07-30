@@ -32,6 +32,7 @@ describe('VideosPage', () => {
 
     expect(screen.getByRole('status')).toHaveTextContent(/loading playlists/i);
     expect(container.querySelectorAll('.playlist-card-skeleton')).toHaveLength(5);
+    expect(screen.queryByRole('link', { name: /watch shorts/i })).not.toBeInTheDocument();
   });
 
   it('shows the playlists, ranked by video count, once loaded', async () => {
@@ -58,6 +59,7 @@ describe('VideosPage', () => {
     expect(headings.map((heading) => heading.textContent)).toEqual([
       'Biggest playlist',
       'Smaller playlist',
+      'YouTube Shorts',
     ]);
 
     const viewLink = screen.getByRole('link', {
@@ -65,6 +67,10 @@ describe('VideosPage', () => {
     });
     expect(viewLink).toHaveAttribute('href', 'https://www.youtube.com/playlist?list=big');
     expect(viewLink).toHaveAttribute('target', '_blank');
+
+    const shortsLink = screen.getByRole('link', { name: /watch davesfunrc shorts on youtube/i });
+    expect(shortsLink).toHaveAttribute('href', 'https://www.youtube.com/@DavesFunRC/shorts');
+    expect(shortsLink).toHaveAttribute('target', '_blank');
   });
 
   it('shows an error state with a link to the channel when the fetch fails', async () => {
@@ -78,6 +84,7 @@ describe('VideosPage', () => {
       'href',
       'https://www.youtube.com/@DavesFunRC',
     );
+    expect(screen.queryByRole('link', { name: /watch shorts/i })).not.toBeInTheDocument();
   });
 
   it('shows an empty state with a link to the channel when there are no playlists', async () => {
@@ -90,5 +97,6 @@ describe('VideosPage', () => {
       'href',
       'https://www.youtube.com/@DavesFunRC',
     );
+    expect(screen.queryByRole('link', { name: /watch shorts/i })).not.toBeInTheDocument();
   });
 });

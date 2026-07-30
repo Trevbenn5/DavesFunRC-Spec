@@ -14,4 +14,4 @@
 | [CHG-010](changes/CHG-010-weekly-update-markdown-source.md) | Store the Home weekly update content as Markdown | Existing-feature enhancement | Home Page Weekly Update | Implemented |
 | [CHG-011](changes/CHG-011-latest-videos-show-six.md) | Show 6 latest videos instead of 3 | Existing-feature enhancement | Latest Videos | Implemented |
 | [CHG-012](changes/CHG-012-move-latest-videos-to-home.md) | Move "Latest videos" from the Videos page to the Home page | Existing-feature enhancement | Latest Videos, Home Page | Implemented |
-| [CHG-013](changes/CHG-013-videos-page-shorts-button.md) | Add a YouTube Shorts button to the Videos page | Existing-feature enhancement | Videos Playlist Gallery | Proposed |
+| [CHG-013](changes/CHG-013-videos-page-shorts-button.md) | Add a YouTube Shorts button to the Videos page | Existing-feature enhancement | Videos Playlist Gallery | Implemented |
