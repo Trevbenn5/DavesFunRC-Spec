@@ -48,6 +48,15 @@ describe('HomePage', () => {
     expect(screen.getByRole('heading', { level: 3, name: 'Build' })).toBeInTheDocument();
   });
 
+  it('links the Read highlight card to the Read page', () => {
+    vi.spyOn(videosService, 'getLatestVideos').mockReturnValue(new Promise(() => {}));
+
+    renderHomePage();
+
+    const readLink = screen.getByRole('link', { name: 'Read articles' });
+    expect(readLink).toHaveAttribute('href', '/read');
+  });
+
   it('shows a loading announcement and 6 skeleton placeholders while the latest videos load', () => {
     vi.spyOn(videosService, 'getLatestVideos').mockReturnValue(new Promise(() => {}));
 

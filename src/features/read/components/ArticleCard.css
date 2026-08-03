@@ -1,0 +1,30 @@
+.article-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  background: var(--colour-surface);
+  border: 1px solid var(--colour-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-small);
+  padding: var(--space-16);
+  text-decoration: none;
+  color: inherit;
+  transition: box-shadow var(--motion-duration) ease;
+}
+
+.article-card:hover,
+.article-card:focus-visible {
+  box-shadow: var(--shadow-medium);
+}
+
+.article-card__thumbnail {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  border-radius: var(--radius-card);
+}
+
+.article-card__title {
+  margin: 0;
+  color: var(--colour-text);
+}

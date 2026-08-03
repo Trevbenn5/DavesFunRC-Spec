@@ -21,8 +21,8 @@ const highlights = [
     title: 'Read',
     description:
       'How-to articles on construction techniques, CAD design, 3D printing and getting started in the hobby.',
-    href: '/about',
-    actionLabel: 'Learn more',
+    href: '/read',
+    actionLabel: 'Read articles',
   },
   {
     title: 'Build',
