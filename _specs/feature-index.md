@@ -6,7 +6,7 @@
 | Google Analytics Tracking | [_specs/features/google-analytics-tracking/spec.md](features/google-analytics-tracking/spec.md) | Implemented | Requires `VITE_GTM_CONTAINER_ID` in the deployment environment — see `.env.example`. Set as a GitHub Actions repo secret and forwarded to the build in `.github/workflows/deploy-pages.yml` (originally `VITE_GA_MEASUREMENT_ID`, per [CHG-009](changes/CHG-009-ga-measurement-id-deploy-workflow.md); switched to Google Tag Manager by [CHG-015](changes/CHG-015-switch-to-google-tag-manager.md)). GA4 tracking additionally depends on the site owner configuring a matching tag/trigger inside the GTM container's own web UI — see CHG-015. |
 | Home Page Weekly Update | [_specs/features/home-weekly-update/spec.md](features/home-weekly-update/spec.md) | Implemented | None. |
 | Videos Playlist Gallery | [_specs/features/videos-playlist-gallery/spec.md](features/videos-playlist-gallery/spec.md) | Implemented | Reuses `VITE_YOUTUBE_API_KEY`/`VITE_YOUTUBE_UPLOADS_PLAYLIST_ID` from Latest Videos — no new config. Same deployment-environment caveat applies. |
-| How-To Articles (Read Page) | [_specs/features/how-to-articles/spec.md](features/how-to-articles/spec.md) | Specified | None. Requires Dave to supply at least one `.pdf`/`.jpg` pair under `src/assets/read/` for the page to show real content. |
+| How-To Articles (Read Page) | [_specs/features/how-to-articles/spec.md](features/how-to-articles/spec.md) | Implemented | None. Requires Dave to supply at least one `.pdf`/`.jpg` pair under `src/assets/read/` for the page to show real content — until then it renders the designed empty state, which is expected, not a defect. |
 
 ## Latest Videos — implementation summary
 
@@ -48,6 +48,67 @@ heading. All verified passing, alongside the full existing suite
 real browser (desktop and mobile) against the live DavesFunRC channel via
 a local `.env` — see the Videos Playlist Gallery summary below for the
 same verification pass.
+
+## How-To Articles (Read Page) — implementation summary
+
+Adds a new `/read` page so Dave can publish How-To PDF articles himself
+with no CMS or backend: he drops a `<slug>.pdf` (the article, formatted
+with a large title/graphic at the top per his own convention) and a
+matching `<slug>.jpg` (a preview image of that top portion) into
+`src/assets/read/`, and the site discovers the pair at build time and
+renders it as a card in a tiled, responsive CSS grid.
+
+New files: `src/features/read/read.types.ts` (`ReadArticle`),
+`articles.ts` (pairs PDF/JPG files sharing a basename via `import.meta.
+glob('/src/assets/read/*.{pdf,PDF,jpg,jpeg,JPG,JPEG}', { eager: true,
+query: '?url', import: 'default' })`, title-cases the slug, sorts
+alphabetically, silently drops any unpaired file — the pairing logic is
+factored into an exported `buildArticles()` pure function so it's
+testable without depending on the glob at test time), `ReadPage.tsx` (+
+`.css`, grid/empty-state pattern mirroring `VideosPage.css`),
+`components/ArticleCard.tsx` (+ `.css` — the whole card is a plain `<a
+target="_blank" rel="noopener noreferrer">`, deliberately not using the
+shared `Button` component, since `Button`'s `href` handling routes
+anything not matching `//` through the SPA router, which would break a
+bundled PDF asset URL).
+
+Modified: `src/app/routes.ts` (new `{ path: '/read', label: 'Read' }`
+entry — picked up by `MainNavigation` automatically), `src/features/home/
+HomePage.tsx` (the existing "Read" highlight card's link changed from the
+`/about` placeholder to `/read`, action label "Learn more" → "Read
+articles").
+
+No shared components changed, no new npm dependency (native
+`import.meta.glob`, same static-asset pipeline already used for images
+elsewhere), no new environment variables.
+
+`src/assets/read/` exists but is empty — git doesn't track empty
+directories, and no real article files were supplied during this
+implementation pass, so the page currently renders its designed empty
+state ("No how-to articles yet — check back soon." + a link back to
+Home). Dave needs to add real `.pdf`/`.jpg` pairs and rebuild for the
+grid to show real cards; this is expected per the spec's FR-007, not a
+defect.
+
+**Tests**: `articles.test.ts` (pairing by basename, orphaned-PDF and
+orphaned-JPG exclusion, hyphen/underscore title-casing, case-insensitive
+extension matching, alphabetical sort, empty input), `components/
+ArticleCard.test.tsx` (title heading, thumbnail alt text, link href/
+`target`/`rel`), `ReadPage.test.tsx` (heading, one card per mocked
+article, empty state with working Home link — `./articles`'s
+`readArticles` export mocked via a `vi.hoisted` getter so tests don't
+depend on real files existing under `src/assets/read/`), `HomePage.test.
+tsx` (new assertion that the "Read" highlight card links to `/read`). All
+verified passing alongside the full existing suite: `npm run lint`,
+`npm run typecheck`, `npm run test` (71 tests across 20 files), `npm run
+build`.
+
+Not visually verified in a real browser: with `src/assets/read/` empty,
+a live check would only show the same empty state the automated tests
+already assert, so it wasn't judged worth a Playwright session for this
+pass. Recommend a follow-up visual check (desktop + mobile grid layout,
+card hover/focus states, PDF actually opening in a new tab) once Dave has
+added at least one real `.pdf`/`.jpg` pair.
 
 ## Videos Playlist Gallery — implementation summary
 
