@@ -6,6 +6,7 @@
 | Google Analytics Tracking | [_specs/features/google-analytics-tracking/spec.md](features/google-analytics-tracking/spec.md) | Implemented | Requires `VITE_GTM_CONTAINER_ID` in the deployment environment — see `.env.example`. Set as a GitHub Actions repo secret and forwarded to the build in `.github/workflows/deploy-pages.yml` (originally `VITE_GA_MEASUREMENT_ID`, per [CHG-009](changes/CHG-009-ga-measurement-id-deploy-workflow.md); switched to Google Tag Manager by [CHG-015](changes/CHG-015-switch-to-google-tag-manager.md)). GA4 tracking additionally depends on the site owner configuring a matching tag/trigger inside the GTM container's own web UI — see CHG-015. |
 | Home Page Weekly Update | [_specs/features/home-weekly-update/spec.md](features/home-weekly-update/spec.md) | Implemented | None. |
 | Videos Playlist Gallery | [_specs/features/videos-playlist-gallery/spec.md](features/videos-playlist-gallery/spec.md) | Implemented | Reuses `VITE_YOUTUBE_API_KEY`/`VITE_YOUTUBE_UPLOADS_PLAYLIST_ID` from Latest Videos — no new config. Same deployment-environment caveat applies. |
+| How-To Articles (Read Page) | [_specs/features/how-to-articles/spec.md](features/how-to-articles/spec.md) | Specified | None. Requires Dave to supply at least one `.pdf`/`.jpg` pair under `src/assets/read/` for the page to show real content. |
 
 ## Latest Videos — implementation summary
 
