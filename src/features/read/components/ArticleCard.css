@@ -19,7 +19,7 @@
 
 .article-card__thumbnail {
   width: 100%;
-  aspect-ratio: 4 / 5;
+  aspect-ratio: 16 / 9;
   object-fit: cover;
   border-radius: var(--radius-card);
 }
