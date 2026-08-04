@@ -6,19 +6,25 @@
 to suggest future projects" as a core feature, and `/suggestions` already
 exists as a route — but it currently renders `PlaceholderPage` with "A
 place to suggest future projects is coming soon." This feature replaces
-that placeholder with a real page: a welcoming introduction, and a small
-form (Name, optional Country, and a Feedback/suggestion field) that
-composes a `mailto:` message to Dave — no backend, no external form
-service, no stored submissions.
+that placeholder with a real page: a welcoming introduction (alongside a
+photo of Dave), and a small form (Name, optional Country, and a
+Feedback/suggestion field) that composes a `mailto:` message to Dave —
+no backend, no external form service, no stored submissions.
 
 ## Scope
 
 - Real content on the existing `/suggestions` route
   (`src/features/suggestions/SuggestionsPage.tsx`), replacing its current
   `PlaceholderPage` usage.
-- A welcoming introduction along the lines of: "Hi, I'd welcome
-  suggestions for future projects if you'd like to share them with me."
-  (exact wording may be warmed up further — see Open questions.)
+- A welcoming introduction — "Hi, I'm Dave — I'd love to hear your ideas
+  for future builds, videos or projects. Tell me a bit about yourself and
+  what you'd like to see next." — shown beside a circular photo of Dave
+  (the same portrait already used on the About page), side by side on
+  desktop and stacked on narrow widths. This was chosen over two other
+  visual-treatment options (a cropped mascot badge, a plain icon badge)
+  presented and approved by the site owner — the personal-photo option
+  won specifically because it makes the ask feel like it's coming from
+  Dave, not "the site."
 - A form with:
   - **Name** — required, single-line text.
   - **Country** — optional, single-line text ("so they can let me know
@@ -106,6 +112,11 @@ mechanism (see Edge cases), not a missing loading/success/error state.
   form's submit handler), opening the visitor's email client.
 - FR-006: The subject line is a fixed string (e.g. "DavesFunRC
   suggestion") — not user-editable.
+- FR-007: The introduction is shown side by side with a circular photo of
+  Dave (reusing the existing portrait image already used on the About
+  page), stacking to a single column, image above text, below a
+  breakpoint consistent with the site's other side-by-side sections (see
+  `HomePage.css`'s `.home-hero-row`).
 
 ## Non-functional requirements
 
@@ -116,7 +127,9 @@ mechanism (see Edge cases), not a missing loading/success/error state.
   below the relevant field, associated via `aria-describedby`, and are
   not colour-only; all fields and the submit control are keyboard
   operable with a visible focus indicator; heading hierarchy starts at H1
-  and doesn't skip levels.
+  and doesn't skip levels; the portrait has descriptive, non-redundant
+  alt text (it's meaningful imagery per `_specs/design-system.md`'s
+  Accessibility section, not decorative).
 - Privacy: the email address is placed directly in rendered HTML/JS as
   the `mailto:` target (a standard, accepted practice for this
   mechanism) — no obfuscation required. Field values (Name/Country/
@@ -150,6 +163,12 @@ mechanism (see Edge cases), not a missing loading/success/error state.
   fields and the multi-line Feedback field share one accessible pattern.
   Future forms on this site should reuse it rather than each hand-
   rolling labelled inputs.
+- Moved: `src/assets/about/portrait.png` → `src/assets/brand/
+  portrait.png` (via `git mv`, preserving history), since it's now used
+  by two features (About, Suggestions) rather than one — matching
+  `src/assets/brand/`'s existing role for the cross-feature
+  `plane-logo.png`. `AboutPage.tsx`'s import path updates accordingly;
+  its rendered output is otherwise unchanged.
 - No changes to `src/app/routes.ts`.
 
 ## Existing components to reuse
@@ -161,16 +180,25 @@ mechanism (see Edge cases), not a missing loading/success/error state.
 - The page-level layout pattern already used by `AboutPage.tsx`/
   `PlaceholderPage.tsx` (`<div className="container ...">`, `<h1>`,
   intro `<p>`).
+- The existing portrait image and its circular-crop treatment, already
+  established on `AboutPage.tsx` (`border-radius: 50%`, `object-fit:
+  cover`) — reused here rather than re-exported or re-cropped.
+- `HomePage.css`'s `.home-hero-row` side-by-side/stacking pattern as the
+  precedent for laying the intro text and portrait out together.
 - Design tokens from `src/styles/tokens.css` for field spacing, border
   radius (`--radius-input`), and error colour (`--colour-error`).
 
 ## Expected changes
 
 - Modified: `src/features/suggestions/SuggestionsPage.tsx`,
-  `src/features/suggestions/SuggestionsPage.test.tsx`.
+  `src/features/suggestions/SuggestionsPage.test.tsx`,
+  `src/features/about/AboutPage.tsx` (import path only, after the
+  portrait move).
 - New: `src/features/suggestions/components/SuggestionForm.tsx` (+
   `.css`, `.test.tsx`), `src/components/forms/FormField.tsx` (+ `.css`,
   `.test.tsx`).
+- Moved: `src/assets/about/portrait.png` → `src/assets/brand/
+  portrait.png`.
 - No changes to `src/app/routes.ts` or any other page/component.
 
 ## Constraints
@@ -221,15 +249,15 @@ mechanism (see Edge cases), not a missing loading/success/error state.
 - Given the page renders, when checked against heading hierarchy,
   labelling, and focus-visibility rules, then it satisfies WCAG 2.2 AA
   per `_specs/design-system.md`.
+- Given a visitor opens `/suggestions`, then Dave's portrait renders
+  beside the introduction with non-empty, descriptive alt text, and
+  reflows above the text on narrow viewports.
 
 ## Open questions
 
-- Exact wording of the welcoming introduction and field labels/
-  placeholders is not prescribed beyond the user's own draft ("Hi, I'd
-  welcome suggestions for future projects if you'd like to share them
-  with me.") — implementation should warm that up slightly per the
-  user's "feel free to make it more welcoming" instruction, and it can be
-  refined further afterward as a Content fast-path edit.
+- Exact wording of the field labels/placeholders beyond the introduction
+  copy fixed above is not prescribed — implementation can refine further
+  afterward as a Content fast-path edit.
 - Whether to include the visitor's Name in the `mailto:` subject line
   (e.g. "DavesFunRC suggestion from Sven") vs. a fixed subject: left to
   implementation; FR-006 currently specifies a fixed subject for
@@ -245,8 +273,11 @@ mechanism (see Edge cases), not a missing loading/success/error state.
   navigates to the exact expected `mailto:` URI (asserted via a mocked
   navigation target, since real client-side navigation can't be observed
   in jsdom); Country-blank case produces a body with no "Country:" line.
-- `SuggestionsPage.test.tsx`: heading and introduction render; form is
-  present; no leftover reference to the old placeholder copy.
+- `SuggestionsPage.test.tsx`: heading and introduction render; portrait
+  image renders with non-empty alt text; form is present; no leftover
+  reference to the old placeholder copy.
+- `AboutPage.test.tsx`: still passes after the portrait's import path
+  changes (asset content and alt text unchanged).
 - Full existing suite must still pass: `npm run lint`, `npm run
   typecheck`, `npm run test`, `npm run build`.
 
