@@ -7,6 +7,7 @@
 | Home Page Weekly Update | [_specs/features/home-weekly-update/spec.md](features/home-weekly-update/spec.md) | Implemented | None. |
 | Videos Playlist Gallery | [_specs/features/videos-playlist-gallery/spec.md](features/videos-playlist-gallery/spec.md) | Implemented | Reuses `VITE_YOUTUBE_API_KEY`/`VITE_YOUTUBE_UPLOADS_PLAYLIST_ID` from Latest Videos — no new config. Same deployment-environment caveat applies. |
 | How-To Articles (Read Page) | [_specs/features/how-to-articles/spec.md](features/how-to-articles/spec.md) | Implemented | None. Requires Dave to supply at least one `.pdf`/`.jpg` pair under `src/assets/read/` for the page to show real content — until then it renders the designed empty state, which is expected, not a defect. |
+| Suggestions Page | [_specs/features/suggestions-page/spec.md](features/suggestions-page/spec.md) | Specified | None. |
 
 ## Latest Videos — implementation summary
 
