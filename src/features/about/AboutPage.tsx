@@ -1,5 +1,5 @@
 import './AboutPage.css';
-import portraitImage from '../../assets/about/portrait.png';
+import portraitImage from '../../assets/brand/portrait.png';
 import slopeSoaringImage from '../../assets/about/slope-soaring.jpg';
 import backpackImage from '../../assets/about/backpack.jpg';
 

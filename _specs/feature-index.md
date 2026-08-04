@@ -7,7 +7,7 @@
 | Home Page Weekly Update | [_specs/features/home-weekly-update/spec.md](features/home-weekly-update/spec.md) | Implemented | None. |
 | Videos Playlist Gallery | [_specs/features/videos-playlist-gallery/spec.md](features/videos-playlist-gallery/spec.md) | Implemented | Reuses `VITE_YOUTUBE_API_KEY`/`VITE_YOUTUBE_UPLOADS_PLAYLIST_ID` from Latest Videos — no new config. Same deployment-environment caveat applies. |
 | How-To Articles (Read Page) | [_specs/features/how-to-articles/spec.md](features/how-to-articles/spec.md) | Implemented | None. Requires Dave to supply at least one `.pdf`/`.jpg` pair under `src/assets/read/` for the page to show real content — until then it renders the designed empty state, which is expected, not a defect. |
-| Suggestions Page | [_specs/features/suggestions-page/spec.md](features/suggestions-page/spec.md) | Specified | None. |
+| Suggestions Page | [_specs/features/suggestions-page/spec.md](features/suggestions-page/spec.md) | Implemented | None. |
 
 ## Latest Videos — implementation summary
 
@@ -110,6 +110,73 @@ already assert, so it wasn't judged worth a Playwright session for this
 pass. Recommend a follow-up visual check (desktop + mobile grid layout,
 card hover/focus states, PDF actually opening in a new tab) once Dave has
 added at least one real `.pdf`/`.jpg` pair.
+
+## Suggestions Page — implementation summary
+
+Replaces `/suggestions`'s `PlaceholderPage` with a real page: a welcoming
+introduction next to a circular photo of Dave, and a form (Name
+required, Country optional, Feedback required) that composes a
+`mailto:trevbenn5@hotmail.com` message on submit — no backend, no
+external form service, no stored submissions, exactly per the site
+owner's explicit choice for this feature. The site owner reviewed three
+graphic-treatment mockups (personal photo, koala mascot badge, plain
+icon badge) before implementation and chose the personal photo.
+
+New files: `src/components/forms/FormField.tsx` (+ `.css`, `.test.tsx`)
+— the site's first shared form-field component (label, required-`*`
+marker, optional hint text, inline `role="alert"` error message wired up
+via `aria-describedby`/`aria-invalid`), supporting both `<input>` and
+`<textarea>`; `src/features/suggestions/suggestions.ts` (+ `.test.ts`)
+— pure `validateSuggestion()`/`buildMailtoUrl()` functions (Country line
+omitted entirely from the composed body when blank; subject/body both
+`encodeURIComponent`-escaped); `src/features/suggestions/components/
+SuggestionForm.tsx` (+ `.css`, `.test.tsx`) — owns the three fields'
+state and, on a validated submit, assigns `window.location.href` to the
+built `mailto:` URI directly (deliberately not routed through
+`components/ui/Button`'s `href` prop, which would have hit the same
+router-hijacking bug already found and fixed on the Read feature's PDF
+links — using `Button` only as a plain `type="submit"` button sidesteps
+that class of bug by construction).
+
+Modified: `src/features/suggestions/SuggestionsPage.tsx` (+ new
+`SuggestionsPage.css`, `.test.tsx` — previously had neither) now renders
+the heading, intro, portrait and `<SuggestionForm />`. `src/assets/about/
+portrait.png` moved to `src/assets/brand/portrait.png` (via `git mv`,
+preserving history) since it's now shared by both the About and
+Suggestions pages; `src/features/about/AboutPage.tsx`'s import updated
+to match, with no change to its rendered output.
+
+No shared layout/nav/routing changes, no new npm dependency, no new
+environment variable.
+
+**Tests**: `FormField.test.tsx` (label/input and label/textarea
+rendering, required marker, hint text, error message shown/associated
+via `aria-describedby`, omitted when there's no error),
+`suggestions.test.ts` (`validateSuggestion` — empty/whitespace-only
+Name/Feedback produce errors, Country never required;
+`buildMailtoUrl` — exact encoded output for the spec's Sven/Sweden
+example, Country-blank and whitespace-only-Country cases both omit the
+line, fixed subject, correct target address), `SuggestionForm.test.tsx`
+(blocks submit and shows inline errors when required fields are empty;
+valid submit sets `window.location.href` to the exact expected `mailto:`
+URI — `window.location` replaced with a plain writable stub object
+before each test, since jsdom doesn't support real cross-scheme
+navigation; error clears on resubmit after correction),
+`SuggestionsPage.test.tsx` (heading, intro text, portrait alt text,
+presence of all three fields and the submit button, no leftover
+placeholder copy). `AboutPage.test.tsx` re-run unchanged, confirming the
+portrait's new import path still resolves correctly. All verified
+passing alongside the full existing suite: `npm run lint`, `npm run
+typecheck`, `npm run test` (95 tests across 24 files), `npm run build`.
+
+Visually verified in a real browser (via a temporary local Playwright
+install, not committed, per `_specs/architecture.md` §35's precedent) at
+desktop and mobile widths: initial state matches the approved mockup;
+submitting empty shows both inline errors with red field borders; filling
+in the Sven/Sweden/STOL-aircraft example and submitting attempts a
+`mailto:` navigation with no console errors; mobile viewport stacks the
+portrait above the intro text, centered, per FR-007. The About page was
+also re-checked live to confirm the portrait move didn't regress it.
 
 ## Videos Playlist Gallery — implementation summary
 

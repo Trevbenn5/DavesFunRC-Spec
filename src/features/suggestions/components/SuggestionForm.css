@@ -1,0 +1,15 @@
+.suggestion-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-24);
+  max-width: 560px;
+  background: var(--colour-surface);
+  border: 1px solid var(--colour-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-small);
+  padding: var(--space-32);
+}
+
+.suggestion-form__submit {
+  width: 100%;
+}
