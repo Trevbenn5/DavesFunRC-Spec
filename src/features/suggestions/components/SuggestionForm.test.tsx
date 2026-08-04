@@ -60,7 +60,7 @@ describe('SuggestionForm', () => {
     );
     fireEvent.click(screen.getByRole('button', { name: 'Send suggestion' }));
 
-    expect(window.location.href).toContain('mailto:trevbenn5@hotmail.com?');
+    expect(window.location.href).toContain('mailto:davesfunrc@outlook.com?');
     const body = decodeURIComponent(window.location.href.split('body=')[1]);
     expect(body).toBe(
       "Name: Sven\nCountry: Sweden\nFeedback: Hello, I'm from Sweden and I'd like a STOL aircraft with 4 motors.",

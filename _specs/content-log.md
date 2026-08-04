@@ -10,3 +10,10 @@ sub-bullets under one entry.
   (Home Page Weekly Update feature) — new wording about the MKVI Canberra
   Bomber finishing touches and the MKVI Chaotic 3D Flyer, same three
   paragraphs, no structural change.
+
+## 2026-08-04
+
+- Updated the Suggestions page's contact email (the `mailto:` target
+  built by `src/features/suggestions/suggestions.ts`) from
+  `trevbenn5@hotmail.com` to `davesfunrc@outlook.com`. Same field, same
+  validation, same behaviour — only the destination address changed.

@@ -1,4 +1,4 @@
-const SUGGESTIONS_EMAIL = 'trevbenn5@hotmail.com';
+const SUGGESTIONS_EMAIL = 'davesfunrc@outlook.com';
 const SUGGESTION_SUBJECT = 'DavesFunRC suggestion';
 
 export interface SuggestionFields {

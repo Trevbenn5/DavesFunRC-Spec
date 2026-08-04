@@ -39,7 +39,7 @@ describe('buildMailtoUrl', () => {
 
     const expectedBody = `Name: Sven\nCountry: Sweden\nFeedback: ${feedback}`;
     expect(url).toBe(
-      `mailto:trevbenn5@hotmail.com?subject=${encodeURIComponent('DavesFunRC suggestion')}&body=${encodeURIComponent(expectedBody)}`,
+      `mailto:davesfunrc@outlook.com?subject=${encodeURIComponent('DavesFunRC suggestion')}&body=${encodeURIComponent(expectedBody)}`,
     );
 
     // and decoding it back reproduces the exact human-readable example from the spec
@@ -67,6 +67,6 @@ describe('buildMailtoUrl', () => {
 
   it('targets the configured suggestions email address', () => {
     const url = buildMailtoUrl({ name: 'Sven', country: '', feedback: 'Build a plane' });
-    expect(url.startsWith('mailto:trevbenn5@hotmail.com?')).toBe(true);
+    expect(url.startsWith('mailto:davesfunrc@outlook.com?')).toBe(true);
   });
 });
