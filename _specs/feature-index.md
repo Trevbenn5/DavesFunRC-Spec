@@ -362,3 +362,8 @@ fingerprints both new image files. Visually verified in a real browser
 (768px) and mobile (390px) widths: two-column hero layout and the aside's
 width/position are unchanged, both new images render clearly with no
 horizontal overflow, and no console errors at any width.
+
+[CHG-017](changes/CHG-017-darken-secondary-text-colour.md) subsequently
+darkened the welcome text's colour (along with every other use of the
+shared `--colour-text-secondary` token site-wide) from `#7c9a7d` to
+`#435643`, fixing a WCAG AA contrast failure — no markup or layout change.
