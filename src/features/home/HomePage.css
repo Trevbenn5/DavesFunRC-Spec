@@ -7,7 +7,7 @@
 
 .home-hero-row {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: var(--space-32);
   padding-block: var(--space-48);
 }

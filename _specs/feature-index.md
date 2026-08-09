@@ -367,3 +367,13 @@ horizontal overflow, and no console errors at any width.
 darkened the welcome text's colour (along with every other use of the
 shared `--colour-text-secondary` token site-wide) from `#7c9a7d` to
 `#435643`, fixing a WCAG AA contrast failure — no markup or layout change.
+
+[CHG-018](changes/CHG-018-align-weekly-update-photos.md) then top-aligned
+the hero row (`.home-hero-row`'s `align-items: center` → `flex-start`) and
+gave `.weekly-update` a `margin-top: calc(var(--space-64) + var(--space-8))`
+(72px), so the two workbench photos' top edge lines up with the welcome
+paragraph's top (previously the whole aside sat vertically centred against
+the welcome column, lining up with nothing in particular). Reset to
+`margin-top: 0` ≤900px, where the row already stacks to one column — CSS
+only, no markup or test changes, verified to have no effect on the mobile
+stacked layout.

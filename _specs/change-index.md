@@ -19,4 +19,4 @@
 | [CHG-015](changes/CHG-015-switch-to-google-tag-manager.md) | Switch Google Analytics loading to Google Tag Manager | Existing-feature enhancement | Google Analytics Tracking | Implemented |
 | [CHG-016](changes/CHG-016-home-welcome-and-workbench-images.md) | Home page welcome text and workbench images | Design | Home page, Home Page Weekly Update | Implemented |
 | [CHG-017](changes/CHG-017-darken-secondary-text-colour.md) | Darken the secondary text colour | Design | Shared design tokens (Home, About, 3D Designs, Videos, Suggestions) | Implemented |
-| [CHG-018](changes/CHG-018-align-weekly-update-photos.md) | Align the weekly-update photos with the welcome paragraph | Design | Home page, Home Page Weekly Update | Proposed |
+| [CHG-018](changes/CHG-018-align-weekly-update-photos.md) | Align the weekly-update photos with the welcome paragraph | Design | Home page, Home Page Weekly Update | Implemented |
