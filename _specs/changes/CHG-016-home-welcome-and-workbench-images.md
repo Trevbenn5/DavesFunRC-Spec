@@ -2,7 +2,7 @@
 
 ## Status
 
-Proposed
+Implemented (2026-08-09)
 
 ## Requested change
 
@@ -158,28 +158,28 @@ CHG-002's precedent).
 
 ## Acceptance criteria
 
-- [ ] Home page (`/`) shows the new welcome copy (paragraph, four-item
+- [x] Home page (`/`) shows the new welcome copy (paragraph, four-item
       list, closing line) under the "G'day, welcome to DavesFunRC"
       heading.
-- [ ] `Dave Launching Plane.png` renders below the welcome copy, full
+- [x] `Dave Launching Plane.png` renders below the welcome copy, full
       width of the welcome column, at desktop, tablet, and mobile widths,
       with the "What's Dave working on this week?" column's width and
       right-hand position unchanged.
-- [ ] `Foam Sheet Construction.jpg` and `Daves Workbench.png` render side
+- [x] `Foam Sheet Construction.jpg` and `Daves Workbench.png` render side
       by side above the "What's Dave working on this week?" heading, at
       the aside column's existing width; the old single 120×120 thumbnail
       no longer renders.
-- [ ] All three images have descriptive, non-empty `alt` text (covered by
+- [x] All three images have descriptive, non-empty `alt` text (covered by
       `HomePage.test.tsx`/`WeeklyUpdate.test.tsx` assertions using
       `getByAltText`).
-- [ ] No horizontal overflow at desktop/tablet/mobile widths; mobile
+- [x] No horizontal overflow at desktop/tablet/mobile widths; mobile
       stacking order matches the existing pattern (banner → hero text →
       welcome image → aside block → highlights).
-- [ ] The production build (`npm run build`) fingerprints all new image
+- [x] The production build (`npm run build`) fingerprints all new image
       files under `dist/assets/`.
-- [ ] `npm run lint`, `npm run typecheck`, `npm run test`, and `npm run
+- [x] `npm run lint`, `npm run typecheck`, `npm run test`, and `npm run
       build` all pass.
-- [ ] `_specs/features/home-weekly-update/spec.md` reflects the two-image
+- [x] `_specs/features/home-weekly-update/spec.md` reflects the two-image
       row (FR-002, Data requirements, Interfaces).
 
 ## Regression risks

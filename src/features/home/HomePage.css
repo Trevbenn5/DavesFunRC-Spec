@@ -26,8 +26,34 @@
   margin-inline: auto;
   margin-top: var(--space-16);
   max-width: 60ch;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
   color: var(--colour-text-secondary);
   font-size: 1.125rem;
+  text-align: left;
+}
+
+.home-hero__lede p {
+  margin: 0;
+}
+
+.home-hero__lede ul {
+  margin: 0;
+  padding-left: var(--space-24);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.home-hero__image {
+  display: block;
+  width: 100%;
+  margin-top: var(--space-32);
+  aspect-ratio: 1906 / 876;
+  object-fit: cover;
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-small);
 }
 
 .home-highlights {
