@@ -377,3 +377,14 @@ the welcome column, lining up with nothing in particular). Reset to
 `margin-top: 0` ≤900px, where the row already stacks to one column — CSS
 only, no markup or test changes, verified to have no effect on the mobile
 stacked layout.
+
+[CHG-019](changes/CHG-019-tighten-welcome-list-spacing.md) then tightened
+the welcome block itself: a new `.home-hero__list-block` wrapper (around
+"On this site you'll find:", the `<ul>`, and "Enjoy!" only — the intro
+paragraph above it is unaffected) with `gap: var(--space-4)`, and
+`.home-hero__lede ul`'s `gap` reduced from `var(--space-8)` to
+`var(--space-4)`. No change to `.home-hero__image`'s own spacing — it
+simply sits higher because the content above it is shorter. Two real-render
+passes were reviewed with the site owner before landing on this (tightest)
+one; `HomePage.test.tsx`'s 96 existing assertions (text content, alt text)
+needed no changes, since none test spacing or DOM structure.
