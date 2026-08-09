@@ -28,6 +28,23 @@ describe('HomePage', () => {
     ).toBeInTheDocument();
   });
 
+  it('renders the welcome copy and photo below the hero heading', () => {
+    vi.spyOn(videosService, 'getLatestVideos').mockReturnValue(new Promise(() => {}));
+
+    renderHomePage();
+
+    expect(screen.getByText(/thanks for dropping by/i)).toBeInTheDocument();
+    expect(screen.getByRole('list')).toBeInTheDocument();
+    expect(screen.getByText('Links to my YouTube videos')).toBeInTheDocument();
+    expect(screen.getByText('3D printer build designs (3D models)')).toBeInTheDocument();
+    expect(screen.getByText('Technical articles to help new starters')).toBeInTheDocument();
+    expect(screen.getByText('Suggestions on future projects are welcome…')).toBeInTheDocument();
+
+    const image = screen.getByAltText(/dave, wearing a helmet-mounted action camera/i);
+    expect(image).toBeInTheDocument();
+    expect(image.getAttribute('alt')).not.toBe('');
+  });
+
   it('renders the weekly update alongside the hero', () => {
     vi.spyOn(videosService, 'getLatestVideos').mockReturnValue(new Promise(() => {}));
 

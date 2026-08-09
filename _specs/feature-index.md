@@ -340,3 +340,25 @@ imported via `src/assets/`, not left unprocessed. Visually verified in a
 real browser at desktop and mobile widths (layout, responsive stacking,
 image rendering, and that the box's content genuinely overflows its fixed
 height and is scrollable).
+
+[CHG-016](changes/CHG-016-home-welcome-and-workbench-images.md) added a
+second fixed image, `src/assets/home/daves-workbench.jpg` (re-exported
+from `assets/Daves Workbench.png` via `sips` at 480px long-edge — 13.8MB
+source down to 52KB), and moved the pair above the heading as a two-up
+row (`.weekly-update__images`, `flex` with `gap`, each image `aspect-ratio:
+1 / 1`), replacing the single 120×120 thumbnail. The same change also
+rewrote `HomePage.tsx`'s welcome copy (paragraph + four-item `<ul>` +
+closing line, inside `.home-hero__lede`) and added a new full-width photo,
+`src/assets/home/dave-launching-plane.jpg` (re-exported from
+`assets/Dave Launching Plane.png` at 1600px long-edge — 3.1MB down to
+411KB), below it inside `.home-hero` only — `.home-hero`'s and
+`.weekly-update`'s existing `flex` sizing (flexible / fixed 280px) was
+left untouched. `WeeklyUpdate.test.tsx` and `HomePage.test.tsx` were
+extended to cover the new images and copy; `npm run lint`, `typecheck`,
+`test` (96 tests), and `build` all pass, and the production build
+fingerprints both new image files. Visually verified in a real browser
+(temporary local Playwright install, not committed, per
+`_specs/architecture.md` §35's precedent) at desktop (1280px), tablet
+(768px) and mobile (390px) widths: two-column hero layout and the aside's
+width/position are unchanged, both new images render clearly with no
+horizontal overflow, and no console errors at any width.

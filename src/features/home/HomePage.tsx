@@ -6,6 +6,7 @@ import { VideoCard } from './components/VideoCard';
 import { useLatestVideos } from './useLatestVideos';
 import { siteConfig } from '../../app/app-config';
 import bannerImage from '../../assets/home/banner.jpg';
+import daveLaunchingPlaneImage from '../../assets/home/dave-launching-plane.jpg';
 
 const LATEST_VIDEO_COUNT = 6;
 
@@ -43,10 +44,26 @@ export function HomePage() {
       <section className="home-hero-row container">
         <div className="home-hero">
           <h1 className="brand-wordmark">G'day, welcome to DavesFunRC</h1>
-          <p className="home-hero__lede">
-            Store-bought planes, scratch builds and the odd slope-soaring adventure — this
-            is the home for everything alongside the {siteConfig.name} YouTube channel.
-          </p>
+          <div className="home-hero__lede">
+            <p>
+              Thanks for dropping by! My passion is all about having fun with RC planes
+              — I returned to this absorbing hobby in 2022, and I design, build and fly
+              planes of all sizes, indoors and out, as well as slope soaring.
+            </p>
+            <p>On this site you&apos;ll find:</p>
+            <ul>
+              <li>Links to my YouTube videos</li>
+              <li>3D printer build designs (3D models)</li>
+              <li>Technical articles to help new starters</li>
+              <li>Suggestions on future projects are welcome…</li>
+            </ul>
+            <p>Enjoy!</p>
+          </div>
+          <img
+            className="home-hero__image"
+            src={daveLaunchingPlaneImage}
+            alt="Dave, wearing a helmet-mounted action camera, launching a red, white and yellow foam RC plane by hand across a grassy park"
+          />
         </div>
 
         <WeeklyUpdate />

@@ -12,12 +12,16 @@ describe('WeeklyUpdate', () => {
     ).toBeInTheDocument();
   });
 
-  it('renders the fixed image with descriptive alt text', () => {
+  it('renders the two fixed images with descriptive alt text', () => {
     render(<WeeklyUpdate />);
 
-    const image = screen.getByAltText(/foam sheet RC plane/i);
-    expect(image).toBeInTheDocument();
-    expect(image.getAttribute('alt')).not.toBe('');
+    const foamImage = screen.getByAltText(/foam sheet RC plane/i);
+    expect(foamImage).toBeInTheDocument();
+    expect(foamImage.getAttribute('alt')).not.toBe('');
+
+    const workbenchImage = screen.getByAltText(/dave's workbench/i);
+    expect(workbenchImage).toBeInTheDocument();
+    expect(workbenchImage.getAttribute('alt')).not.toBe('');
   });
 
   it('renders the body text inside a focusable scrollable region', () => {
