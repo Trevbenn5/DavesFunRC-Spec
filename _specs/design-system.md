@@ -58,13 +58,19 @@ mark so it stays distinctive.
 
 ## Secondary
 
-Sage Green (#7C9A7D)
+Sage Green (#435643)
 
 Used for:
 
 - Secondary text
 - Borders
 - Disabled controls
+
+Darkened from the original #7C9A7D by
+[CHG-017](changes/CHG-017-darken-secondary-text-colour.md) — the original
+value rendered at ~2.9:1 contrast against the Warm Ivory background, below
+this document's own Accessibility requirement of AA (4.5:1) minimum.
+#435643 renders at ~7.3:1.
 
 ---
 

@@ -2,7 +2,7 @@
 
 ## Status
 
-Proposed
+Implemented (2026-08-09)
 
 ## Requested change
 
@@ -104,18 +104,18 @@ Green" entry (hex value and usage note).
 
 ## Acceptance criteria
 
-- [ ] `src/styles/tokens.css`'s `--colour-text-secondary` is `#435643`.
-- [ ] The Home welcome paragraph/list, Card summaries (Watch/Read/Build
+- [x] `src/styles/tokens.css`'s `--colour-text-secondary` is `#435643`.
+- [x] The Home welcome paragraph/list, Card summaries (Watch/Read/Build
       highlights), video publish dates, About/3D Designs figure captions,
       and the Suggestions form's field hint text all render in the new
       darker green — verified visually in a real browser across all five
       affected pages (Home, About, 3D Designs, Videos, Suggestions).
-- [ ] Computed contrast of `#435643` against both `#F8F6F2` and `#FFFFFF`
+- [x] Computed contrast of `#435643` against both `#F8F6F2` and `#FFFFFF`
       is ≥4.5:1.
-- [ ] `_specs/design-system.md`'s Secondary colour entry shows `#435643`.
-- [ ] `npm run lint`, `npm run typecheck`, `npm run test`, and `npm run
+- [x] `_specs/design-system.md`'s Secondary colour entry shows `#435643`.
+- [x] `npm run lint`, `npm run typecheck`, `npm run test`, and `npm run
       build` all pass.
-- [ ] Existing tests that assert on secondary-text-bearing elements (e.g.
+- [x] Existing tests that assert on secondary-text-bearing elements (e.g.
       any snapshot or colour-adjacent assertions, if present) still pass —
       expected to be none, since no existing test asserts on colour
       values, only presence/content of text.
