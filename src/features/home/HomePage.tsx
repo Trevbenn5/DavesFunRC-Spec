@@ -50,14 +50,16 @@ export function HomePage() {
               — I returned to this absorbing hobby in 2022, and I design, build and fly
               planes of all sizes, indoors and out, as well as slope soaring.
             </p>
-            <p>On this site you&apos;ll find:</p>
-            <ul>
-              <li>Links to my YouTube videos</li>
-              <li>3D printer build designs (3D models)</li>
-              <li>Technical articles to help new starters</li>
-              <li>Suggestions on future projects are welcome…</li>
-            </ul>
-            <p>Enjoy!</p>
+            <div className="home-hero__list-block">
+              <p>On this site you&apos;ll find:</p>
+              <ul>
+                <li>Links to my YouTube videos</li>
+                <li>3D printer build designs (3D models)</li>
+                <li>Technical articles to help new starters</li>
+                <li>Suggestions on future projects are welcome…</li>
+              </ul>
+              <p>Enjoy!</p>
+            </div>
           </div>
           <img
             className="home-hero__image"
