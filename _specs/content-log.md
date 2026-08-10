@@ -17,3 +17,16 @@ sub-bullets under one entry.
   built by `src/features/suggestions/suggestions.ts`) from
   `trevbenn5@hotmail.com` to `davesfunrc@outlook.com`. Same field, same
   validation, same behaviour — only the destination address changed.
+
+## 2026-08-10
+
+- Fixed `src/data/home-weekly-update.md` so it deploys correctly: restored
+  the blank line between the heading and each paragraph, and between
+  paragraphs (an earlier weekly-update edit had collapsed them onto
+  consecutive lines, which made `parseWeeklyUpdate` treat the whole file
+  as a single heading block with no body paragraphs, failing
+  `WeeklyUpdate.test.tsx` in CI).
+- Removed an accidental double space in the "This Friday..." paragraph
+  ("competition.  I've" → "competition. I've"), a pre-existing typo that
+  was masked by the blank-line bug above and, once that was fixed, broke
+  the same test's text-matching assertion.
