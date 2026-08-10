@@ -1,8 +1,9 @@
 # What's Dave working on this week?
 
-This week I've been putting the finishing touches on my MKVI Canberra Bomber. This latest version features a larger fuselage, a wider wing chord, improved undercarriage, and a pair of new 30mm EDFs. Unfortunately, the new receiver with its built-in differential brushed ESCs let the magic smoke out after just one day, so a replacement is already on the way!
-
-I've also been spending time learning to fly my MKVI Chaotic 3D Flyer at the local park and during indoor flying sessions. It's a tiny aircraft with loads of personality, and it's an absolute blast to fly.
-
-If you'd like to see how they're built and how they fly, be sure to check out my construction and flight videos for both aircraft!
+I’ve just published a new YouTube video on the Canberra MKVI - check it out!
+I’m now turning my focus to an updated MKVI Chaotix with multiple improvements.
+I’ve been trialling a BYME-A flight controller with gyro, lent to me by a friend in Indoor Aviation. This is intended for inherently unstable aircraft like the Chaotix to help with tricky manoeuvres or park flying in windy conditions.
+I’m also starting to work on a re-boot of my Mosquito twin-engined aircraft, on which I intend to install retractable undercarriage - I like a challenge!
+This Friday is the Indoor Aviation AGM and John Bird competition.  I’ve made a small craft to compete and will cover this event on my YouTube channel, so keep an eye out for that next week!
+That’s all for now.
 
