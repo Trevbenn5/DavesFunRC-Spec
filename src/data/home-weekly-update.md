@@ -6,4 +6,3 @@ I’ve been trialling a BYME-A flight controller with gyro, lent to me by a frie
 I’m also starting to work on a re-boot of my Mosquito twin-engined aircraft, on which I intend to install retractable undercarriage - I like a challenge!
 This Friday is the Indoor Aviation AGM and John Bird competition.  I’ve made a small craft to compete and will cover this event on my YouTube channel, so keep an eye out for that next week!
 That’s all for now.
-
