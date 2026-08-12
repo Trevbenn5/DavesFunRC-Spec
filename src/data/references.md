@@ -25,3 +25,5 @@
 
 - [FliteTest](https://www.youtube.com/@flitetest) — Builds, reviews and flight testing.
 - [PeterSripol](https://www.youtube.com/@petersripol) — Scratch-built RC and full-scale aircraft projects.
+- [Andrew Newton](http://www.youtube.com/@AndrewNewton) - Handy source of technical knowledge
+- [GroundControlRC](http://www.youtube.com/@GroundControlRC) - Handy source of technical knowledge
