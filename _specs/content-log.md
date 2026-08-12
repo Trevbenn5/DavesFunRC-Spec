@@ -30,3 +30,14 @@ sub-bullets under one entry.
   ("competition.  I've" → "competition. I've"), a pre-existing typo that
   was masked by the blank-line bug above and, once that was fixed, broke
   the same test's text-matching assertion.
+
+## 2026-08-12
+
+- Fixed `src/data/references.md` so three recently-added link notes
+  deploy correctly: replaced a plain hyphen (` - `) with the required em
+  dash (` — `) as the note separator for "Flying Site Guide Victoria",
+  "Andrew Newton" and "GroundControlRC". `parseReferences`'s bullet regex
+  only recognises `—` or `--` as a note separator (per the format
+  documented in the file's own header comment), so entries using a plain
+  `-` were silently dropped from the rendered References page even
+  though they were present in the deployed bundle.

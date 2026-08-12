@@ -15,7 +15,7 @@
 
 - [RCGroups](https://www.rcgroups.com) — Large community forum covering every corner of the RC hobby.
 - [Flite Test](https://www.flitetest.com) — Foam-board build plans, tutorials and reviews.
-- [Flying Site Guide Victoria](https://siteguide.org.au/Map?mapType=terrain&type=open&ll=-38.4577,144.9863&spn=0.1507,0.1175) - Paragliding Sites and Weather Conditions in Victoria.
+- [Flying Site Guide Victoria](https://siteguide.org.au/Map?mapType=terrain&type=open&ll=-38.4577,144.9863&spn=0.1507,0.1175) — Paragliding Sites and Weather Conditions in Victoria.
 
 ## Flying Clubs
 
@@ -25,5 +25,5 @@
 
 - [FliteTest](https://www.youtube.com/@flitetest) — Builds, reviews and flight testing.
 - [PeterSripol](https://www.youtube.com/@petersripol) — Scratch-built RC and full-scale aircraft projects.
-- [Andrew Newton](http://www.youtube.com/@AndrewNewton) - Handy source of technical knowledge
-- [GroundControlRC](http://www.youtube.com/@GroundControlRC) - Handy source of technical knowledge
+- [Andrew Newton](http://www.youtube.com/@AndrewNewton) — Handy source of technical knowledge
+- [GroundControlRC](http://www.youtube.com/@GroundControlRC) — Handy source of technical knowledge
