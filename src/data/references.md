@@ -11,7 +11,7 @@
   Always use full https:// (or http://) URLs so links open correctly.
 -->
 
-## Useful Sites
+## Useful Websites
 
 - [RCGroups](https://www.rcgroups.com) — Large community forum covering every corner of the RC hobby.
 - [Flite Test](https://www.flitetest.com) — Foam-board build plans, tutorials and reviews.
