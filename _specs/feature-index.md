@@ -8,7 +8,7 @@
 | Videos Playlist Gallery | [_specs/features/videos-playlist-gallery/spec.md](features/videos-playlist-gallery/spec.md) | Implemented | Reuses `VITE_YOUTUBE_API_KEY`/`VITE_YOUTUBE_UPLOADS_PLAYLIST_ID` from Latest Videos — no new config. Same deployment-environment caveat applies. |
 | How-To Articles (Read Page) | [_specs/features/how-to-articles/spec.md](features/how-to-articles/spec.md) | Implemented | None. Requires Dave to supply at least one `.pdf`/`.jpg` pair under `src/assets/read/` for the page to show real content — until then it renders the designed empty state, which is expected, not a defect. |
 | Suggestions Page | [_specs/features/suggestions-page/spec.md](features/suggestions-page/spec.md) | Implemented | None. |
-| References Page | [_specs/features/references-page/spec.md](features/references-page/spec.md) | Specified | None. |
+| References Page | [_specs/features/references-page/spec.md](features/references-page/spec.md) | Implemented | None. Content is seeded with a few illustrative placeholder links in `src/data/references.md` — Dave should replace them with real links (a Content fast-path edit). |
 
 ## Latest Videos — implementation summary
 
@@ -111,6 +111,63 @@ already assert, so it wasn't judged worth a Playwright session for this
 pass. Recommend a follow-up visual check (desktop + mobile grid layout,
 card hover/focus states, PDF actually opening in a new tab) once Dave has
 added at least one real `.pdf`/`.jpg` pair.
+
+## References Page — implementation summary
+
+Adds a new `/references` page so Dave can maintain a curated list of
+useful sites, flying clubs, YouTube channels and similar external links
+himself, with no CMS or backend: he edits `src/data/references.md`
+directly and rebuilds — the same "plain file, no code changes" pattern
+already established by the Home page's weekly update.
+
+New files: `src/data/references.md` (the editable content, using a `##
+Category` / `- [Title](url) — note` Markdown convention, seeded with a
+few illustrative placeholder links across three categories — Useful
+Sites, Flying Clubs, YouTube Channels — pending real content from Dave),
+`src/data/references.ts` (`ReferenceLink`, `ReferenceCategory` types,
+`parseReferences()` — a pure function reading the `##`/`-` convention,
+skipping any bullet that doesn't match `[Title](url)`, dropping any
+category left with zero valid links, and stripping HTML comments before
+parsing so the file's own usage instructions at the top don't get
+mis-parsed — plus a `referenceCategories` constant parsed from a `?raw`
+import of the `.md` file, mirroring `home-weekly-update.ts`'s pattern
+exactly), `src/features/references/ReferencesPage.tsx` (+ `.css`) — an
+intro paragraph followed by one `<section>` per category (H2 heading,
+grid of link cards built from `components/ui/Button` so external-link
+`target="_blank"`/`rel` handling is free, plus an optional note per
+link), with a designed empty state (mirroring `ReadPage.tsx`'s pattern)
+if `referenceCategories` is ever empty.
+
+Modified: `src/app/routes.ts` — new `{ path: '/references', label:
+'References', ... }` entry inserted between the existing `3D Designs` and
+`Suggestions` entries, so `MainNavigation` (which renders `routes` in
+array order) picks it up in that position automatically. No changes to
+`MainNavigation`, `SiteHeader`, `SiteFooter`, or any other route.
+
+No shared components changed, no new npm dependency (native
+`import.meta.glob`-style `?raw` import, same mechanism already used by
+`home-weekly-update.ts`), no new environment variable.
+
+**Tests**: `src/data/references.test.ts` (category/link extraction, note
+extraction after an em dash or double hyphen, bullet with no note, a
+malformed bullet skipped without throwing, a category left with zero
+valid links omitted, bullets before any heading ignored, HTML comments
+ignored, empty input), `src/features/references/ReferencesPage.test.tsx`
+(heading + intro render, one section per mocked category with correct
+link text/href/`target`/`rel`, note rendered when present and absent when
+not, empty state with working Home link when no categories exist — data
+module mocked via `vi.hoisted`, following `ReadPage.test.tsx`'s
+precedent). All verified passing alongside the full existing suite:
+`npm run lint`, `npm run typecheck`, `npm run test` (110 tests across 26
+files), `npm run build`.
+
+Not visually verified in a real browser for this pass — the page is a
+straightforward extension of already-verified patterns (`Button`'s
+external-link handling, `ReadPage`'s grid/empty-state layout), and all
+rendered text/attributes are covered by the automated tests above.
+Recommend a quick visual check (desktop + mobile card grid, link
+hover/focus states) once Dave has replaced the placeholder links with
+real content.
 
 ## Suggestions Page — implementation summary
 
