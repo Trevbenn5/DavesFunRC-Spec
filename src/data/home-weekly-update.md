@@ -1,11 +1,9 @@
 # What's Dave working on this week?
 
-I’ve just published a new YouTube video on the Canberra MKVI - check it out!
+I’ve just attended the annual John Bird Memorial flight competition at Waverley Indoor Aviation in Melbourne. Video out shortly. I only came 4th in the glider competition, but manage to win the Most Creative Modeller award, which is in memorial for Ian Jemmeson, who was a friend from my Caulfield Outdoor club and who introduced me to Indoor Aviation and simple differential throttle planes.
 
-I’m now turning my focus to an updated MKVI Chaotix with multiple improvements.
+I’ve had interest in my Lark plane designs, but preference is for the whole plane being printed in PLA, rather than having foam wings. So I’m now researching LW PLA wings for this plane.
 
-I’ve been trialling a BYME-A flight controller with gyro, lent to me by a friend in Indoor Aviation. This is intended for inherently unstable aircraft like the Chaotix to help with tricky manoeuvres or park flying in windy conditions.
+I’m also working on design improvements for my MKVI Chaotix, 3D flyer.
 
-I’m also starting to work on a re-boot of my Mosquito twin-engined aircraft, on which I intend to install retractable undercarriage - I like a challenge!
-
-This Friday is the Indoor Aviation AGM and John Bird competition. I’ve made a small craft to compete and will cover this event on my YouTube channel, so keep an eye out for that next week!
+Very soon, I’ll publish my results of my testing of the BYME-A Gyro flight controller on my DMFV JumpRacer, which has yielded some very interesting results.

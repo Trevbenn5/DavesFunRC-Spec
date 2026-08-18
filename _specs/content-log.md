@@ -41,3 +41,13 @@ sub-bullets under one entry.
   documented in the file's own header comment), so entries using a plain
   `-` were silently dropped from the rendered References page even
   though they were present in the deployed bundle.
+
+## 2026-08-19
+
+- Rewrote the weekly update body text in `src/data/home-weekly-update.md`
+  (Home Page Weekly Update feature) — new wording covering the John Bird
+  Memorial competition result and Most Creative Modeller award, the Lark
+  LW PLA wing research, MKVI Chaotix design improvements, and the
+  upcoming BYME-A Gyro flight controller test results on the DMFV
+  JumpRacer. Same heading and paragraph structure, no behavioural
+  change.
