@@ -1,9 +1,9 @@
 # What's Dave working on this week?
 
-I’ve just attended the annual John Bird Memorial flight competition at Waverley Indoor Aviation in Melbourne. Video out shortly. I only came 4th in the glider competition, but manage to win the Most Creative Modeller award, which is in memorial for Ian Jemmeson, who was a friend from my Caulfield Outdoor club and who introduced me to Indoor Aviation and simple differential throttle planes.
+I'm fresh back from a short vacation in Sunny SE Queensland.  Just before I left, I managed to design and print several 3D printed wings for my Lark and Magnum Reloaded Models.  This is for people who don't want to mess around with 3mm printing foam wings.
 
-I’ve had interest in my Lark plane designs, but preference is for the whole plane being printed in PLA, rather than having foam wings. So I’m now researching LW PLA wings for this plane.
+I tested the Lark and the Magnum Reloaded wings in the park and the Magnum in particular performed really well.  I've now added undercarriage to it and plan to test out indoors this week.
 
-I’m also working on design improvements for my MKVI Chaotix, 3D flyer.
+I've also been progressing my new MKVI Chaotix and this time I'm going to try out a new 10G brushless motor.  It is quite a sturdy, 3800kv motor so will need 2S to keep the revs up.  And maybe a larger prop.  This MKVI will have numerous improvements, so keep an eye out on YouTube for this project.  I also intend to make a smaller Chaotix for 1S, using a stabilised receiver and 1S brushless ESC.
 
-Very soon, I’ll publish my results of my testing of the BYME-A Gyro flight controller on my DMFV JumpRacer, which has yielded some very interesting results.
+Happy flying!
