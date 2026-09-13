@@ -51,3 +51,14 @@ sub-bullets under one entry.
   upcoming BYME-A Gyro flight controller test results on the DMFV
   JumpRacer. Same heading and paragraph structure, no behavioural
   change.
+
+## 2026-09-13
+
+- Rewrote the weekly update body text in `src/data/home-weekly-update.md`
+  (Home Page Weekly Update feature) — new wording covering the 3D
+  printed Magnum Reloaded wing testing (heading toward a Cults3d
+  release), the completed MKVI Chaotix with RadioMaster gyro and planned
+  weight/wing-area changes, Indoor Aviation at Mullum Mullum, slope
+  soaring the two large electric gliders at Cairns Bay, and the visit to
+  DAC in Doncaster with their 1.5m Turbo Timber club plane. Same heading
+  and paragraph structure, no behavioural change.

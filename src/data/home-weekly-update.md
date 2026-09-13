@@ -1,9 +1,15 @@
 # What's Dave working on this week?
 
-I'm fresh back from a short vacation in Sunny SE Queensland. Just before I left, I managed to design and print several 3D printed wings for my Lark and Magnum Reloaded Models. This is for people who don't want to mess around with 3mm printing foam wings.
+I just had quite a busy week, with design, building, indoor and outdoor flying!
 
-I tested the Lark and the Magnum Reloaded wings in the park and the Magnum in particular performed really well. I've now added undercarriage to it and plan to test out indoors this week.
+I've been working on and testing my 3D printed Magnum Reloaded - it is flying well with its new 3D printed wing. I'm fine tuning the design now with a view to making it available on Cults3d.
 
-I've also been progressing my new MKVI Chaotix and this time I'm going to try out a new 10G brushless motor. It is quite a sturdy, 3800kv motor so will need 2S to keep the revs up. And maybe a larger prop. This MKVI will have numerous improvements, so keep an eye out on YouTube for this project. I also intend to make a smaller Chaotix for 1S, using a stabilised receiver and 1S brushless ESC.
+I completed my MKVI Chaotix with 3D printed fuselage and tail sections. I've installed a RadioMaster gyro on this one and done some flight tests. I need to make some changes to the design to make it lighter and a larger wing area so it flies a little bit slower.
 
-Happy flying!
+I attended Indoor Aviation at Mullum Mullum and successfully tested the Magnum 3D version indoors.
+
+Thursday there was a good SW breeze, so I headed down the Peninsula and dusted off my two large electric gliders for some slope soaring at Cairns Bay. It is a great site with south-facing cliffs over the ocean, but a nice safe landing area. I plan to publish a video about slope soaring sites in Victoria, once I have visited some more sites.
+
+Finally, I started my quest for a new Outdoor RC flying club. On Saturday I visited DAC in Doncaster. Very friendly bunch and they let me fly one of their club planes, a 1.5m Turbo Timber. It is the closest site to me but is quite a tight flying zone. Definitely worth considering though!
+
+That's it for this week - happy flying!
