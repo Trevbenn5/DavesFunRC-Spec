@@ -62,3 +62,13 @@ sub-bullets under one entry.
   soaring the two large electric gliders at Cairns Bay, and the visit to
   DAC in Doncaster with their 1.5m Turbo Timber club plane. Same heading
   and paragraph structure, no behavioural change.
+
+## 2026-10-02
+
+- Rewrote the weekly update body text in `src/data/home-weekly-update.md`
+  (Home Page Weekly Update feature) — new wording covering the completed
+  3D printed wing testing and upcoming video, the new Crop-Duster
+  indoor/Park Flyer design in progress, the 3D flier with Gyro project
+  still in development, and the planned visit to the VARMS outdoor
+  flying club. Same heading and paragraph structure, no behavioural
+  change.
