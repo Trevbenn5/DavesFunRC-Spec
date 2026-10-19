@@ -1,11 +1,10 @@
-# What's Dave working on this week?
+19/10/2026
+It’s been a busy fortnight since my last post.
+I completed the Crop-Duster 2000, posted the build video and put it on sale on Cults3D.com.
+I’ve now developed an all-3D printed version of my Lark Camera Plane.  The prototype is completed and ready for testing later this week.
 
-My 3D printed wing design and testing has gone well and am about to publish a video on that.
+I managed to visit VARMS flying club last week - what a great site and the drive wasn’t too bad.  I’ve applied to join this club.  During my brief visit, I saw some amazing creations and look forward  to reporting on my progress with this club.  I also plan to buy a larger RC plane, something like a 1.5m Turbo Timber so I can get my silver wings.
 
-I'm also designing a totally new 3D-printed indoor and Park Flyer RC plane, based on what I've learned from my testing on the Magnum Reloaded and Lark RC planes. Hint: It's called the Crop-Duster, so keep an eye out for that.
+I’m still flight testing my MKVI Chaotix 3D flyer - this is proving to be quite challenging, but will post a video on this once I’m happy with the design.
 
-My 3D flier with Gyro project is progressing but needs a bit more development before I'm happy with it.
-
-I plan to visit VARMS outdoor flying club, weather permitting.
-
-That's it for this week - happy flying!
+That’s it for this week - happy flying!
