@@ -16,6 +16,13 @@ describe('parseWeeklyUpdate', () => {
     expect(result.body).toEqual(['First paragraph.', 'Second paragraph.', 'Third paragraph.']);
   });
 
+  it('treats a date line immediately under the heading as body content, not part of the heading', () => {
+    const result = parseWeeklyUpdate('# Heading\n2/11/2026\n\nFirst paragraph.');
+
+    expect(result.heading).toBe('Heading');
+    expect(result.body).toEqual(['2/11/2026', 'First paragraph.']);
+  });
+
   it('trims surrounding whitespace from the heading and each paragraph', () => {
     const result = parseWeeklyUpdate('#   Padded heading  \n\n  Padded paragraph.  ');
 
