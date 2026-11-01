@@ -1,12 +1,8 @@
-# What’s Dave working on this week?
-26/10/2026
+# What's Dave working on this week?
+2/11/2026
+I’ve just flight tested the updated Lark 3D printed plane in the park, using both Gyro 2% fill wing and a Spiral Vase wing.  Both flew OK, but have some further refinements to make before I’m happy with it.  I was also able to fly it with the RunCam Thumb Pro camera attached.
+This plane features sliding catches to remove the wing, and a clip on hatch to hold the battery in place.  Once I’m happy with the weight and performance, I’ll publish a video on it and make the design available.
 
-This last week I’ve been focusing on my new all-3D printed Lark RC plane. This one is designed to carry a RunCam Pro camera and had a foam wing. I’m now developing and testing a 3D-printed wing, so no foam parts will be needed. I’ve developed a LW PLA wing using Gyroid infill and one using Spiral Vase mode. The latter gives a smoother finish, but has some issues. I will flight test both versions. I plan to release a video on this shortly.
-
-After four years, my YouTube channel is approaching 1000 subscribers! I’ll be releasing a video shortly to celebrate this achievement.
-
-I’m also working on my MKVI Chaotix 3D flyer, which flies, but is a little heavy for my liking.
-
-In the future, I’ll develop a new version of the Mosquito bomber, which will have retractable undercarriage.
+I’m off to China for a short visit this week - I hope to visit the DJI and Bambu flagship stores while I’m over there.  I have so much stuff made in China, it will be good to see it with my own eyes.  I’ll report on how that goes.
 
 That’s it for this week - happy flying!
